@@ -15,8 +15,6 @@
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
         <div class="steps">
-
-
             <div class="step active" data-step="1">1</div>
             <div class="step" data-step="2">2</div>
             <div class="step" data-step="3">3</div>
@@ -62,22 +60,15 @@
                         <label for="typeOfProduct"><i class="fas fa-box"></i> Type of Product/Ubwoko bwibicuruzwa</label>
                         <input type="text" id="typeOfProduct" name="typeOfProduct" placeholder="Enter product type" inputmode="text" pattern=".*" required>
                     </div>
-
-                    </div>
-                        <div class="form-group">
+                    <div class="form-group">
                         <label for="acceptableDocument"><i class="fas fa-file-alt"></i> icyangombwa yerekanye</label>
                          <select name="select" id="select"><option value="option1">UPI</option><option value="option2">Plate Number</option></select>
                     </div>
-
-
                     <div class="form-group">
                         <label for="acceptableDocument"><i class="fas fa-file-alt"></i> Nimero y'icyangombwa/Document number</label>
                         <input type="text" id="acceptableDocument" name="acceptableDocument" placeholder="Ex: UPI,plate number,ID,Driving Lisence" inputmode="text" pattern=".*" required>
-                    
-                    
-                
-
                     </div>
+                </div>
                 
                 <div class="terms-checkbox">
                     <input type="checkbox" id="privacyPolicy" required>
@@ -135,9 +126,7 @@
                             <h3><i class="fas fa-users"></i>2.3 Gutegura ibigurishwa n'ibikodeshwa/Content creation & graphic design</h3>
                             <p>amafoto / pictures</p>
                             <p>gusemura / Translation</p>
-                            <p>gusemura / Translation</p>
                             <p>urwego mpuzamahanga / International standard</p>
-
                         </div>
                     </div>
                     
@@ -232,13 +221,18 @@
                     <div class="req-status" id="status1">Pending</div>
                 </div>
                 <div class="video-container">
-                    <iframe src="/video/video 2.mp4" title="Terms Explanation" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <!-- Video with play button overlay -->
+                    <div class="video-placeholder" onclick="playVideo(this, '/video/buysellsguide.mp4')">
+                        <div class="play-button-overlay">
+                            <i class="fas fa-play-circle"></i>
+                            <span>Click to Play Video</span>
+                        </div>
+                    </div>
                 </div>
                 <p class="req-description">Umukiriya yasobanuriwe impamvu consultation itangwa</p>
                 <div class="req-confirmation">
                     <button class="btn-confirm no" onclick="confirmRequirement(1, false)"><i class="fas fa-times"></i> oya, hagarara</button>
                     <button class="btn-confirm yes" onclick="confirmRequirement(1, true)"><i class="fas fa-check"></i> Yego, komeza</button>
-                    
                 </div>
             </div>
             
@@ -249,7 +243,7 @@
                     <div class="req-status" id="status2">Pending</div>
                 </div>
                 <div class="money-amount">
-                    <!-- Amount removed as per update: no explicit money values shown -->
+                    <!-- No money values shown -->
                     <p class="req-description">Umukiriya yagaragaje ubushobozi? <br> Kubivuga mu magambo ntabwo bihagije</p>
                 </div>
                 <div class="req-confirmation">
@@ -266,12 +260,12 @@
                 </div>
                 <div class="payment-methods">
                     <div class="method-grid">
-
-
-                         <label class="method-option">
+                        <label class="method-option">
                             <input type="radio" name="paymentMethod" value="visa" onchange="selectPaymentMethod('visa')">
                             <div class="method-content">
-                                <i class="fab fa-cc-visa"></i>
+                                <div class="method-image">
+                                    <img src="image/visa.jpg" alt="Visa Card">
+                                </div>
                                 <span>Visa Card</span>
                             </div>
                         </label>
@@ -279,50 +273,43 @@
                         <label class="method-option">
                             <input type="radio" name="paymentMethod" value="mastercard" onchange="selectPaymentMethod('mastercard')">
                             <div class="method-content">
-                                <i class="fab fa-cc-mastercard"></i>
+                                <div class="method-image">
+                                    <img src="image/mastercard.jpg" alt="Master Card">
+                                </div>
                                 <span>Master Card</span>
                             </div>
                         </label>
-            
-
-
 
                         <label class="method-option">
                             <input type="radio" name="paymentMethod" value="cash" onchange="selectPaymentMethod('cash')">
                             <div class="method-content">
-                                <i class="fas fa-money-bill"></i>
+                                <div class="method-image">
+                                    <img src="image/cash.jpg" alt="Cash Payment">
+                                </div>
                                 <span>Cash</span>
                             </div>
                         </label>
 
-
                         <label class="method-option">
                             <input type="radio" name="paymentMethod" value="momo" onchange="selectPaymentMethod('momo')">
                             <div class="method-content">
-                                <i class="fas fa-mobile-alt"></i>
-                                <span>Bank</span>
+                                <div class="method-image">
+                                    <img src="image/bank.jpg" alt="Bank Transfer">
+                                </div>
+                                <span>Bank Transfer</span>
                             </div>
-                        </label> 
+                        </label>
+
                         <label class="method-option">
                             <input type="radio" name="paymentMethod" value="mtn" onchange="selectPaymentMethod('mtn')">
                             <div class="method-content">
-                                <i class="fas fa-sim-card"></i>
+                                <div class="method-image">
+                                    <img src="image/mtn momo.jpg" alt="MTN Mobile Money">
+                                </div>
                                 <span>MTN Mobile Money</span>
                             </div>
-                        </label> 
-                        <!-- we will replace this bank transfer -->
-                        <!-- <label class="method-option">  
-                            <input type="radio" name="paymentMethod" value="airtel" onchange="selectPaymentMethod('airtel')">
-                            <div class="method-content">
-                                <i class="fas fa-wifi"></i>
-                                <span>Airtel Money</span>
-                            </div>
-                        </label> -->
-
-
+                        </label>
                     </div>
-                    
-                   
                 </div>
                 <div class="req-confirmation">
                     <button class="btn-confirm yes" onclick="confirmRequirement(3, true)"><i class="fas fa-check"></i> Confirm Payment Method</button>
@@ -336,7 +323,13 @@
                     <div class="req-status" id="status4">Pending</div>
                 </div>
                 <div class="video-container">
-                    <iframe src="video/igisubizo.mp4" title="Solution Video" frameborder="0" allow="accelerometer;  clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <!-- Video with play button overlay -->
+                    <div class="video-placeholder" onclick="playVideo(this, 'video/igisubizo.mp4')">
+                        <div class="play-button-overlay">
+                            <i class="fas fa-play-circle"></i>
+                            <span>Click to Play Video</span>
+                        </div>
+                    </div>
                 </div>
                 <p class="req-description">Umukozi ntabwo yemerewe gutanga ibindi bisobanuro birenze video. Ibindi bisobanuro, ibibazo n'ibisubizo bitangwa kumukiriya wamaze kwishyura consultation.</p>
                 <div class="req-confirmation">
@@ -363,8 +356,6 @@
     </div>
 </div>
 
-
-
         <!-- Step 4: Consultation Payment -->
         <div class="step-content" id="step4">
             <div class="step-header">
@@ -384,10 +375,9 @@
                         </label>
                     </div>
 
-                            <div class="payment-actions" style="display:flex; gap:10px; margin-top:15px;">
-                            <button class="btn btn-secondary" id="changeMethodBtn" onclick="prevStep(3)"><i class="fas fa-exchange-alt"></i>Hindura Uburyo bwo kwishyura /Change Payment Method</button>
-                           
-                        </div>
+                    <div class="payment-actions" style="display:flex; gap:10px; margin-top:15px;">
+                        <button class="btn btn-secondary" id="changeMethodBtn" onclick="prevStep(3)"><i class="fas fa-exchange-alt"></i>Hindura Uburyo bwo kwishyura /Change Payment Method</button>
+                    </div>
                     
                     <div class="payment-details" id="paymentDetails" style="display: none;">
                         <div id="selectedPaymentDetails">
@@ -395,9 +385,7 @@
                         </div>
 
                         <div class="payment-actions" style="display:flex; gap:10px; margin-top:15px;">
-                            <!-- <button class="btn btn-secondary" id="changeMethodBtn" onclick="prevStep(3)"><i class="fas fa-exchange-alt"></i>Hindura Uburyo bwo kwishyura /Change Payment Method</button> -->
                             <button class="btn btn-primary" id="paidBtn" onclick="handlePaidClick()"><i class="fas fa-money-check"></i>Nishyure mpa code / I've Paid (Generate Code)</button>
-                            <!-- <button class="btn btn-success" id="confirmPaymentBtn" onclick="confirmPayment()" disabled><i class="fas fa-check-circle"></i> Emeza /Confirm Payment</button> -->
                         </div>
 
                         <div class="payment-code" id="paymentCodeContainer" style="display: none; margin-top:15px;">
@@ -406,7 +394,6 @@
                             <p class="code-instruction">andika iyi code ahabugenewe / Copy this code and paste it into the confirmation field above to validate your payment.</p>
                         </div>
 
-
                         <div class="form-group" id="confirmationGroup" style="display:none;">
                             <label for="confirmationInput"><i class="fas fa-key"></i> code yemeza ko wishyuye / Payment Confirmation Code</label>
                             <input type="text" id="confirmationInput" placeholder="Shyiramo code yokwemeza / Enter confirmation code">
@@ -414,10 +401,8 @@
                         </div>
 
                         <div class="payment-actions" style="display:flex; gap:10px; margin-top:15px;">
-                            
                             <button class="btn btn-success" id="confirmPaymentBtn" onclick="confirmPayment()" disabled><i class="fas fa-check-circle"></i> Emeza /Confirm Payment</button>
                         </div>
-
                     </div>
                 </div>
                 
@@ -448,24 +433,26 @@
             </div>
             
             <div class="roles-container">
-
-
                 <!-- Explanation Video -->
                 <div class="explanation-video">
                     <h3><i class="fas fa-video"></i> Sobanukirwa service zitangwa na buysellorrent muri Video</h3>
                     <div class="video-container">
-                        <iframe src="video/video 2.mp4" title="Roles Explanation" frameborder="0" allow="accelerometer;  clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <!-- Video with play button overlay -->
+                        <div class="video-placeholder" onclick="playVideo(this, 'video/video 2.mp4')">
+                            <div class="play-button-overlay">
+                                <i class="fas fa-play-circle"></i>
+                                <span>Click to Play Video</span>
+                            </div>
+                        </div>
                     </div>
                     <p class="video-description"> reba video kugirango usobanukirwe ibijyanye na basic,standard & premium/ Watch this video to understand each role in detail</p>
                 </div>
-
 
                 <div class="roles-grid">
                     <!-- Basic Role -->
                     <div class="role-card" id="basicRole">
                         <div class="role-header">
                             <h3 style="background-color: rgb(4, 156, 62); color: rgb(249, 246, 246);"><i class="fas fa-star"></i> Basic</h3>
-                            
                         </div>
                         <div class="role-features">
                             <ul>
@@ -483,10 +470,8 @@
                     
                     <!-- Standard Role -->
                     <div class="role-card featured" id="standardRole">
-                        
                         <div class="role-header">
                             <h3 style="background-color: rgb(25, 88, 164); color: rgb(249, 246, 246);"><i class="fas fa-gem"></i> Standard</h3>
-                           
                         </div>
                         <div class="role-features">
                             <ul>
@@ -507,14 +492,12 @@
                         <div class="role-badge">Most Popular</div>
                         <div class="role-header">
                             <h3 style="background-color: rgb(238, 181, 11); color: rgb(249, 246, 246);"><i class="fas fa-crown"></i> Premium</h3>
-                           
                         </div>
                         <div class="role-features">
                             <ul>
                                 <li><i class="fas fa-check"></i> All Standard features + Standard</li>
                                 <li><i class="fas fa-check"></i> +Premium ni service iguhma amahirwe menshi kurusha inzindi zose </li>
                                 <li><i class="fas fa-check"></i> +Amafaranga yishyurwa mbere ni macye cyane ugereranije nayabacommissionaire</li>
-
                                 <li><i class="fas fa-check"></i> +Ikigurishwa cyangwa igikodeshwa kigiyeho gihita kijya hejuru yibindi</li>
                                 <li><i class="fas fa-times"></i> +Kimanuka aruko haje undi wishyura premium</li>
                             </ul>
@@ -522,8 +505,6 @@
                         <button class="btn-role-select" onclick="selectRole('premium')" style="background-color: rgb(238, 181, 11); color: rgb(249, 246, 246);">Select Premium</button>
                     </div>
                 </div>
-                
-
             </div>
             
             <div class="button-group">
@@ -591,8 +572,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- Confirm button removed: selection is finalized immediately -->
             </div>
             
             <div class="button-group">

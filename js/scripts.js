@@ -29,6 +29,25 @@ let currentStep = 1;
 let currentTourCard = 1;
 let paymentConfirmed = false;
 
+// Video play functionality
+function playVideo(element, videoUrl) {
+    // Replace placeholder with iframe
+    const iframe = document.createElement('iframe');
+    iframe.src = `${videoUrl}?autoplay=1&rel=0`;
+    iframe.title = "Video Player";
+    iframe.frameBorder = "0";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
+    iframe.allowFullscreen = true;
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.style.position = "absolute";
+    iframe.style.top = "0";
+    iframe.style.left = "0";
+    
+    element.innerHTML = '';
+    element.appendChild(iframe);
+}
+
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
     initializeProgressBar();
@@ -109,6 +128,11 @@ function goToStep(stepNumber) {
         stepElement.classList.add('active');
         currentStep = stepNumber;
         updateProgressBar();
+        
+        // Initialize requirements if step 3
+        if (stepNumber === 3) {
+            initializeRequirements();
+        }
         
         // Scroll to top of step
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -245,10 +269,147 @@ function updateTourCounter() {
     }
 }
 
-// Step 3: Requirements
+// Requirements Navigation Variables
+let currentRequirement = 1;
+const totalRequirements = 4;
+
+// Initialize requirements when step 3 loads
+function initializeRequirements() {
+    currentRequirement = 1;
+    updateRequirementDisplay();
+    updateRequirementsProgress();
+}
+
+// Requirement Navigation Functions
+function nextRequirement() {
+    if (currentRequirement < totalRequirements) {
+        currentRequirement++;
+        updateRequirementDisplay();
+    }
+}
+
+function prevRequirement() {
+    if (currentRequirement > 1) {
+        currentRequirement--;
+        updateRequirementDisplay();
+    }
+}
+
+function goToRequirement(reqNumber) {
+    currentRequirement = reqNumber;
+    updateRequirementDisplay();
+}
+
+function updateRequirementDisplay() {
+    // Hide all requirement cards
+    document.querySelectorAll('.requirement-card').forEach(card => {
+        card.classList.remove('active');
+        card.style.animation = 'slideInRight 0.5s ease';
+    });
+    
+    // Show current requirement card
+    const currentCard = document.getElementById(`reqCard${currentRequirement}`);
+    if (currentCard) {
+        currentCard.classList.add('active');
+        
+        // Set animation direction based on navigation
+        if (currentRequirement > 1) {
+            currentCard.style.animation = 'slideInRight 0.5s ease';
+        } else {
+            currentCard.style.animation = 'slideInLeft 0.5s ease';
+        }
+    }
+    
+    // Update counter
+    updateRequirementCounter();
+    
+    // Update dots
+    document.querySelectorAll('.req-dot').forEach((dot, index) => {
+        const reqNumber = index + 1;
+        dot.classList.remove('active');
+        
+        // Add completed class if requirement is confirmed
+        if (reqNumber === 1 && userData.requirements.terms) {
+            dot.classList.add('completed');
+        } else if (reqNumber === 2 && userData.requirements.money) {
+            dot.classList.add('completed');
+        } else if (reqNumber === 3 && userData.requirements.paymentMethod) {
+            dot.classList.add('completed');
+        } else if (reqNumber === 4 && userData.requirements.video) {
+            dot.classList.add('completed');
+        }
+        
+        if (reqNumber === currentRequirement) {
+            dot.classList.add('active');
+        }
+    });
+    
+    // Update navigation buttons
+    const prevBtn = document.querySelector('.req-nav-btn:first-child');
+    const nextBtn = document.querySelector('.req-nav-btn:last-child');
+    
+    if (prevBtn) {
+        prevBtn.disabled = currentRequirement === 1;
+        prevBtn.style.opacity = currentRequirement === 1 ? '0.5' : '1';
+    }
+    
+    if (nextBtn) {
+        nextBtn.disabled = currentRequirement === totalRequirements;
+        nextBtn.style.opacity = currentRequirement === totalRequirements ? '0.5' : '1';
+        
+        // Update next button text for last requirement
+        if (currentRequirement === totalRequirements) {
+            nextBtn.innerHTML = 'Complete <i class="fas fa-check"></i>';
+        } else {
+            nextBtn.innerHTML = 'Next <i class="fas fa-chevron-right"></i>';
+        }
+    }
+}
+
+function updateRequirementCounter() {
+    const counter = document.getElementById('reqCounter');
+    if (counter) {
+        const requirementNames = [
+            'Terms & Conditions',
+            'Money Availability',
+            'Payment Methods',
+            'Video Explanation'
+        ];
+        counter.textContent = `Requirement ${currentRequirement} of ${totalRequirements}: ${requirementNames[currentRequirement - 1]}`;
+    }
+}
+
+function updateRequirementsProgress() {
+    let completedCount = 0;
+    
+    if (userData.requirements.terms) completedCount++;
+    if (userData.requirements.money) completedCount++;
+    if (userData.requirements.paymentMethod) completedCount++;
+    if (userData.requirements.video) completedCount++;
+    
+    const progressText = document.getElementById('progressText');
+    const progressFill = document.getElementById('requirementsProgress');
+    
+    if (progressText) {
+        progressText.textContent = `${completedCount} of ${totalRequirements} requirements completed`;
+    }
+    
+    if (progressFill) {
+        const percentage = (completedCount / totalRequirements) * 100;
+        progressFill.style.width = `${percentage}%`;
+    }
+    
+    // Enable/disable next step button based on completion
+    const step3NextBtn = document.getElementById('step3Next');
+    if (step3NextBtn) {
+        step3NextBtn.disabled = completedCount < totalRequirements;
+    }
+}
+
+// Modified confirmRequirement function
 function confirmRequirement(reqNumber, confirmed) {
     const statusElement = document.getElementById(`status${reqNumber}`);
-    const cardElement = document.getElementById(`req${reqNumber}`);
+    const cardElement = document.getElementById(`reqCard${reqNumber}`);
     
     if (confirmed) {
         statusElement.textContent = 'Completed';
@@ -272,7 +433,15 @@ function confirmRequirement(reqNumber, confirmed) {
                 break;
         }
         
-        showNotification('Requirement confirmed successfully', 'success');
+        showNotification('Requirement confirmed successfully!', 'success');
+        
+        // Auto-advance to next requirement if not the last one
+        if (reqNumber < totalRequirements) {
+            setTimeout(() => {
+                nextRequirement();
+            }, 1000);
+        }
+        
     } else {
         statusElement.textContent = 'Failed';
         statusElement.className = 'req-status failed';
@@ -281,19 +450,30 @@ function confirmRequirement(reqNumber, confirmed) {
         
         showNotification('Requirement not confirmed', 'error');
         
-        // If requirement 1 or 2 is not confirmed, go back
+        // If requirement 1 or 2 is not confirmed, show warning
         if (reqNumber === 1 || reqNumber === 2) {
             setTimeout(() => {
-                goToStep(1);
-            }, 1500);
+                showNotification('You must complete all requirements to proceed', 'warning');
+            }, 1000);
         }
     }
     
-    // Check if all requirements are met
-    checkRequirementsCompletion();
+    // Update progress
+    updateRequirementsProgress();
+    
+    // Update dots to show completed status
+    const dot = document.querySelectorAll('.req-dot')[reqNumber - 1];
+    if (dot && confirmed) {
+        dot.classList.add('completed');
+    } else if (dot) {
+        dot.classList.remove('completed');
+    }
     
     // Save to localStorage
     saveToLocalStorage();
+    
+    // Check if all requirements are completed
+    checkRequirementsCompletion();
 }
 
 function getSelectedPaymentMethod() {
@@ -301,10 +481,36 @@ function getSelectedPaymentMethod() {
     return selectedMethod ? selectedMethod.value : null;
 }
 
+// Modified selectPaymentMethod function
 function selectPaymentMethod(method) {
+    const methodNames = {
+        'momo': 'Bank Transfer',
+        'mtn': 'MTN Mobile Money',
+        'cash': 'Cash',
+        'visa': 'Visa Card',
+        'mastercard': 'Master Card'
+    };
+    
     userData.requirements.paymentMethod = method;
-    showNotification(`${method.toUpperCase()} payment method selected`, 'success');
+    showNotification(`${methodNames[method]} payment method selected`, 'success');
+    // Clear any previously generated payment confirmation code when method changes
+    if (userData.payment && userData.payment.generatedCode) {
+        delete userData.payment.generatedCode;
+        const paymentCodeContainer = document.getElementById('paymentCodeContainer');
+        const paymentCode = document.getElementById('paymentCode');
+        const confirmationGroup = document.getElementById('confirmationGroup');
+        const confirmBtn = document.getElementById('confirmPaymentBtn');
+        const paidBtn = document.getElementById('paidBtn');
+        if (paymentCode) paymentCode.textContent = '';
+        if (paymentCodeContainer) paymentCodeContainer.style.display = 'none';
+        if (confirmationGroup) confirmationGroup.style.display = 'none';
+        if (confirmBtn) confirmBtn.disabled = true;
+        if (paidBtn) paidBtn.disabled = false;
+    }
     saveToLocalStorage();
+    
+    // Update progress
+    updateRequirementsProgress();
 }
 
 function checkRequirementsCompletion() {
@@ -314,27 +520,30 @@ function checkRequirementsCompletion() {
         userData.requirements.paymentMethod &&
         userData.requirements.video;
     
-    const nextButton = document.getElementById('step3Next');
-    if (nextButton) {
-        nextButton.disabled = !allCompleted;
+    if (allCompleted) {
+        showNotification('All requirements completed! You can proceed to next step.', 'success');
     }
 }
 
 function validateRequirements() {
     if (!userData.requirements.terms) {
         showNotification('Please accept the terms and conditions', 'error');
+        goToRequirement(1);
         return false;
     }
     if (!userData.requirements.money) {
         showNotification('Please confirm money availability', 'error');
+        goToRequirement(2);
         return false;
     }
     if (!userData.requirements.paymentMethod) {
         showNotification('Please select a payment method', 'error');
+        goToRequirement(3);
         return false;
     }
     if (!userData.requirements.video) {
         showNotification('Please watch the explanation video', 'error');
+        goToRequirement(4);
         return false;
     }
     return true;
@@ -385,25 +594,32 @@ function renderPaymentDetails() {
         case 'momo':
             html = `
                 <div class="payment-code-info">
-                    <h4><i class="fas fa-mobile-alt"></i> MOMO Payment</h4>
+                    <h4><i class="fas fa-university"></i> Bank Transfer</h4>
                     <div class="code-display-large">1002421423486</div>
-                    <p class="code-info-text">Send your MOMO payment to the code above. After sending, click "I've Paid (Generate Code)" to get a confirmation code and enter it in the confirmation field below.</p>
+                    <p class="code-info-text">Make a bank transfer to the account above. After transferring, click "I've Paid (Generate Code)" to get a confirmation code and enter it in the confirmation field below.</p>
                 </div>`;
             break;
         case 'mtn':
-        case 'airtel':
+            html = `
+                <div class="payment-code-info">
+                    <h4><i class="fas fa-mobile-alt"></i> MTN Mobile Money</h4>
+                    <div class="code-display-large">*182*8*1*046442*xxx#</div>
+                    <p class="code-info-text">Send your MTN Mobile Money payment to the number above. After sending, click "I've Paid (Generate Code)" to get a confirmation code and enter it in the confirmation field below.</p>
+                </div>`;
+            break;
         case 'cash':
             html = `
                 <div class="payment-code-info">
-                    <h4><i class="fas fa-money-bill"></i> ${method.toUpperCase()} Payment</h4>
-                    <p class="code-info-text">Follow your provider's steps to make the payment. After paying, click "I've Paid (Generate Code)" to generate a confirmation code and enter it in the confirmation field below.</p>
+                    <h4><i class="fas fa-money-bill"></i> Cash Payment</h4>
+                    <p class="code-info-text">Visit our office to make cash payment. After paying, click "I've Paid (Generate Code)" to generate a confirmation code and enter it in the confirmation field below.</p>
                 </div>`;
             break;
         case 'visa':
         case 'mastercard':
+            const cardType = method.charAt(0).toUpperCase() + method.slice(1);
             html = `
                 <div class="payment-code-info">
-                    <h4><i class="fas fa-credit-card"></i> Card Payment</h4>
+                    <h4><i class="fas fa-credit-card"></i> ${cardType} Payment</h4>
                     <p class="code-info-text">You will be redirected to your card provider. After completing payment, click "I've Paid (Generate Code)" to generate a confirmation code and enter it in the confirmation field below.</p>
                 </div>`;
             break;
@@ -638,8 +854,6 @@ function finalizeRoleSelection(roleType) {
         option.style.pointerEvents = 'none';
     });
 }
-
-// confirmRoleSelection removed: role selection now finalizes immediately in finalizeRoleSelection().
 
 function validateRoleSelection() {
     if (!userData.role.selected) {
@@ -991,368 +1205,13 @@ function resetForm() {
             statusElement.className = 'req-status pending';
         }
         
-        const cardElement = document.getElementById(`req${i}`);
+        const cardElement = document.getElementById(`reqCard${i}`);
         if (cardElement) {
             cardElement.classList.remove('completed', 'failed');
         }
     }
     
     showNotification('Form has been reset', 'info');
-}
-
-// Add CSS for notifications
-const notificationCSS = `
-    .notification {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        padding: 15px 25px;
-        border-radius: 8px;
-        color: white;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        z-index: 10000;
-        transform: translateX(150%);
-        transition: transform 0.3s ease;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        max-width: 400px;
-    }
-    
-    .notification.show {
-        transform: translateX(0);
-    }
-    
-    .notification.success {
-        background: var(--success-color);
-    }
-    
-    .notification.error {
-        background: var(--danger-color);
-    }
-    
-    .notification.info {
-        background: var(--primary-color);
-    }
-    
-    .notification i {
-        font-size: 1.2rem;
-    }
-`;
-
-// Add notification styles to document
-const styleSheet = document.createElement('style');
-styleSheet.textContent = notificationCSS;
-document.head.appendChild(styleSheet);
-
-
-
-
-// Requirements Navigation Variables
-let currentRequirement = 1;
-const totalRequirements = 4;
-
-// Initialize requirements when step 3 loads
-function initializeRequirements() {
-    currentRequirement = 1;
-    updateRequirementDisplay();
-    updateRequirementsProgress();
-}
-
-// Requirement Navigation Functions
-function nextRequirement() {
-    if (currentRequirement < totalRequirements) {
-        currentRequirement++;
-        updateRequirementDisplay();
-    }
-}
-
-function prevRequirement() {
-    if (currentRequirement > 1) {
-        currentRequirement--;
-        updateRequirementDisplay();
-    }
-}
-
-function goToRequirement(reqNumber) {
-    currentRequirement = reqNumber;
-    updateRequirementDisplay();
-}
-
-function updateRequirementDisplay() {
-    // Hide all requirement cards
-    document.querySelectorAll('.requirement-card').forEach(card => {
-        card.classList.remove('active');
-        card.style.animation = 'slideInRight 0.5s ease';
-    });
-    
-    // Show current requirement card
-    const currentCard = document.getElementById(`reqCard${currentRequirement}`);
-    if (currentCard) {
-        currentCard.classList.add('active');
-        
-        // Set animation direction based on navigation
-        if (currentRequirement > 1) {
-            currentCard.style.animation = 'slideInRight 0.5s ease';
-        } else {
-            currentCard.style.animation = 'slideInLeft 0.5s ease';
-        }
-    }
-    
-    // Update counter
-    updateRequirementCounter();
-    
-    // Update dots
-    document.querySelectorAll('.req-dot').forEach((dot, index) => {
-        const reqNumber = index + 1;
-        dot.classList.remove('active');
-        
-        // Add completed class if requirement is confirmed
-        if (reqNumber === 1 && userData.requirements.terms) {
-            dot.classList.add('completed');
-        } else if (reqNumber === 2 && userData.requirements.money) {
-            dot.classList.add('completed');
-        } else if (reqNumber === 3 && userData.requirements.paymentMethod) {
-            dot.classList.add('completed');
-        } else if (reqNumber === 4 && userData.requirements.video) {
-            dot.classList.add('completed');
-        }
-        
-        if (reqNumber === currentRequirement) {
-            dot.classList.add('active');
-        }
-    });
-    
-    // Update navigation buttons
-    const prevBtn = document.querySelector('.req-nav-btn:first-child');
-    const nextBtn = document.querySelector('.req-nav-btn:last-child');
-    
-    if (prevBtn) {
-        prevBtn.disabled = currentRequirement === 1;
-        prevBtn.style.opacity = currentRequirement === 1 ? '0.5' : '1';
-    }
-    
-    if (nextBtn) {
-        nextBtn.disabled = currentRequirement === totalRequirements;
-        nextBtn.style.opacity = currentRequirement === totalRequirements ? '0.5' : '1';
-        
-        // Update next button text for last requirement
-        if (currentRequirement === totalRequirements) {
-            nextBtn.innerHTML = 'Complete <i class="fas fa-check"></i>';
-        } else {
-            nextBtn.innerHTML = 'Next <i class="fas fa-chevron-right"></i>';
-        }
-    }
-}
-
-function updateRequirementCounter() {
-    const counter = document.getElementById('reqCounter');
-    if (counter) {
-        const requirementNames = [
-            'Terms & Conditions',
-            'Money Availability',
-            'Payment Methods',
-            'Video Explanation'
-        ];
-        counter.textContent = `Requirement ${currentRequirement} of ${totalRequirements}: ${requirementNames[currentRequirement - 1]}`;
-    }
-}
-
-function updateRequirementsProgress() {
-    let completedCount = 0;
-    
-    if (userData.requirements.terms) completedCount++;
-    if (userData.requirements.money) completedCount++;
-    if (userData.requirements.paymentMethod) completedCount++;
-    if (userData.requirements.video) completedCount++;
-    
-    const progressText = document.getElementById('progressText');
-    const progressFill = document.getElementById('requirementsProgress');
-    
-    if (progressText) {
-        progressText.textContent = `${completedCount} of ${totalRequirements} requirements completed`;
-    }
-    
-    if (progressFill) {
-        const percentage = (completedCount / totalRequirements) * 100;
-        progressFill.style.width = `${percentage}%`;
-    }
-    
-    // Enable/disable next step button based on completion
-    const step3NextBtn = document.getElementById('step3Next');
-    if (step3NextBtn) {
-        step3NextBtn.disabled = completedCount < totalRequirements;
-    }
-}
-
-// Modified confirmRequirement function
-function confirmRequirement(reqNumber, confirmed) {
-    const statusElement = document.getElementById(`status${reqNumber}`);
-    const cardElement = document.getElementById(`reqCard${reqNumber}`);
-    
-    if (confirmed) {
-        statusElement.textContent = 'Completed';
-        statusElement.className = 'req-status completed';
-        cardElement.classList.add('completed');
-        cardElement.classList.remove('failed');
-        
-        // Update user data
-        switch(reqNumber) {
-            case 1:
-                userData.requirements.terms = true;
-                break;
-            case 2:
-                userData.requirements.money = true;
-                break;
-            case 3:
-                userData.requirements.paymentMethod = getSelectedPaymentMethod();
-                break;
-            case 4:
-                userData.requirements.video = true;
-                break;
-        }
-        
-        showNotification('Requirement confirmed successfully!', 'success');
-        
-        // Auto-advance to next requirement if not the last one
-        if (reqNumber < totalRequirements) {
-            setTimeout(() => {
-                nextRequirement();
-            }, 1000);
-        }
-        
-    } else {
-        statusElement.textContent = 'Failed';
-        statusElement.className = 'req-status failed';
-        cardElement.classList.add('failed');
-        cardElement.classList.remove('completed');
-        
-        showNotification('Requirement not confirmed', 'error');
-        
-        // If requirement 1 or 2 is not confirmed, show warning
-        if (reqNumber === 1 || reqNumber === 2) {
-            setTimeout(() => {
-                showNotification('You must complete all requirements to proceed', 'warning');
-            }, 1000);
-        }
-    }
-    
-    // Update progress
-    updateRequirementsProgress();
-    
-    // Update dots to show completed status
-    const dot = document.querySelectorAll('.req-dot')[reqNumber - 1];
-    if (dot && confirmed) {
-        dot.classList.add('completed');
-    } else if (dot) {
-        dot.classList.remove('completed');
-    }
-    
-    // Save to localStorage
-    saveToLocalStorage();
-    
-    // Check if all requirements are completed
-    checkRequirementsCompletion();
-}
-
-// Modified selectPaymentMethod function
-function selectPaymentMethod(method) {
-    const methodNames = {
-        'momo': 'MOMO Pay',
-        'mtn': 'MTN Mobile Money',
-        'airtel': 'Airtel Money',
-        'cash': 'Cash',
-        'visa': 'Visa Card',
-        'mastercard': 'Master Card'
-    };
-    
-    userData.requirements.paymentMethod = method;
-    showNotification(`${methodNames[method]} payment method selected`, 'success');
-    // Clear any previously generated payment confirmation code when method changes
-    if (userData.payment && userData.payment.generatedCode) {
-        delete userData.payment.generatedCode;
-        const paymentCodeContainer = document.getElementById('paymentCodeContainer');
-        const paymentCode = document.getElementById('paymentCode');
-        const confirmationGroup = document.getElementById('confirmationGroup');
-        const confirmBtn = document.getElementById('confirmPaymentBtn');
-        const paidBtn = document.getElementById('paidBtn');
-        if (paymentCode) paymentCode.textContent = '';
-        if (paymentCodeContainer) paymentCodeContainer.style.display = 'none';
-        if (confirmationGroup) confirmationGroup.style.display = 'none';
-        if (confirmBtn) confirmBtn.disabled = true;
-        if (paidBtn) paidBtn.disabled = false;
-    }
-    saveToLocalStorage();
-    
-    // Update progress
-    updateRequirementsProgress();
-}
-
-// Modified checkRequirementsCompletion function
-function checkRequirementsCompletion() {
-    const allCompleted = 
-        userData.requirements.terms &&
-        userData.requirements.money &&
-        userData.requirements.paymentMethod &&
-        userData.requirements.video;
-    
-    if (allCompleted) {
-        showNotification('All requirements completed! You can proceed to next step.', 'success');
-    }
-}
-
-// Modified validateRequirements function
-function validateRequirements() {
-    if (!userData.requirements.terms) {
-        showNotification('Please accept the terms and conditions', 'error');
-        goToRequirement(1);
-        return false;
-    }
-    if (!userData.requirements.money) {
-        showNotification('Please confirm money availability', 'error');
-        goToRequirement(2);
-        return false;
-    }
-    if (!userData.requirements.paymentMethod) {
-        showNotification('Please select a payment method', 'error');
-        goToRequirement(3);
-        return false;
-    }
-    if (!userData.requirements.video) {
-        showNotification('Please watch the explanation video', 'error');
-        goToRequirement(4);
-        return false;
-    }
-    return true;
-}
-
-// Update goToStep function to initialize requirements when step 3 is shown
-function goToStep(stepNumber) {
-    // Hide all steps
-    document.querySelectorAll('.step-content').forEach(step => {
-        step.classList.remove('active');
-    });
-    
-    // Show selected step
-    const stepElement = document.getElementById(`step${stepNumber}`);
-    if (stepElement) {
-        stepElement.classList.add('active');
-        currentStep = stepNumber;
-        updateProgressBar();
-        
-        // Initialize requirements if step 3
-        if (stepNumber === 3) {
-            initializeRequirements();
-        }
-        
-        // Scroll to top of step
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        
-        // Update summary if on step 7
-        if (stepNumber === 7) {
-            updateSummary();
-        }
-    }
 }
 
 // Add this to the existing initialize function

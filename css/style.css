@@ -468,6 +468,54 @@ body {
 .req-status.completed { background: #d1fae5; color: #065f46; }
 .req-status.failed { background: #fee2e2; color: #991b1b; }
 
+/* Video Placeholder Styles */
+.video-placeholder {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    background: #1e293b;
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.video-placeholder:hover {
+    transform: scale(1.01);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+}
+
+.play-button-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+.play-button-overlay i {
+    font-size: 4rem;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.video-placeholder:hover .play-button-overlay i {
+    color: var(--success-color);
+    transform: scale(1.1);
+}
+
+.play-button-overlay span {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: white;
+}
+
 .video-container {
     position: relative;
     padding-bottom: 56.25%;
@@ -495,19 +543,6 @@ body {
 .money-amount {
     text-align: center;
     margin: 20px 0;
-}
-
-.amount-display {
-    display: inline-flex;
-    align-items: center;
-    gap: 15px;
-    padding: 20px 40px;
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: white;
-    border-radius: 10px;
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 15px;
 }
 
 .req-confirmation {
@@ -578,12 +613,27 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 15px;
+    min-height: 180px;
+    justify-content: center;
 }
 
-.method-content i {
-    font-size: 2rem;
-    color: var(--primary-color);
+.method-image {
+    width: 80px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 8px;
+    background: white;
+    padding: 5px;
+}
+
+.method-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 
 .method-option input[type="radio"]:checked + .method-content {
@@ -678,7 +728,6 @@ body {
 /* Confirmed payment styling */
 .payment-code.confirmed { border-color: var(--success-color); box-shadow: 0 8px 30px rgba(16,185,129,0.08); }
 .payment-code.confirmed .code-display-large { color: var(--success-color); border-color: transparent; }
-
 
 .code-instruction {
     color: #64748b;
@@ -1143,296 +1192,7 @@ body {
     margin: 0;
 }
 
-/* Responsive Design */
-@media (max-width: 992px) {
-    .form-grid,
-    .requirements-container,
-    .roles-grid,
-    .role-options,
-    .summary-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .tour-card.active {
-        grid-template-columns: 1fr;
-    }
-    
-    .method-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .export-options {
-        flex-direction: column;
-    }
-    
-    .role-card.featured {
-        transform: none;
-    }
-    
-    .step-header h2 {
-        font-size: 1.8rem;
-    }
-    
-    .code-display-large {
-        font-size: 2rem;
-    }
-
-    /* Reduce hover transforms on medium screens */
-    .tour-card:hover, .role-card:hover { transform: none; box-shadow: var(--shadow); }
-    .code-display-large.animate { animation: none; }
-}
-
-@media (max-width: 768px) {
-    .main-container {
-        padding: 0 10px;
-        margin: 10px auto;
-    }
-    
-    .progress-container {
-        padding: 15px 10px;
-    }
-    
-    .step-content {
-        padding: 20px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-    }
-    
-    .step-header h2 {
-        font-size: 1.3rem;
-    }
-    
-    .step-header p {
-        font-size: 0.9rem;
-    }
-    
-    .button-group {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .btn {
-        width: 100%;
-        justify-content: center;
-        padding: 10px 15px;
-        font-size: 0.9rem;
-    }
-    
-    .method-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .tour-navigation {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .tour-nav-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 10px 15px;
-    }
-    
-    .req-confirmation {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    .btn-confirm {
-        padding: 10px;
-        font-size: 0.9rem;
-    }
-    
-    .requirements-navigation {
-        flex-direction: column;
-        gap: 10px;
-        padding: 10px;
-    }
-    
-    .req-nav-btn {
-        width: 100%;
-        padding: 10px 15px;
-    }
-    
-    .payment-code-info {
-        padding: 15px;
-        margin-bottom: 20px;
-    }
-    
-    .code-display-large {
-        font-size: 1.5rem;
-        padding: 15px;
-        letter-spacing: 2px;
-    }
-    
-    .code-info-text {
-        font-size: 0.85rem;
-    }
-    
-    .form-group label {
-        font-size: 0.9rem;
-    }
-    
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        padding: 10px 12px;
-        font-size: 0.9rem;
-    }
-    
-    .role-card {
-        padding: 15px;
-    }
-    
-    .summary-card {
-        padding: 15px;
-    }
-    
-    .modal-content {
-        padding: 20px;
-        width: 95%;
-    }
-    
-    .steps {
-        gap: 5px;
-    }
-    
-    .step {
-        width: 35px;
-        height: 35px;
-        font-size: 0.8rem;
-    }
-    
-    .step::after {
-        top: -20px;
-        font-size: 0.7rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .main-container {
-        padding: 0 8px;
-    }
-    
-    .progress-container {
-        padding: 10px 8px;
-    }
-    
-    .step-content {
-        padding: 15px;
-    }
-    
-    .step-header h2 {
-        font-size: 1.1rem;
-        margin-bottom: 5px;
-    }
-    
-    .step-header p {
-        font-size: 0.8rem;
-    }
-    
-    .form-grid {
-        gap: 10px;
-    }
-    
-    .btn {
-        padding: 8px 12px;
-        font-size: 0.8rem;
-        gap: 5px;
-    }
-    
-    .btn i {
-        font-size: 0.8rem;
-    }
-    
-    .form-group {
-        margin-bottom: 12px;
-    }
-    
-    .form-group label {
-        margin-bottom: 5px;
-        font-size: 0.85rem;
-    }
-    
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-        padding: 8px 10px;
-        font-size: 0.8rem;
-    }
-    
-    .code-display-large {
-        font-size: 1.3rem;
-        padding: 12px;
-        letter-spacing: 1px;
-        margin: 10px 0;
-    }
-    
-    .payment-code-info {
-        padding: 12px;
-        margin-bottom: 15px;
-    }
-    
-    .payment-code-info h4 {
-        font-size: 0.9rem;
-        margin-bottom: 10px;
-    }
-    
-    .code-info-text {
-        font-size: 0.8rem;
-    }
-    
-    .terms-checkbox {
-        gap: 5px;
-    }
-    
-    .terms-checkbox input[type="checkbox"] {
-        width: 16px;
-        height: 16px;
-    }
-    
-    .step {
-        width: 30px;
-        height: 30px;
-        font-size: 0.7rem;
-    }
-    
-    .step::after {
-        font-size: 0.65rem;
-        top: -18px;
-    }
-    
-    .tour-card-content {
-        padding: 15px;
-    }
-    
-    .role-card {
-        padding: 12px;
-    }
-    
-    .summary-grid {
-        gap: 10px;
-    }
-    
-    .notification {
-        top: 10px;
-        right: 10px;
-        left: 10px;
-        padding: 12px 15px;
-        font-size: 0.85rem;
-    }
-    
-    .modal-content {
-        padding: 15px;
-        width: 98%;
-    }
-}
-
-
-
-
-
-
+/* Notification Styles */
 .notification {
     position: fixed;
     top: 20px;
@@ -1445,24 +1205,32 @@ body {
     gap: 10px;
     z-index: 10000;
     transform: translateX(150%);
-     opacity: 0;
-     transition: transform 0.3s ease, opacity 0.3s ease;
-     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-     max-width: 400px;
- }
- 
- .notification.show {
-     transform: translateX(0);
-     opacity: 1;
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    max-width: 400px;
+}
+
+.notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.notification.success {
+    background: var(--success-color);
+}
+
+.notification.error {
+    background: var(--danger-color);
+}
+
+.notification.info {
+    background: var(--primary-color);
 }
 
 .notification i {
     font-size: 1.2rem;
 }
-
-
-
-
 
 /* Requirements Navigation */
 .requirements-navigation {
@@ -1652,25 +1420,6 @@ body {
     gap: 10px;
 }
 
-.requirement-card .video-container {
-    position: relative;
-    padding-bottom: 56.25%;
-    height: 0;
-    margin-bottom: 20px;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-}
-
-.requirement-card .video-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
 .requirement-card .req-description {
     color: #64748b;
     margin-bottom: 25px;
@@ -1682,24 +1431,6 @@ body {
 .requirement-card .money-amount {
     text-align: center;
     margin: 30px 0;
-}
-
-.requirement-card .amount-display {
-    display: inline-flex;
-    align-items: center;
-    gap: 20px;
-    padding: 25px 50px;
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: white;
-    border-radius: 15px;
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    box-shadow: var(--shadow);
-}
-
-.requirement-card .amount-display i {
-    font-size: 2.5rem;
 }
 
 .requirement-card .payment-methods {
@@ -1780,11 +1511,44 @@ body {
     box-shadow: var(--shadow);
 }
 
-/* Responsive Design for Requirements */
+/* Responsive Design */
 @media (max-width: 992px) {
+    .form-grid,
+    .requirements-container,
+    .roles-grid,
+    .role-options,
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tour-card.active {
+        grid-template-columns: 1fr;
+    }
+    
+    .method-grid,
     .requirement-card .method-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+    
+    .export-options {
+        flex-direction: column;
+    }
+    
+    .role-card.featured {
+        transform: none;
+    }
+    
+    .step-header h2 {
+        font-size: 1.8rem;
+    }
+    
+    .code-display-large {
+        font-size: 2rem;
+    }
+
+    /* Reduce hover transforms on medium screens */
+    .tour-card:hover, .role-card:hover { transform: none; box-shadow: var(--shadow); }
+    .code-display-large.animate { animation: none; }
     
     .requirement-card .req-confirmation {
         flex-direction: column;
@@ -1796,14 +1560,129 @@ body {
 }
 
 @media (max-width: 768px) {
+    .main-container {
+        padding: 0 10px;
+        margin: 10px auto;
+    }
+    
+    .progress-container {
+        padding: 15px 10px;
+    }
+    
+    .step-content {
+        padding: 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .step-header h2 {
+        font-size: 1.3rem;
+    }
+    
+    .step-header p {
+        font-size: 0.9rem;
+    }
+    
+    .button-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .method-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .tour-navigation {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .tour-nav-btn {
+        width: 100%;
+        justify-content: center;
+        padding: 10px 15px;
+    }
+    
+    .req-confirmation {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .btn-confirm {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+    
     .requirements-navigation {
         flex-direction: column;
-        gap: 15px;
+        gap: 10px;
+        padding: 10px;
     }
     
     .req-nav-btn {
         width: 100%;
-        justify-content: center;
+        padding: 10px 15px;
+    }
+    
+    .payment-code-info {
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+    
+    .code-display-large {
+        font-size: 1.5rem;
+        padding: 15px;
+        letter-spacing: 2px;
+    }
+    
+    .code-info-text {
+        font-size: 0.85rem;
+    }
+    
+    .form-group label {
+        font-size: 0.9rem;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+    
+    .role-card {
+        padding: 15px;
+    }
+    
+    .summary-card {
+        padding: 15px;
+    }
+    
+    .modal-content {
+        padding: 20px;
+        width: 95%;
+    }
+    
+    .steps {
+        gap: 5px;
+    }
+    
+    .step {
+        width: 35px;
+        height: 35px;
+        font-size: 0.8rem;
+    }
+    
+    .step::after {
+        top: -20px;
+        font-size: 0.7rem;
     }
     
     .requirement-card .method-grid {
@@ -1817,6 +1696,141 @@ body {
     
     .requirement-card {
         padding: 20px;
+    }
+    
+    .video-placeholder {
+        height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-container {
+        padding: 0 8px;
+    }
+    
+    .progress-container {
+        padding: 10px 8px;
+    }
+    
+    .step-content {
+        padding: 15px;
+    }
+    
+    .step-header h2 {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+    }
+    
+    .step-header p {
+        font-size: 0.8rem;
+    }
+    
+    .form-grid {
+        gap: 10px;
+    }
+    
+    .btn {
+        padding: 8px 12px;
+        font-size: 0.8rem;
+        gap: 5px;
+    }
+    
+    .btn i {
+        font-size: 0.8rem;
+    }
+    
+    .form-group {
+        margin-bottom: 12px;
+    }
+    
+    .form-group label {
+        margin-bottom: 5px;
+        font-size: 0.85rem;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+    
+    .code-display-large {
+        font-size: 1.3rem;
+        padding: 12px;
+        letter-spacing: 1px;
+        margin: 10px 0;
+    }
+    
+    .payment-code-info {
+        padding: 12px;
+        margin-bottom: 15px;
+    }
+    
+    .payment-code-info h4 {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+    }
+    
+    .code-info-text {
+        font-size: 0.8rem;
+    }
+    
+    .terms-checkbox {
+        gap: 5px;
+    }
+    
+    .terms-checkbox input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .step {
+        width: 30px;
+        height: 30px;
+        font-size: 0.7rem;
+    }
+    
+    .step::after {
+        font-size: 0.65rem;
+        top: -18px;
+    }
+    
+    .tour-card-content {
+        padding: 15px;
+    }
+    
+    .role-card {
+        padding: 12px;
+    }
+    
+    .summary-grid {
+        gap: 10px;
+    }
+    
+    .notification {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        padding: 12px 15px;
+        font-size: 0.85rem;
+    }
+    
+    .modal-content {
+        padding: 15px;
+        width: 98%;
+    }
+    
+    .video-placeholder {
+        height: 200px;
+    }
+    
+    .play-button-overlay i {
+        font-size: 3rem;
+    }
+    
+    .play-button-overlay span {
+        font-size: 0.9rem;
     }
 }
 
