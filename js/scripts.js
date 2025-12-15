@@ -604,13 +604,13 @@ function finalizeRoleSelection(roleType) {
     let roleData = {};
     switch(roleType) {
         case 'basic':
-            roleData = { icon: 'fas fa-star', title: 'Basic Role', desc: 'For individuals getting started', price: '50,000 RWF/month' };
+            roleData = { icon: 'fas fa-star', title: 'Basic Role', desc: 'For individuals getting started', price: '-' };
             break;
         case 'standard':
-            roleData = { icon: 'fas fa-gem', title: 'Standard Role', desc: 'For growing businesses', price: '75,000 RWF/month' };
+            roleData = { icon: 'fas fa-gem', title: 'Standard Role', desc: 'For growing businesses', price: '-' };
             break;
         case 'premium':
-            roleData = { icon: 'fas fa-crown', title: 'Premium Role', desc: 'For enterprise solutions', price: '100,000 RWF/month' };
+            roleData = { icon: 'fas fa-crown', title: 'Premium Role', desc: 'For enterprise solutions', price: '-' };
             break;
     }
     
@@ -622,42 +622,24 @@ function finalizeRoleSelection(roleType) {
     const selectedPriceEl = document.getElementById('selectedRolePrice');
     if (selectedPriceEl) selectedPriceEl.textContent = roleData.price;
     
-    // Enable confirm button
-    const confirmBtn = document.getElementById('confirmRoleBtn');
-    if (confirmBtn) {
-        confirmBtn.disabled = false;
-    }
-    
+    // Finalize selection: set role, save, enable Next and lock selection
     userData.role.selected = roleType;
     userData.role.price = roleData.price;
+    userData.role.date = new Date().toLocaleString();
+    userData.timeline.roleSelection = userData.role.date;
     saveToLocalStorage();
+
+    // Enable step 6 Next button
+    const nextBtn = document.getElementById('step6Next');
+    if (nextBtn) nextBtn.disabled = false;
+
+    // Disable further changes to role options
+    document.querySelectorAll('.role-option').forEach(option => {
+        option.style.pointerEvents = 'none';
+    });
 }
 
-function confirmRoleSelection() {
-    showLoading(true);
-    
-    setTimeout(() => {
-        userData.role.date = new Date().toLocaleString();
-        userData.timeline.roleSelection = userData.role.date;
-        
-        const nextButton = document.getElementById('step6Next');
-        if (nextButton) {
-            nextButton.disabled = false;
-        }
-        
-        saveToLocalStorage();
-        showLoading(false);
-        showNotification('Role selection confirmed!', 'success');
-        
-        document.getElementById('confirmRoleBtn').innerHTML = '<i class="fas fa-check-double"></i> Role Confirmed';
-        document.getElementById('confirmRoleBtn').disabled = true;
-        
-        // Disable role options
-        document.querySelectorAll('.role-option').forEach(option => {
-            option.style.pointerEvents = 'none';
-        });
-    }, 1500);
-}
+// confirmRoleSelection removed: role selection now finalizes immediately in finalizeRoleSelection().
 
 function validateRoleSelection() {
     if (!userData.role.selected) {

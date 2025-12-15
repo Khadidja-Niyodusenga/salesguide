@@ -75,9 +75,7 @@
                         <input type="text" id="acceptableDocument" name="acceptableDocument" placeholder="Ex: UPI,plate number,ID,Driving Lisence" inputmode="text" pattern=".*" required>
                     
                     
-                    <!-- <div>
-                        <select name="select" id="select"><option value="option1">UPI</option><option value="option2">Plate Number</option></select>
-                    </div> -->
+                
 
                     </div>
                 
@@ -109,7 +107,7 @@
                 <div class="tour-cards-container">
                     <div class="tour-card active" id="tourCard1">
                         <div class="tour-card-image">
-                            <img src="/image/entrance.jpg" alt="Company Entrance">
+                            <img src="/image/isuzuma.jpg" alt="Company Entrance">
                         </div>
                         <div class="tour-card-content">
                             <h3><i class="fas fa-door-open"></i> 2.1 Isuzuma / consultation</h3>
@@ -251,11 +249,8 @@
                     <div class="req-status" id="status2">Pending</div>
                 </div>
                 <div class="money-amount">
-                    <div class="amount-display">
-                        <i class="fas fa-coins"></i>
-                        <span>50,000 RWF</span>
-                    </div>
-                    <p class="req-description">Umukiriya yagaragaje ubushobozi? <br> kubivuga mumagambo ntabwo bihagije</p>  
+                    <!-- Amount removed as per update: no explicit money values shown -->
+                    <p class="req-description">Umukiriya yagaragaje ubushobozi? <br> Kubivuga mu magambo ntabwo bihagije</p>
                 </div>
                 <div class="req-confirmation">
                     <button class="btn-confirm no" onclick="confirmRequirement(2, false)"><i class="fas fa-times"></i> ntayahari hagara</button>
@@ -327,10 +322,7 @@
 
                     </div>
                     
-                    <!-- <div class="payment-notice">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <p><strong>Notice:</strong> Kwakirwa Kabiri (Kugaruka) service ihere ku 100,000 RWF</p>
-                    </div> -->
+                   
                 </div>
                 <div class="req-confirmation">
                     <button class="btn-confirm yes" onclick="confirmRequirement(3, true)"><i class="fas fa-check"></i> Confirm Payment Method</button>
@@ -346,10 +338,10 @@
                 <div class="video-container">
                     <iframe src="video/igisubizo.mp4" title="Solution Video" frameborder="0" allow="accelerometer;  clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
-                <p class="req-description">Umukozi ntabwo yemerewe gutanga ibindi bisobanuro birenze video. ibindi bisabanuro, ibibazo n'ibisubizo bitangwa kumukiriya wamaze kwishyura consultation ya 50000 RWF</p>
+                <p class="req-description">Umukozi ntabwo yemerewe gutanga ibindi bisobanuro birenze video. Ibindi bisobanuro, ibibazo n'ibisubizo bitangwa kumukiriya wamaze kwishyura consultation.</p>
                 <div class="req-confirmation">
-                    <button class="btn-confirm no" onclick="confirmRequirement(4, false)"><i class="fas fa-times"></i> ntago nyuzwe nzagaruka (100000 RWF)</button>
-                    <button class="btn-confirm yes" onclick="confirmRequirement(4, true)"><i class="fas fa-check"></i> ndanyuzwe (50000 RWF) </button>
+                    <button class="btn-confirm no" onclick="confirmRequirement(4, false)"><i class="fas fa-times"></i> ntago nyuzwe, nzagaruka</button>
+                    <button class="btn-confirm yes" onclick="confirmRequirement(4, true)"><i class="fas fa-check"></i> ndanyuzwe</button>
                 </div>
             </div>
         </div>
@@ -394,20 +386,13 @@
 
                             <div class="payment-actions" style="display:flex; gap:10px; margin-top:15px;">
                             <button class="btn btn-secondary" id="changeMethodBtn" onclick="prevStep(3)"><i class="fas fa-exchange-alt"></i>Hindura Uburyo bwo kwishyura /Change Payment Method</button>
-                            <!-- <button class="btn btn-primary" id="paidBtn" onclick="handlePaidClick()"><i class="fas fa-money-check"></i>Nishyure mpa code / I've Paid (Generate Code)</button>
-                            <button class="btn btn-success" id="confirmPaymentBtn" onclick="confirmPayment()" disabled><i class="fas fa-check-circle"></i> Emeza /Confirm Payment</button> -->
+                           
                         </div>
                     
                     <div class="payment-details" id="paymentDetails" style="display: none;">
                         <div id="selectedPaymentDetails">
                             <!-- JS will render selected method details here -->
                         </div>
-
-                        <!-- <div class="form-group" id="confirmationGroup" style="display:none;">
-                            <label for="confirmationInput"><i class="fas fa-key"></i> code yemeza ko wishyuye / Payment Confirmation Code</label>
-                            <input type="text" id="confirmationInput" placeholder="Shyiramo code yokwemeza / Enter confirmation code">
-                            <p class="code-instruction" id="confirmationHelp">After you make the payment, click "I've Paid" to generate a confirmation code which will appear below. Enter it here to confirm.</p>
-                        </div> -->
 
                         <div class="payment-actions" style="display:flex; gap:10px; margin-top:15px;">
                             <!-- <button class="btn btn-secondary" id="changeMethodBtn" onclick="prevStep(3)"><i class="fas fa-exchange-alt"></i>Hindura Uburyo bwo kwishyura /Change Payment Method</button> -->
@@ -429,8 +414,7 @@
                         </div>
 
                         <div class="payment-actions" style="display:flex; gap:10px; margin-top:15px;">
-                            <!-- <button class="btn btn-secondary" id="changeMethodBtn" onclick="prevStep(3)"><i class="fas fa-exchange-alt"></i>Hindura Uburyo bwo kwishyura /Change Payment Method</button>
-                            <button class="btn btn-primary" id="paidBtn" onclick="handlePaidClick()"><i class="fas fa-money-check"></i>Nishyure mpa code / I've Paid (Generate Code)</button> -->
+                            
                             <button class="btn btn-success" id="confirmPaymentBtn" onclick="confirmPayment()" disabled><i class="fas fa-check-circle"></i> Emeza /Confirm Payment</button>
                         </div>
 
@@ -481,7 +465,7 @@
                     <div class="role-card" id="basicRole">
                         <div class="role-header">
                             <h3 style="background-color: rgb(4, 156, 62); color: rgb(249, 246, 246);"><i class="fas fa-star"></i> Basic</h3>
-                            <!-- <div class="role-price">50,000 RWF/mo</div> -->
+                            
                         </div>
                         <div class="role-features">
                             <ul>
@@ -502,7 +486,7 @@
                         
                         <div class="role-header">
                             <h3 style="background-color: rgb(25, 88, 164); color: rgb(249, 246, 246);"><i class="fas fa-gem"></i> Standard</h3>
-                            <!-- <div class="role-price">75,000 RWF/mo</div> -->
+                           
                         </div>
                         <div class="role-features">
                             <ul>
@@ -523,7 +507,7 @@
                         <div class="role-badge">Most Popular</div>
                         <div class="role-header">
                             <h3 style="background-color: rgb(238, 181, 11); color: rgb(249, 246, 246);"><i class="fas fa-crown"></i> Premium</h3>
-                            <!-- <div class="role-price">100,000 RWF/mo</div> -->
+                           
                         </div>
                         <div class="role-features">
                             <ul>
@@ -608,11 +592,7 @@
                     </div>
                 </div>
                 
-                <div class="role-confirmation">
-                    <button class="btn btn-primary" onclick="confirmRoleSelection()" id="confirmRoleBtn" disabled>
-                        <i class="fas fa-check-double"></i> Confirm Role Selection
-                    </button>
-                </div>
+                <!-- Confirm button removed: selection is finalized immediately -->
             </div>
             
             <div class="button-group">
