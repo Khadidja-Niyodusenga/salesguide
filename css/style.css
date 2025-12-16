@@ -26,7 +26,9 @@ body {
     font-family: 'Roboto', sans-serif;
     line-height: 1.6;
     color: var(--text-color);
-    background: linear-gradient(135deg, #e1fd0b 0%, #e2ee07 100%);
+    /* background: linear-gradient(135deg, #eedf04 0%, #e2ee07 100%); */
+    /* background: rgb(128, 128, 128); */
+    background-color: rgb(224, 220, 220);
     min-height: 100vh;
 }
 
@@ -377,6 +379,14 @@ body {
     height: 100%;
     object-fit: cover;
     transition: var(--transition);
+    display: block;
+    max-width: 100%;
+}
+
+/* Responsive images */
+img {
+    max-width: 100%;
+    height: auto;
 }
 
 .tour-card:hover .tour-card-image img {
@@ -468,20 +478,20 @@ body {
 .req-status.completed { background: #d1fae5; color: #065f46; }
 .req-status.failed { background: #fee2e2; color: #991b1b; }
 
-/* Video Placeholder Styles */
+/* Video Placeholder Styles - now handled by video-container */
 .video-placeholder {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 300px;
+    height: 100%;
     background: #1e293b;
-    border-radius: 8px;
-    overflow: hidden;
     cursor: pointer;
-    margin-bottom: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: var(--transition);
+    z-index: 2;
 }
 
 .video-placeholder:hover {
@@ -518,20 +528,32 @@ body {
 
 .video-container {
     position: relative;
-    padding-bottom: 56.25%;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
     height: 0;
     margin-bottom: 15px;
     border-radius: 8px;
     overflow: hidden;
+    background: #000;
 }
 
-.video-container iframe {
+.video-container iframe,
+.video-container video {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     border: none;
+    object-fit: contain;
+}
+
+.video-placeholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .req-description {
@@ -863,6 +885,13 @@ body {
     background: #f8fafc;
     border-radius: 10px;
     padding: 25px;
+}
+
+.explanation-video .video-container {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
 }
 
 .video-description {
@@ -1512,6 +1541,13 @@ body {
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+    .main-container {
+        max-width: 100%;
+        padding: 0 15px;
+    }
+}
+
 @media (max-width: 992px) {
     .form-grid,
     .requirements-container,
@@ -1557,6 +1593,39 @@ body {
     .requirement-card .btn-confirm {
         width: 100%;
     }
+
+    /* Header responsiveness */
+    .site-header {
+        height: 120px;
+    }
+
+    .brand-name {
+        font-size: 3.5rem;
+    }
+
+    .brand-text {
+        font-size: 2rem;
+    }
+
+    .selected-role-display {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .role-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2rem;
+    }
+
+    .tour-card-content h3 {
+        font-size: 1.3rem;
+    }
+
+    .requirement-card .req-header h3 {
+        font-size: 1.2rem;
+    }
 }
 
 @media (max-width: 768px) {
@@ -1591,11 +1660,12 @@ body {
     .btn {
         width: 100%;
         justify-content: center;
-        padding: 10px 15px;
+        padding: 12px 15px;
         font-size: 0.9rem;
     }
     
-    .method-grid {
+    .method-grid,
+    .requirement-card .method-grid {
         grid-template-columns: 1fr;
     }
     
@@ -1607,7 +1677,12 @@ body {
     .tour-nav-btn {
         width: 100%;
         justify-content: center;
-        padding: 10px 15px;
+        padding: 12px 15px;
+    }
+
+    .tour-counter {
+        text-align: center;
+        order: -1;
     }
     
     .req-confirmation {
@@ -1616,8 +1691,9 @@ body {
     }
     
     .btn-confirm {
-        padding: 10px;
+        padding: 12px;
         font-size: 0.9rem;
+        width: 100%;
     }
     
     .requirements-navigation {
@@ -1628,7 +1704,13 @@ body {
     
     .req-nav-btn {
         width: 100%;
-        padding: 10px 15px;
+        padding: 12px 15px;
+        justify-content: center;
+    }
+
+    .req-counter {
+        text-align: center;
+        order: -1;
     }
     
     .payment-code-info {
@@ -1658,11 +1740,25 @@ body {
     }
     
     .role-card {
-        padding: 15px;
+        padding: 20px;
     }
     
     .summary-card {
-        padding: 15px;
+        padding: 20px;
+    }
+
+    .summary-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .summary-label {
+        font-size: 0.9rem;
+    }
+
+    .summary-value {
+        font-size: 0.95rem;
     }
     
     .modal-content {
@@ -1672,12 +1768,15 @@ body {
     
     .steps {
         gap: 5px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
     
     .step {
         width: 35px;
         height: 35px;
         font-size: 0.8rem;
+        flex-shrink: 0;
     }
     
     .step::after {
@@ -1689,54 +1788,196 @@ body {
         grid-template-columns: 1fr;
     }
     
-    .requirement-card .amount-display {
-        padding: 20px 30px;
-        font-size: 2rem;
-    }
-    
     .requirement-card {
         padding: 20px;
     }
+
+    .requirement-card .req-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .requirement-card .req-status {
+        align-self: flex-start;
+    }
     
+    .video-container {
+        padding-bottom: 56.25%;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
     .video-placeholder {
-        height: 250px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .payment-actions {
+        flex-direction: column;
+    }
+
+    .payment-actions button {
+        width: 100%;
+    }
+
+    .consultation-container {
+        margin: 20px 0;
+    }
+
+    .payment-section,
+    .no-payment-section {
+        padding: 20px;
+    }
+
+    .role-selection {
+        margin: 20px 0;
+    }
+
+    .selected-role-display {
+        padding: 20px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .role-info h3 {
+        font-size: 1.4rem;
+    }
+
+    .role-options {
+        gap: 12px;
+    }
+
+    .role-option {
+        padding: 15px;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .role-icon-small {
+        margin: 0 auto;
+    }
+
+    .role-select-check {
+        margin: 10px auto 0;
+    }
+
+    .explanation-video {
+        padding: 20px;
+    }
+
+    .tour-card-image img {
+        width: 100%;
+        height: auto;
+        max-height: 300px;
+        object-fit: cover;
+    }
+
+    .tour-card-content {
+        padding: 20px;
+    }
+
+    .tour-card-content h3 {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
+
+    .requirements-cards-container {
+        min-height: 400px;
+    }
+
+    .export-options {
+        gap: 10px;
+    }
+
+    .btn-export {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+    }
+
+    .code-display {
+        font-size: 1.2rem;
+        padding: 12px;
+        word-break: break-all;
+    }
+
+    .payment-details {
+        margin-top: 15px;
+        padding-top: 15px;
+    }
+
+    .warning-box {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .checkbox-option {
+        flex-wrap: wrap;
+    }
+
+    .checkbox-option span {
+        font-size: 0.9rem;
     }
 }
 
 @media (max-width: 480px) {
     .main-container {
         padding: 0 8px;
+        margin: 8px auto;
     }
     
     .progress-container {
         padding: 10px 8px;
+        position: relative;
     }
     
     .step-content {
         padding: 15px;
+        border-radius: 8px;
+    }
+    
+    .step-header {
+        margin-bottom: 20px;
     }
     
     .step-header h2 {
         font-size: 1.1rem;
         margin-bottom: 5px;
+        line-height: 1.3;
+    }
+    
+    .step-header h2 i {
+        font-size: 0.9rem;
     }
     
     .step-header p {
         font-size: 0.8rem;
+        line-height: 1.4;
     }
     
     .form-grid {
         gap: 10px;
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full-width {
+        grid-column: 1;
     }
     
     .btn {
-        padding: 8px 12px;
-        font-size: 0.8rem;
-        gap: 5px;
+        padding: 10px 12px;
+        font-size: 0.85rem;
+        gap: 6px;
     }
     
     .btn i {
-        font-size: 0.8rem;
+        font-size: 0.85rem;
     }
     
     .form-group {
@@ -1744,22 +1985,29 @@ body {
     }
     
     .form-group label {
-        margin-bottom: 5px;
+        margin-bottom: 6px;
         font-size: 0.85rem;
+        line-height: 1.3;
+    }
+
+    .form-group label i {
+        font-size: 0.8rem;
     }
     
     .form-group input,
     .form-group select,
     .form-group textarea {
-        padding: 8px 10px;
-        font-size: 0.8rem;
+        padding: 10px 12px;
+        font-size: 0.85rem;
+        border-width: 1.5px;
     }
     
     .code-display-large {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         padding: 12px;
         letter-spacing: 1px;
         margin: 10px 0;
+        word-break: break-all;
     }
     
     .payment-code-info {
@@ -1771,41 +2019,161 @@ body {
         font-size: 0.9rem;
         margin-bottom: 10px;
     }
+
+    .payment-code-info h4 i {
+        font-size: 0.85rem;
+    }
     
     .code-info-text {
         font-size: 0.8rem;
+        line-height: 1.4;
     }
     
     .terms-checkbox {
-        gap: 5px;
+        gap: 6px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .terms-checkbox label {
+        font-size: 0.8rem;
+        line-height: 1.4;
     }
     
     .terms-checkbox input[type="checkbox"] {
         width: 16px;
         height: 16px;
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+    
+    .steps {
+        gap: 3px;
+        padding: 0 5px;
     }
     
     .step {
-        width: 30px;
-        height: 30px;
-        font-size: 0.7rem;
+        width: 28px;
+        height: 28px;
+        font-size: 0.65rem;
     }
     
     .step::after {
-        font-size: 0.65rem;
-        top: -18px;
+        font-size: 0.6rem;
+        top: -16px;
+    }
+
+    .progress-bar {
+        height: 3px;
+        margin-bottom: 15px;
     }
     
+    .tour-card {
+        border-radius: 8px;
+    }
+
     .tour-card-content {
         padding: 15px;
     }
+
+    .tour-card-content h3 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+
+    .tour-card-content p {
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+    }
     
     .role-card {
-        padding: 12px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .role-header h3 {
+        font-size: 1.2rem;
+    }
+
+    .role-features ul {
+        margin-bottom: 15px;
+    }
+
+    .role-features li {
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+    }
+
+    .role-features li i {
+        font-size: 0.8rem;
+    }
+
+    .btn-role-select {
+        padding: 10px;
+        font-size: 0.85rem;
+    }
+
+    .role-badge {
+        font-size: 0.7rem;
+        padding: 4px 10px;
+        top: -8px;
+    }
+    
+    .summary-card {
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .summary-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+
+    .summary-card h3 i {
+        font-size: 1rem;
     }
     
     .summary-grid {
         gap: 10px;
+        grid-template-columns: 1fr;
+    }
+
+    .summary-item {
+        padding: 8px 0;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+
+    .summary-label {
+        font-size: 0.85rem;
+    }
+
+    .summary-value {
+        font-size: 0.9rem;
+        word-break: break-word;
+    }
+
+    .timeline {
+        padding-left: 25px;
+    }
+
+    .timeline::before {
+        left: 8px;
+    }
+
+    .timeline-dot {
+        left: -25px;
+        width: 10px;
+        height: 10px;
+    }
+
+    .timeline-content h4 {
+        font-size: 0.95rem;
+    }
+
+    .timeline-date {
+        font-size: 0.8rem;
     }
     
     .notification {
@@ -1814,32 +2182,434 @@ body {
         left: 10px;
         padding: 12px 15px;
         font-size: 0.85rem;
+        max-width: none;
     }
     
     .modal-content {
-        padding: 15px;
-        width: 98%;
+        padding: 20px 15px;
+        width: 95%;
+        margin: 10px;
+    }
+
+    .modal-icon {
+        font-size: 3rem;
+        margin-bottom: 15px;
+    }
+
+    .modal-content h3 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .modal-content p {
+        font-size: 0.85rem;
+        margin-bottom: 20px;
     }
     
+    .video-container {
+        padding-bottom: 56.25%;
+        border-radius: 6px;
+    }
+
     .video-placeholder {
-        height: 200px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 6px;
     }
     
     .play-button-overlay i {
-        font-size: 3rem;
+        font-size: 2.5rem;
+        margin-bottom: 8px;
     }
     
     .play-button-overlay span {
+        font-size: 0.85rem;
+    }
+
+    .video-description {
+        font-size: 0.85rem;
+        margin-top: 12px;
+    }
+
+    .requirements-progress {
+        padding: 15px;
+    }
+
+    .progress-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        font-size: 0.85rem;
+    }
+
+    .requirements-dots {
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+
+    .req-dot {
+        width: 10px;
+        height: 10px;
+    }
+
+    .tour-dots {
+        gap: 8px;
+        margin-top: 15px;
+    }
+
+    .tour-dot {
+        width: 10px;
+        height: 10px;
+    }
+
+    .method-content {
+        padding: 15px;
+        min-height: 150px;
+    }
+
+    .method-image {
+        width: 60px;
+        height: 40px;
+    }
+
+    .method-content span {
+        font-size: 0.85rem;
+    }
+
+    .selected-role-display {
+        padding: 15px;
+    }
+
+    .role-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    .role-info h3 {
+        font-size: 1.2rem;
+    }
+
+    .role-info p {
+        font-size: 0.85rem;
+    }
+
+    .role-option {
+        padding: 12px;
+    }
+
+    .role-icon-small {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    .role-details h4 {
+        font-size: 0.95rem;
+    }
+
+    .role-details p {
+        font-size: 0.8rem;
+    }
+
+    .explanation-video {
+        padding: 15px;
+    }
+
+    .explanation-video h3 {
+        font-size: 1rem;
+        margin-bottom: 15px;
+    }
+
+    .consultation-container {
+        margin: 15px 0;
+    }
+
+    .payment-section h3,
+    .no-payment-section h3 {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
+
+    .payment-section,
+    .no-payment-section {
+        padding: 15px;
+    }
+
+    .warning-box {
+        padding: 12px;
+        font-size: 0.85rem;
+    }
+
+    .warning-box i {
+        font-size: 1.2rem;
+    }
+
+    .payment-details {
+        margin-top: 15px;
+        padding-top: 15px;
+    }
+
+    .code-display {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .code-instruction {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+
+    .req-header h3 {
+        font-size: 1rem;
+    }
+
+    .req-description {
+        font-size: 0.85rem;
+        line-height: 1.5;
+    }
+
+    .requirement-card {
+        padding: 15px;
+    }
+
+    .requirement-card .req-confirmation {
+        margin-top: 20px;
+    }
+
+    .requirement-card .btn-confirm {
+        padding: 10px;
+        font-size: 0.85rem;
+        min-width: auto;
+    }
+
+    .loading-content p {
         font-size: 0.9rem;
+    }
+
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border-width: 4px;
     }
 }
 
 /* Small-screen performance: disable non-essential animations */
 @media (max-width: 480px) {
     .code-display-large.animate, .tour-card, .role-card, .btn { animation: none !important; transition: none !important; }
+    
+    /* Ensure minimum touch target sizes for mobile (44x44px) */
+    .btn,
+    .btn-confirm,
+    .btn-role-select,
+    .btn-export,
+    .tour-nav-btn,
+    .req-nav-btn {
+        min-height: 44px;
+    }
+
+    .tour-dot,
+    .req-dot {
+        min-width: 44px;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Better spacing for mobile landscape */
+    @media (orientation: landscape) and (max-height: 500px) {
+        .step-content {
+            padding: 12px;
+        }
+
+        .step-header {
+            margin-bottom: 15px;
+        }
+
+        .step-header h2 {
+            font-size: 1rem;
+        }
+
+        .step-header p {
+            font-size: 0.75rem;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+        }
+    }
 }
 
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
     * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
 }
+
+
+
+
+
+
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .site-header {
+            display: flex;
+            width: 100%;
+            height: 150px;
+        }
+
+        .header-left {
+            background-color: #000;
+            width: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            color: #fff;
+            font-weight: bold;
+            font-size: 2.5rem;
+            line-height: 1.1;
+            letter-spacing: 0.05em;
+            width: 100%;
+        }
+
+        .brand-text span {
+            display: block;
+            text-align: center;
+            padding: 5px 0;
+        }
+
+        .brand-text .middle {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .header-right {
+            background-color: #FFE500;
+            width: 70%;
+            display: flex;
+            align-items: center;
+            padding-left: 40px;
+        }
+
+        .brand-name {
+            font-size: 5rem;
+            font-weight: bold;
+            margin: 0;
+            line-height: 1;
+        }
+
+        .brand-name .red {
+            color: #E30613;
+        }
+
+        .brand-name .or {
+            color: #000;
+        }
+
+        .brand-name .dot {
+            color: #000;
+        }
+
+        /* Header Responsive adjustments */
+        @media (max-width: 1024px) {
+            .site-header {
+                height: 120px;
+            }
+            .brand-name {
+                font-size: 4rem;
+            }
+            .brand-text {
+                font-size: 2rem;
+            }
+            .header-right {
+                padding-left: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .site-header {
+                height: auto;
+                min-height: 80px;
+                flex-wrap: wrap;
+            }
+            .header-left {
+                width: 100%;
+                min-height: 60px;
+            }
+            .header-right {
+                width: 100%;
+                padding-left: 20px;
+                padding-right: 20px;
+                min-height: 60px;
+            }
+            .brand-name {
+                font-size: 2.5rem;
+                text-align: center;
+                width: 100%;
+            }
+            .brand-text {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .site-header {
+                flex-direction: column;
+                height: auto;
+            }
+            .header-left,
+            .header-right {
+                width: 100%;
+                justify-content: center;
+                padding: 12px 15px;
+                min-height: 50px;
+            }
+            .header-left {
+                background-color: #000;
+            }
+            .header-right {
+                background-color: #FFE500;
+            }
+            .brand-name {
+                font-size: 1.8rem;
+                padding: 0;
+                text-align: center;
+            }
+            .brand-text {
+                font-size: 1.2rem;
+                line-height: 1.2;
+            }
+            .brand-text span {
+                padding: 3px 0;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .brand-name {
+                font-size: 1.5rem;
+            }
+            .brand-text {
+                font-size: 1rem;
+            }
+            .brand-text span {
+                padding: 2px 0;
+            }
+        }
