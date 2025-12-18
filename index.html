@@ -6,12 +6,15 @@
     <title>Sales</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/jspdf@latest/dist/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
+
 <body>
-   <header class="site-header">
+<header class="site-header">
         <div class="header-left">
             <div class="brand-text">
                 <span>ISOKO</span>
@@ -26,6 +29,7 @@
             </h1>
         </div>
     </header>
+
 
 
     <!-- Navigation Progress Bar -->
@@ -115,7 +119,7 @@
                 <div class="tour-cards-container">
                     <div class="tour-card active" id="tourCard1">
                         <div class="tour-card-image">
-                            <img src="/image/isuzuma.jpg" alt="Company Entrance">
+                            <img src="image/isuzuma.jpg" alt="Company Entrance">
                         </div>
                         <div class="tour-card-content">
                             <h3><i class="fas fa-door-open"></i> 2.1 Isuzuma / consultation</h3>
@@ -126,7 +130,7 @@
                     
                     <div class="tour-card" id="tourCard2">
                         <div class="tour-card-image">
-                            <img src="/image/guichet.jpg" alt="Reception Area">
+                            <img src="image/guichet.jpg" alt="Reception Area">
                         </div>
                         <div class="tour-card-content">
                             <h3><i class="fas fa-hotel"></i>2.2 Aho bishyurira/Guichet/Counter</h3>
@@ -137,7 +141,7 @@
                     
                     <div class="tour-card" id="tourCard3">
                         <div class="tour-card-image">
-                            <img src="/image/graphic design.jpg" alt="Meeting Rooms">
+                            <img src="image/graphic design.jpg" alt="Meeting Rooms">
                         </div>
                         <div class="tour-card-content">
                             <h3><i class="fas fa-users"></i>2.3 Gutegura ibigurishwa n'ibikodeshwa/Content creation & graphic design</h3>
@@ -149,7 +153,7 @@
                     
                     <div class="tour-card" id="tourCard4">
                         <div class="tour-card-image">
-                            <img src="/image/sales consultant.jpg" alt="Office Space">
+                            <img src="image/sales consultant.jpg" alt="Office Space">
                         </div>
                         <div class="tour-card-content">
                             <h3><i class="fas fa-desktop"></i> 2.4 umujyanama w'ubucuruzi/ sales consultatant</h3>
@@ -160,7 +164,7 @@
                     
                     <div class="tour-card" id="tourCard5">
                         <div class="tour-card-image">
-                            <img src="/image/umujyanama mukuru.jpg" alt="Technology Hub">
+                            <img src="image/umujyanama mukuru.jpg" alt="Technology Hub">
                         </div>
                         <div class="tour-card-content">
                             <h3><i class="fas fa-server"></i>2.5 umujyanama mukuru wubucuruzi / senior sales consultatant </h3>
@@ -172,7 +176,7 @@
                     
                     <div class="tour-card" id="tourCard6">
                         <div class="tour-card-image">
-                            <img src="/image/boardroom.jpg" alt="Support Center">
+                            <img src="image/boardroom.jpg" alt="Support Center">
                         </div>
                         <div class="tour-card-content">
                             <h3><i class="fas fa-headset"></i> 2.6 Ahabera inama (gukurikirana) / Boardroom-follow up</h3>
@@ -183,7 +187,7 @@
                     
                     <div class="tour-card" id="tourCard7">
                         <div class="tour-card-image">
-                            <img src="/image/call center.jpg" alt="Future Vision">
+                            <img src="image/call center.jpg" alt="Future Vision">
                         </div>
                         <div class="tour-card-content">
                             <h3><i class="fas fa-rocket"></i> 2.7 Guhamagara no kwitaba / call center</h3>
@@ -238,8 +242,12 @@
                     <div class="req-status" id="status1">Pending</div>
                 </div>
                 <div class="video-container">
+                    <!-- Video preview at 2 seconds -->
+                    <video class="video-preview" preload="metadata" muted>
+                        <source src="video/buysellsguide.mp4" type="video/mp4">
+                    </video>
                     <!-- Video with play button overlay -->
-                    <div class="video-placeholder" onclick="playVideo(this, '/video/buysellsguide.mp4')">
+                    <div class="video-placeholder" onclick="playVideo(this, 'video/buysellsguide.mp4')">
                         <div class="play-button-overlay">
                             <i class="fas fa-play-circle"></i>
                             <span>Click to Play Video</span>
@@ -340,6 +348,10 @@
                     <div class="req-status" id="status4">Pending</div>
                 </div>
                 <div class="video-container">
+                    <!-- Video preview at 2 seconds -->
+                    <video class="video-preview" preload="metadata" muted>
+                        <source src="video/igisubizo.mp4" type="video/mp4">
+                    </video>
                     <!-- Video with play button overlay -->
                     <div class="video-placeholder" onclick="playVideo(this, 'video/igisubizo.mp4')">
                         <div class="play-button-overlay">
@@ -454,6 +466,10 @@
                 <div class="explanation-video">
                     <h3><i class="fas fa-video"></i> Sobanukirwa service zitangwa na buysellorrent muri Video</h3>
                     <div class="video-container">
+                        <!-- Video preview at 2 seconds -->
+                        <video class="video-preview" preload="metadata" muted>
+                            <source src="video/video 2.mp4" type="video/mp4">
+                        </video>
                         <!-- Video with play button overlay -->
                         <div class="video-placeholder" onclick="playVideo(this, 'video/video 2.mp4')">
                             <div class="play-button-overlay">

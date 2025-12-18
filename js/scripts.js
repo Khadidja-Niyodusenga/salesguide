@@ -31,26 +31,93 @@ let paymentConfirmed = false;
 
 // Video play functionality
 function playVideo(element, videoUrl) {
-    // Replace placeholder with iframe
-    const iframe = document.createElement('iframe');
-    iframe.src = `${videoUrl}?autoplay=1&rel=0`;
-    iframe.title = "Video Player";
-    iframe.frameBorder = "0";
-    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture";
-    iframe.allowFullscreen = true;
-    iframe.style.width = "100%";
-    iframe.style.height = "100%";
-    iframe.style.position = "absolute";
-    iframe.style.top = "0";
-    iframe.style.left = "0";
+    const container = element.closest('.video-container');
+    const preview = container.querySelector('.video-preview');
     
-    element.innerHTML = '';
-    element.appendChild(iframe);
+    // Hide preview and placeholder
+    if (preview) {
+        preview.style.display = 'none';
+    }
+    element.style.display = 'none';
+    
+    // Check if video already exists in container (avoid duplicates)
+    const existingVideo = container.querySelector('video:not(.video-preview)');
+    if (existingVideo) {
+        existingVideo.style.display = 'block';
+        existingVideo.play();
+        return;
+    }
+    
+    // Create video element for playback
+    const video = document.createElement('video');
+    video.controls = true;
+    video.autoplay = true;
+    video.playsInline = true;
+    video.style.width = "100%";
+    video.style.height = "100%";
+    video.style.position = "absolute";
+    video.style.top = "0";
+    video.style.left = "0";
+    video.style.objectFit = "contain";
+    video.style.zIndex = "3";
+    
+    // Create source element
+    const source = document.createElement('source');
+    source.src = videoUrl;
+    source.type = "video/mp4";
+    video.appendChild(source);
+    
+    // Add error handling
+    video.addEventListener('error', function(e) {
+        console.error('Video error:', e);
+        alert('Error loading video. Please check the video path: ' + videoUrl);
+    });
+    
+    container.appendChild(video);
+    
+    // Play the video
+    video.play().catch(function(error) {
+        console.error('Video play error:', error);
+        // If autoplay fails, user can click play button
+    });
+}
+
+// Initialize video previews at 2 seconds
+function initializeVideoPreviews() {
+    const videoPreviews = document.querySelectorAll('.video-preview');
+    
+    videoPreviews.forEach(video => {
+        video.addEventListener('loadedmetadata', function() {
+            // Seek to 2 seconds once metadata is loaded
+            if (this.duration >= 2) {
+                this.currentTime = 2;
+            } else if (this.duration > 0) {
+                // If video is shorter than 2 seconds, use half duration
+                this.currentTime = this.duration / 2;
+            }
+        });
+        
+        video.addEventListener('seeked', function() {
+            // Video has been seeked to 2 seconds, show the frame
+            this.style.opacity = '1';
+            this.style.display = 'block';
+        });
+        
+        video.addEventListener('error', function(e) {
+            console.error('Video preview error:', e, this.src);
+            // Hide preview on error, show placeholder
+            this.style.display = 'none';
+        });
+        
+        // Load the video metadata
+        video.load();
+    });
 }
 
 // Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
     initializeProgressBar();
+    initializeVideoPreviews();
     loadUserData();
     updateTourCounter();
     
@@ -603,7 +670,7 @@ function renderPaymentDetails() {
             html = `
                 <div class="payment-code-info">
                     <h4><i class="fas fa-mobile-alt"></i> MTN Mobile Money</h4>
-                    <div class="code-display-large">*182*8*1*046442*xxx#</div>
+                    <div class="code-display-large">0781234567</div>
                     <p class="code-info-text">Send your MTN Mobile Money payment to the number above. After sending, click "I've Paid (Generate Code)" to get a confirmation code and enter it in the confirmation field below.</p>
                 </div>`;
             break;
@@ -818,19 +885,26 @@ function finalizeRoleSelection(roleType) {
     const desc = display.querySelector('.role-info p');
     
     let roleData = {};
+    let roleColor = '';
     switch(roleType) {
         case 'basic':
             roleData = { icon: 'fas fa-star', title: 'Basic Role', desc: 'For individuals getting started', price: '-' };
+            roleColor = 'rgb(4, 156, 62)';
             break;
         case 'standard':
             roleData = { icon: 'fas fa-gem', title: 'Standard Role', desc: 'For growing businesses', price: '-' };
+            roleColor = 'rgb(25, 88, 164)';
             break;
         case 'premium':
             roleData = { icon: 'fas fa-crown', title: 'Premium Role', desc: 'For enterprise solutions', price: '-' };
+            roleColor = 'rgb(238, 181, 11)';
             break;
     }
     
     icon.className = roleData.icon;
+    if (icon) {
+        icon.style.color = roleColor;
+    }
     title.textContent = roleData.title;
     desc.textContent = roleData.desc;
 
@@ -838,7 +912,20 @@ function finalizeRoleSelection(roleType) {
     const selectedPriceEl = document.getElementById('selectedRolePrice');
     if (selectedPriceEl) selectedPriceEl.textContent = roleData.price;
     
-    // Finalize selection: set role, save, enable Next and lock selection
+    // Add selected class to display container and update border color
+    if (display) {
+        display.classList.add('selected');
+        display.style.borderColor = roleColor;
+    }
+    
+    // Update role icon background color
+    const roleIconDiv = display.querySelector('.role-icon');
+    if (roleIconDiv) {
+        roleIconDiv.style.backgroundColor = roleColor + '15'; // Add transparency
+        roleIconDiv.style.color = roleColor;
+    }
+    
+    // Finalize selection: set role, save, enable Next
     userData.role.selected = roleType;
     userData.role.price = roleData.price;
     userData.role.date = new Date().toLocaleString();
@@ -849,10 +936,7 @@ function finalizeRoleSelection(roleType) {
     const nextBtn = document.getElementById('step6Next');
     if (nextBtn) nextBtn.disabled = false;
 
-    // Disable further changes to role options
-    document.querySelectorAll('.role-option').forEach(option => {
-        option.style.pointerEvents = 'none';
-    });
+    // Allow users to change selection - users can now change between basic, standard, and premium as needed
 }
 
 function validateRoleSelection() {
@@ -1217,6 +1301,7 @@ function resetForm() {
 // Add this to the existing initialize function
 document.addEventListener('DOMContentLoaded', function() {
     initializeProgressBar();
+    initializeVideoPreviews();
     loadUserData();
     updateTourCounter();
     
