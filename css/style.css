@@ -2951,3 +2951,72 @@ img {
         padding: 12px;
     }
 }
+
+/* ===== Clear Mobile Layout Overrides ===== */
+@media (max-width: 768px) {
+    .main-container {
+        padding: 0 12px;
+    }
+
+    .step-content {
+        padding: 18px;
+    }
+
+    .step-header h2 {
+        font-size: 1.35rem;
+        line-height: 1.2;
+    }
+
+    .step-header p {
+        font-size: 0.95rem;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .button-group .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .requirements-container {
+        grid-template-columns: 1fr;
+    }
+
+    .roles-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .role-options {
+        grid-template-columns: 1fr;
+    }
+
+    .selected-role-display {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .tour-card.active {
+        grid-template-columns: 1fr;
+    }
+
+    .tour-cards-container {
+        min-height: 0;
+    }
+
+    .table-container {
+        padding: 12px 0;
+    }
+
+    .table-container table {
+        min-width: 520px;
+    }
+}
