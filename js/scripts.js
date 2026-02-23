@@ -25,7 +25,7 @@ const userData = {
 };
 
 // Current step management
-let currentStep = 1;
+let currentStep = 2;
 let currentTourCard = 1;
 let paymentConfirmed = false;
 
@@ -1151,11 +1151,11 @@ function resetForm() {
         }
     }
     
-    currentStep = 1;
+    currentStep = 2;
     currentTourCard = 1;
     paymentConfirmed = false;
     
-    goToStep(1);
+    goToStep(2);
     updateTourDisplay();
     
     document.querySelectorAll('.btn-next').forEach(btn => {

@@ -2500,14 +2500,14 @@ img {
 .btn-confirm.yes i.fas.fa-check { color: #ffffff; }
 .btn-confirm.no i.fas.fa-times { color: #ffffff; }
 
-/* Tour Card Icons */
-.tour-card-content h3 i.fas.fa-door-open { color: #3b82f6; }
-.tour-card-content h3 i.fas.fa-hotel { color: #10b981; }
-.tour-card-content h3 i.fas.fa-users { color: #f59e0b; }
+/* Tour Card Icons (match current HTML icon classes) */
+.tour-card-content h3 i.fas.fa-user-check { color: #3b82f6; }
+.tour-card-content h3 i.fas.fa-comments-dollar { color: #10b981; }
+.tour-card-content h3 i.fas.fa-video { color: #f59e0b; }
 .tour-card-content h3 i.fas.fa-desktop { color: #8b5cf6; }
-.tour-card-content h3 i.fas.fa-server { color: #6366f1; }
-.tour-card-content h3 i.fas.fa-headset { color: #ec4899; }
-.tour-card-content h3 i.fas.fa-rocket { color: #ef4444; }
+.tour-card-content h3 i.fas.fa-user-tie { color: #6366f1; }
+.tour-card-content h3 i.fas.fa-users { color: #ec4899; }
+.tour-card-content h3 i.fas.fa-headset { color: #ef4444; }
 
 /* Requirement Card Icons */
 .req-header h3 i.fas.fa-file-contract { color: #3b82f6; }

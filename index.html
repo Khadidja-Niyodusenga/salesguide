@@ -31,21 +31,21 @@
 <div class="progress-container">
     <div class="progress-bar" id="progressBar"></div>
     <div class="steps">
-        <div class="step active" data-step="1">1</div>
-        <div class="step" data-step="2">2</div>
-        <div class="step" data-step="3">3</div>
-        <div class="step" data-step="4">4</div>
-        <div class="step" data-step="5">5</div>
-        <div class="step" data-step="6">6</div>
-        <div class="step" data-step="7">7</div>
-        <div class="step" data-step="8">8</div>
+        <div class="step" data-step="1" style="display:none;">0</div>
+        <div class="step active" data-step="2">1</div>
+        <div class="step" data-step="3">2</div>
+        <div class="step" data-step="4">3</div>
+        <div class="step" data-step="5">4</div>
+        <div class="step" data-step="6">5</div>
+        <div class="step" data-step="7">6</div>
+        <div class="step" data-step="8" style="display:none;">7</div>
     </div>
 </div>
 
 <!-- Main Container -->
 <div class="main-container">
     <!-- Step 1: Client Registration (unchanged) -->
-    <div class="step-content active" id="step1">
+    <div class="step-content" id="step1" style="display:none;">
         <div class="step-header">
             <h2><i class="fas fa-user-plus"></i> Step 1: Kwiyandikisha / Client Registration</h2>
             <p>Please fill in your details to register/ Uzuza umwirondoro</p>
@@ -99,7 +99,7 @@
     </div>
 
     <!-- Step 2: New Table (from source code) -->
-    <div class="step-content" id="step2">
+    <div class="step-content active" id="step2">
         <div class="step-header">
             <h2><i class="fas fa-table"></i> Step 2: Kuva muri Gakondo/Traditional Tujya muri Technology</h2>
             <p>Reba uko technology yagiye ihindura ibintu</p>
@@ -109,67 +109,80 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Consequences</th>
-                        <th>GAKONDO <br> Traditional</th>
-                        <th>Ikoranabuhanga <br> Technology </th>
-                        <th>Inyungu <br> Benefit</th>
+                        <th>GAKONDO <br> Byari byiza</th>
+                        <th>GAKONDO ingaruka nizo nyishi</th>
+                        
+                        <th>IKORANABUHANGA <br> Technology </th>
+                        <th>INYUNGU <br> Benefit</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- ROW 1 -->
                     <tr>
-                        <td>- Kwishyirwa nabi </td>
                         <td>- Kwishyura Nyuma</td>
-                        <td>- Kwishyura Mbere</td>
-                        <td>- Birihuta NtaGutinda</td>
+                        <td>- Gutinda cyangwa guhomba burundu </td>
+                        
+                        <td>- Ryubakishwa amafaranga</td>
+                        <td>- Kwihuta <br> - Kwishyura mbere </td>
                         
                     </tr>
                     <!-- ROW 2 -->
                     <tr>
-                        <td>- Ntibikora igihe cyose / Limited hours of work </td>
-                        <td>- Habamo Amarangamutima <br> - Nyuma-Gutinda </td>
-                        <td>- Igisubizo BuySellorRent.com <br><img src="image/buysellorrent-logo.png" alt="buysellorrent-logo"> </td>
-                        <td>- Amasaha 24/7 Access to service <br> - Birizewe / Trused</td>
+                        
+                        <td>- Habamo Amarangamutima <br> - Negotiations zirashoboka </td>
+                        <td>- Kwamburwa </td>
+
+                        <td> <h1>Isoko</h1></td>
+                        <td>- Icyizere cyiri hejuru cyane cyo kubona umusaruro<br>- NTA marangamutima - NTA negotiations - NTA kwambura uwaguhaye service</td>
                         
                     </tr>
                     <!-- ROW 3 -->
                     <tr>
-                        <td>-Ntibikora neza / Inefficiency <br>- Gutakaza igihe/ time wastage </td>
-                        <td>- Convoyeur <br> -Gukata amatike / Ticket</td>
+                        
+                        <td>- Convoyeur umwishyura ugeze aho ugiye <br>- Wakwinginga convoyeur ukakumva<br>- Kugera aho ugiye ukambura convoyeur uti NTA mafaranga</td>
+                        <td>- Kugenda uhagarara bari kuvunjisha nugiye bank / kwa muganga bagategereza </td>
+
                         <td><img src="image/tap&go.png" alt="tap&go"></td>
-                        <td>- Irihuta <br> - Irizewe <br> - Isuku</td>
+                        <td>- Ikizere kiri hejuru cyane cyo kugera aho ugiye <br> - Ntabwo bagutwara niyo waba ugiye kwa muganga <br> - NTA kugabanyisha ibiciro<br>- Nta kwambura company</td>
                         
                     </tr>
                     <!-- ROW 4 -->
                     <tr>
-                        <td>-Umuvuzi umwe mugace <br> - Ubushobozi buke <br>- Ntabikorwa remezo <br> - Impfu za hato na hato</td>
-                        <td>-Umuvuzi Gakondo </td>
+                        
+                        <td>-Umuvuzi Gakondo <br>- Wishyura aruko warwaye <br> - Amarangamutima: wakwinginga ngo nzishyura ninkira </td>
+                        <td>-Umuvuzi umwe (Local) <br> - Urwariye nyagatare usubiye irusizi kwivuza </td>
+
                         <td><img src="image/mutuel.png" alt="mutuel"></td>
-                        <td>- Ubwisungane mukwivuza <br> - Ibitaro hafi yawe <br>- kwishura byoroshye kandi make</td>
+                        <td>-Ikizere Kubona umuganga byihuse mugihugu hose<br>- Nta kugabanyisha ibiciro <br> - Ntabwo wakwambura mutuel </td>
                         
                     </tr>
                     <!-- ROW 5 -->
                     <tr>
-                        <td>-Kugarura-Kuvunjisha / Slow transaction <br>- Bigatinda/ Time consuming</td>
-                        <td>- Courrier </td>
+                        
+                        <td>- Amarangamutima ushobora kumuhemba cyangwa ntumuhembe </td>
+                        <td>- Incuti umuvandimwe cyangwa courrier <br>- Kuyata no kumwiba cyangwa akakubeshya</td>
+
                         <td><img src="image/mtn.png" alt="MoMo"></td>
-                        <td>-Kwishyurwa hakoreshejwe ikoranabuhanga/ Digital payment <br>- Mobile Money Payment <br> - Bank transfer</td>
+                        <td>- Ikizere cyo kohereza no kwakira amafaranga mugihugu hose <br>- Ntabwo wakwambura MTN </td>
                         
                     </tr>
                     <!-- ROW 6 -->
                     <tr>
-                        <td>-Gutinda/ Delay <br>- Kujajara mubiro/ Beurocracy <br>- Gutinda kumirenge</td>
-                        <td>- Uruhererekane Rw'abakozi </td>
+                        
+                        <td>-Amarangamutima: Washoboraga kwinginga umukozi akihutisha dosiye</td>
+                        <td>- Umukozi ubikoramo ntiyaje <br>- Gutaha utabonye icyangombwa ngo uzagaruke </td>
+
                         <td><img src="image/irembo.png" alt="irembo"></td>
-                        <td>- Serivice zihuta/ Increase access to service</td>
+                        <td>- Ikizere cyo gusabira icyangombwa ahariho hose mugihugu<br> - NTA kugabanyisha ibiciro <br> - Ntabwo icyangombwa utishyuye<br>- NTA kwambura irembo(leta)</td>
                         
                     </tr>
                     <!-- ROW 7 -->
                     <tr>
-                        <td>- Gutinda Guhabwa service/ Delay <br>- Kujarajara ushakisha</td>
-                        <td>- Commissionaire</td>
+                        <td>- Kwishyura nyuma umukomisiyoneri <br>- Amarangamutina: wamwinginga ngo agushakire umukiriya akakumva</td>
+                        <td>- Gutinda <br>- Aho yirukiye gushakira aya visit/transport urategereza <br>- NTA internet - NTA amainite - Yasinze - igihe aryamye nibindi Urategereza</td>
+                        
                         <td><img src="image/buysellorrent-logo.png" alt="buysellorrent-logo"></td>
-                        <td>- Serivice zihuta/ Access to service <br> - Biroroshye kutubona</td>
+                        <td>- Ikizere cyo kubona umukiriya uturutse kwisi yose igihe cyose <br> - Ureba icyo ugurisha amasaha 24/7<br>- NTA kugabanyisha ibiciro nta kwambura isoko amategeko nambabwirizwa birakurikizwa</td>
                     </tr>
                 </tbody>
             </table>
@@ -184,7 +197,7 @@
     <!-- Step 3: Company Tour (moved from old Step 2) -->
     <div class="step-content" id="step3">
         <div class="step-header">
-            <h2><i class="fas fa-building"></i> Step 3: Company Tour</h2>
+            <h2><i class="fas fa-building"></i> Step 2: Company Tour</h2>
             <p>Explore our company through this interactive tour</p>
         </div>
         
@@ -202,8 +215,19 @@
                     </div>
                     <div class="tour-card-content">
                         <h3><i class="fas fa-user-check"></i> 2.1 Isuzuma / consultation</h3>
-                        <p>Consultation: kuberiki</p>
-                        <p>Consultation:amategeko n'amabwiriza</p>
+                        <p>VIDEO</p>
+                        <p>Video ntacyo igabanya nkumukozi unaniwe ntanubwo yakubeshya ntanicyo yakongeraho ikubeshya kugirango wishyure abantu bose bahabwa amakuru angana</p>
+                        <h3>2.1.1 kuberiki consultation</h3>
+                        <ul>
+                            <li>Transiporo kujya gusura no gufotora</li>
+                            <li> Umwanya wibibazo</li>
+                        </ul>
+                        <h3>2.1.2 Consultation: amategeko n'amabwiriza</h3>
+                        <ul>
+                            <li>Consultation isanzwe (kugenda ukagaruka 100000rwf) uyumunsi 50000rwf</li>
+                            <li> Guhabwa ibisubizo rusange</li>
+                        </ul>
+                        
                     </div>
                 </div>
                 <div class="tour-card" id="tourCard2">
@@ -214,6 +238,8 @@
                         <h3><i class="fas fa-comments-dollar"></i>2.2 Aho bishyurira/Guichet/Counter</h3>
                         <p>Uburyo bwokwishyura bwose buremewe</p>
                         <p>facture/EBM</p>
+                        <p>Service zizewe</p>
+                        <h3 style="color:red"> <i class="fa "></i> wahabwa service ya EBM kuri service zitizewe ?</h3>
                     </div>
                 </div>
                 <div class="tour-card" id="tourCard3">
@@ -225,6 +251,7 @@
                         <p>amafoto / pictures</p>
                         <p>gusemura / Translation</p>
                         <p>urwego mpuzamahanga / International standard</p>
+                        <h3 style="color:red"> <i class="fa "></i> Company yategura ibi byose utarishyura consultation ?</h3>
                     </div>
                 </div>
                 <div class="tour-card" id="tourCard4">
@@ -235,6 +262,7 @@
                         <h3><i class="fas fa-desktop"></i> 2.4 umujyanama w'ubucuruzi/ sales consultatant</h3>
                         <p>Agaciro kw'isoko / market value</p>
                         <p>amahitamo / service choice</p>
+                        <h3 style="color:red"> <i class="fa "></i> Company yakugira inama utarishyura consultation ?</h3>
                     </div>
                 </div>
                 <div class="tour-card" id="tourCard5">
@@ -242,10 +270,11 @@
                         <img src="image/umujyanama mukuru.jpg" alt="Technology Hub">
                     </div>
                     <div class="tour-card-content">
-                        <h3><i class="fas fa-user-tie"></i>2.5 umujyanama mukuru wubucuruzi / senior sales consultatant </h3>
+                        <h3><i class="fas fa-user-tie"></i>2.5 umujyanama mukuru wubucuruzi / senior sales consultant </h3>
                         <p>company ntoya/small medium enterprise (SME)</p>
                         <p>company nini/large companies & factories</p>
-                        <p>coprate clients (bank insurancy)</p>
+                        <p>corporate clients (bank insurance)</p>
+                        <h3 style="color:red"> <i class="fa "></i> Umukiriya aje kurubuga yarazanywe nizindi service urugero sale y'ubukwe cyangwa bureaun de change igaraje ahise areba inzu, ikibanza/ imodoka yawe akaguhamagara wamusubiza inyuma  ?</h3>
                     </div>
                 </div>
                 <div class="tour-card" id="tourCard6">
@@ -265,6 +294,7 @@
                     <div class="tour-card-content">
                         <h3><i class="fas fa-headset"></i> 2.7 Guhamagara no kwitaba / call center</h3>
                         <p>Uwo mwavuganaga akorera aha ashinzwe gufata gahunda <br> gahunda no kuzikurikirana gusa ntabwo yakira abakiriya imbonankubone</p>
+                        <h3 style="color:red"> <i class="fa "></i> Company yitaba kandi igahamagara abakiriya barenga million kumwaka mubakiriya ibihumbi 7 cyangwa 10 haburamo abakiriya hagati ya 7 na 10 yaguhuza nabo ?</h3>
                     </div>
                 </div>
             </div>
@@ -664,7 +694,7 @@
     </div>
 
     <!-- Step 8: Summary & Export (old Step 7) -->
-    <div class="step-content" id="step8">
+    <div class="step-content" id="step8" style="display:none;">
         <div class="step-header">
             <h2><i class="fas fa-file-alt"></i> Step 8: Summary & Export</h2>
             <p>Review all your information and export</p>
