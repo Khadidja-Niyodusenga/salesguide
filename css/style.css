@@ -2713,3 +2713,241 @@ img {
                 padding: 2px 0;
             }
         }
+
+
+
+
+/* ===== Table for Step 2 ===== */
+.table-container {
+  width: 100%;
+  padding: 20px;
+  margin-top: 30px; /* space after tour dots */
+  overflow-x: auto; /* enables horizontal scroll on small screens */
+}
+
+.table-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-container th {
+  background: #9fc2b8;
+  padding: 12px;
+  border: 2px solid #222;
+}
+
+.table-container td {
+  border: 2px solid #222;
+  height: 120px;
+  padding: 10px;
+  vertical-align: top;
+  user-select: none;
+}
+
+/* Second column images */
+.table-container td:nth-child(2) img {
+  max-width: 80px;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+}
+
+/* Optional empty cell style */
+.table-container td:empty::before {
+  content: "—";
+  color: #ccc;
+}
+
+
+
+/* ===== Progress Bar for 8 Steps ===== */
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 12.5%; /* 1/8 */
+    background: var(--primary-color);
+    transition: var(--transition);
+}
+
+.progress-bar.step2::after { width: 25%; }
+.progress-bar.step3::after { width: 37.5%; }
+.progress-bar.step4::after { width: 50%; }
+.progress-bar.step5::after { width: 62.5%; }
+.progress-bar.step6::after { width: 75%; }
+.progress-bar.step7::after { width: 87.5%; }
+.progress-bar.step8::after { width: 100%; }
+
+/* ===== Table for Step 2 ===== */
+.table-container {
+    width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+    overflow-x: auto; /* horizontal scroll on small screens */
+}
+
+.table-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-container th {
+    background: #9fc2b8;
+    padding: 12px;
+    border: 2px solid #222;
+}
+
+.table-container td {
+    border: 2px solid #222;
+    height: 120px;
+    padding: 10px;
+    vertical-align: top;
+    user-select: none;
+}
+
+/* Second column images */
+.table-container td:nth-child(2) img {
+    max-width: 80px;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+}
+
+/* Optional empty cell style */
+.table-container td:empty::before {
+    content: "—";
+    color: #ccc;
+}
+/* ===== Mobile Responsiveness Enhancements ===== */
+@media (max-width: 600px) {
+    body {
+        overflow-x: hidden;
+    }
+
+    .progress-container {
+        position: relative;
+    }
+
+    .steps {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        gap: 8px;
+        padding: 0 6px 6px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .steps::-webkit-scrollbar {
+        height: 6px;
+    }
+
+    .steps::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 999px;
+    }
+
+    .step {
+        flex: 0 0 auto;
+    }
+
+    .table-container {
+        padding: 12px 0;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table-container table {
+        min-width: 520px;
+    }
+
+    .site-header {
+        text-align: center;
+    }
+
+    .brand-name {
+        line-height: 1.1;
+        word-break: break-word;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+        font-size: 16px;
+    }
+}
+
+/* Galaxy S8 (360px wide) tweaks */
+@media (max-width: 360px) {
+    .main-container {
+        padding: 0 6px;
+        margin: 6px auto;
+    }
+
+    .progress-container {
+        padding: 8px 6px;
+    }
+
+    .step-content {
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+    }
+
+    .site-header {
+        min-height: 90px;
+    }
+
+    .header-left,
+    .header-right {
+        padding: 10px 12px;
+    }
+
+    .brand-name {
+        font-size: 1.4rem;
+    }
+
+    .brand-text {
+        font-size: 1rem;
+    }
+
+    .step {
+        width: 26px;
+        height: 26px;
+        font-size: 0.6rem;
+    }
+
+    .step::after {
+        top: -14px;
+        font-size: 0.55rem;
+    }
+
+    .table-container table {
+        min-width: 420px;
+    }
+
+    .btn,
+    .btn-confirm,
+    .btn-role-select,
+    .btn-export,
+    .tour-nav-btn,
+    .req-nav-btn {
+        font-size: 0.8rem;
+    }
+
+    .button-group {
+        gap: 8px;
+    }
+
+    .table-container th,
+    .table-container td {
+        font-size: 0.8rem;
+    }
+
+    .role-card,
+    .requirement-card,
+    .summary-card {
+        padding: 12px;
+    }
+}

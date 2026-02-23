@@ -34,13 +34,11 @@ function playVideo(element, videoUrl) {
     const container = element.closest('.video-container');
     const preview = container.querySelector('.video-preview');
     
-    // Hide preview and placeholder
     if (preview) {
         preview.style.display = 'none';
     }
     element.style.display = 'none';
     
-    // Check if video already exists in container (avoid duplicates)
     const existingVideo = container.querySelector('video:not(.video-preview)');
     if (existingVideo) {
         existingVideo.style.display = 'block';
@@ -48,7 +46,6 @@ function playVideo(element, videoUrl) {
         return;
     }
     
-    // Create video element for playback
     const video = document.createElement('video');
     video.controls = true;
     video.autoplay = true;
@@ -61,13 +58,11 @@ function playVideo(element, videoUrl) {
     video.style.objectFit = "contain";
     video.style.zIndex = "3";
     
-    // Create source element
     const source = document.createElement('source');
     source.src = videoUrl;
     source.type = "video/mp4";
     video.appendChild(source);
     
-    // Add error handling
     video.addEventListener('error', function(e) {
         console.error('Video error:', e);
         alert('Error loading video. Please check the video path: ' + videoUrl);
@@ -75,10 +70,8 @@ function playVideo(element, videoUrl) {
     
     container.appendChild(video);
     
-    // Play the video
     video.play().catch(function(error) {
         console.error('Video play error:', error);
-        // If autoplay fails, user can click play button
     });
 }
 
@@ -88,28 +81,23 @@ function initializeVideoPreviews() {
     
     videoPreviews.forEach(video => {
         video.addEventListener('loadedmetadata', function() {
-            // Seek to 2 seconds once metadata is loaded
             if (this.duration >= 2) {
                 this.currentTime = 2;
             } else if (this.duration > 0) {
-                // If video is shorter than 2 seconds, use half duration
                 this.currentTime = this.duration / 2;
             }
         });
         
         video.addEventListener('seeked', function() {
-            // Video has been seeked to 2 seconds, show the frame
             this.style.opacity = '1';
             this.style.display = 'block';
         });
         
         video.addEventListener('error', function(e) {
             console.error('Video preview error:', e, this.src);
-            // Hide preview on error, show placeholder
             this.style.display = 'none';
         });
         
-        // Load the video metadata
         video.load();
     });
 }
@@ -121,17 +109,14 @@ document.addEventListener('DOMContentLoaded', function() {
     loadUserData();
     updateTourCounter();
     
-    // Set current date for registration
     userData.timeline.registration = new Date().toLocaleString();
     
-    // Load saved data from localStorage
     const savedData = localStorage.getItem('userRegistrationData');
     if (savedData) {
         Object.assign(userData, JSON.parse(savedData));
         updateUIFromData();
     }
 
-    // Prevent the form from submitting with Enter or default submit
     const regForm = document.getElementById('registrationForm');
     if (regForm) {
         regForm.addEventListener('submit', function(e) { e.preventDefault(); });
@@ -184,28 +169,24 @@ function prevStep(step) {
 }
 
 function goToStep(stepNumber) {
-    // Hide all steps
     document.querySelectorAll('.step-content').forEach(step => {
         step.classList.remove('active');
     });
     
-    // Show selected step
     const stepElement = document.getElementById(`step${stepNumber}`);
     if (stepElement) {
         stepElement.classList.add('active');
         currentStep = stepNumber;
         updateProgressBar();
         
-        // Initialize requirements if step 3
-        if (stepNumber === 3) {
+        // Initialize requirements if step 4 (was step 3)
+        if (stepNumber === 4) {
             initializeRequirements();
         }
         
-        // Scroll to top of step
         window.scrollTo({ top: 0, behavior: 'smooth' });
         
-        // Update summary if on step 7
-        if (stepNumber === 7) {
+        if (stepNumber === 8) {
             updateSummary();
         }
     }
@@ -215,20 +196,20 @@ function validateCurrentStep() {
     switch (currentStep) {
         case 1:
             return validateRegistrationForm();
-        case 3:
+        case 4: // old step 3
             return validateRequirements();
-        case 4:
+        case 5: // old step 4
             return validatePayment();
-        case 5:
+        case 6: // old step 5
             return true; // Always valid
-        case 6:
+        case 7: // old step 6
             return validateRoleSelection();
         default:
             return true;
     }
 }
 
-// Step 1: Registration Form
+// Step 1: Registration Form (unchanged)
 function validateRegistrationForm() {
     const form = document.getElementById('registrationForm');
     const requiredFields = form.querySelectorAll('[required]');
@@ -237,7 +218,6 @@ function validateRegistrationForm() {
 
     requiredFields.forEach(field => {
         let valid = true;
-        // Handle checkboxes explicitly
         if (field.type === 'checkbox') {
             if (!field.checked) valid = false;
         } else {
@@ -254,7 +234,6 @@ function validateRegistrationForm() {
     });
     
     if (firstInvalid) {
-        // focus the first invalid control for better UX
         try { firstInvalid.focus(); } catch(e) {}
     }
     
@@ -268,7 +247,6 @@ function validateRegistrationForm() {
 }
 
 function saveRegistrationData() {
-    const form = document.getElementById('registrationForm');
     userData.personal = {
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
@@ -279,13 +257,12 @@ function saveRegistrationData() {
         acceptableDocument: document.getElementById('acceptableDocument').value
     };
     
-    // Save to localStorage
     saveToLocalStorage();
-    
     showNotification('Registration data saved successfully', 'success');
 }
 
-// Step 2: Company Tour
+// Step 2: (Table – no JS needed)
+// Step 3: Company Tour (unchanged)
 function nextTourCard() {
     if (currentTourCard < 7) {
         currentTourCard++;
@@ -306,21 +283,17 @@ function goToTourCard(cardNumber) {
 }
 
 function updateTourDisplay() {
-    // Hide all cards
     document.querySelectorAll('.tour-card').forEach(card => {
         card.classList.remove('active');
     });
     
-    // Show current card
     const currentCard = document.getElementById(`tourCard${currentTourCard}`);
     if (currentCard) {
         currentCard.classList.add('active');
     }
     
-    // Update counter
     updateTourCounter();
     
-    // Update dots
     document.querySelectorAll('.tour-dot').forEach((dot, index) => {
         dot.classList.remove('active');
         if (index === currentTourCard - 1) {
@@ -340,14 +313,12 @@ function updateTourCounter() {
 let currentRequirement = 1;
 const totalRequirements = 4;
 
-// Initialize requirements when step 3 loads
 function initializeRequirements() {
     currentRequirement = 1;
     updateRequirementDisplay();
     updateRequirementsProgress();
 }
 
-// Requirement Navigation Functions
 function nextRequirement() {
     if (currentRequirement < totalRequirements) {
         currentRequirement++;
@@ -368,18 +339,15 @@ function goToRequirement(reqNumber) {
 }
 
 function updateRequirementDisplay() {
-    // Hide all requirement cards
     document.querySelectorAll('.requirement-card').forEach(card => {
         card.classList.remove('active');
         card.style.animation = 'slideInRight 0.5s ease';
     });
     
-    // Show current requirement card
     const currentCard = document.getElementById(`reqCard${currentRequirement}`);
     if (currentCard) {
         currentCard.classList.add('active');
         
-        // Set animation direction based on navigation
         if (currentRequirement > 1) {
             currentCard.style.animation = 'slideInRight 0.5s ease';
         } else {
@@ -387,15 +355,12 @@ function updateRequirementDisplay() {
         }
     }
     
-    // Update counter
     updateRequirementCounter();
     
-    // Update dots
     document.querySelectorAll('.req-dot').forEach((dot, index) => {
         const reqNumber = index + 1;
         dot.classList.remove('active');
         
-        // Add completed class if requirement is confirmed
         if (reqNumber === 1 && userData.requirements.terms) {
             dot.classList.add('completed');
         } else if (reqNumber === 2 && userData.requirements.money) {
@@ -411,7 +376,6 @@ function updateRequirementDisplay() {
         }
     });
     
-    // Update navigation buttons
     const prevBtn = document.querySelector('.req-nav-btn:first-child');
     const nextBtn = document.querySelector('.req-nav-btn:last-child');
     
@@ -424,7 +388,6 @@ function updateRequirementDisplay() {
         nextBtn.disabled = currentRequirement === totalRequirements;
         nextBtn.style.opacity = currentRequirement === totalRequirements ? '0.5' : '1';
         
-        // Update next button text for last requirement
         if (currentRequirement === totalRequirements) {
             nextBtn.innerHTML = 'Complete <i class="fas fa-check"></i>';
         } else {
@@ -466,14 +429,12 @@ function updateRequirementsProgress() {
         progressFill.style.width = `${percentage}%`;
     }
     
-    // Enable/disable next step button based on completion
-    const step3NextBtn = document.getElementById('step3Next');
-    if (step3NextBtn) {
-        step3NextBtn.disabled = completedCount < totalRequirements;
+    const step4NextBtn = document.getElementById('step4Next'); // was step3Next
+    if (step4NextBtn) {
+        step4NextBtn.disabled = completedCount < totalRequirements;
     }
 }
 
-// Modified confirmRequirement function
 function confirmRequirement(reqNumber, confirmed) {
     const statusElement = document.getElementById(`status${reqNumber}`);
     const cardElement = document.getElementById(`reqCard${reqNumber}`);
@@ -484,7 +445,6 @@ function confirmRequirement(reqNumber, confirmed) {
         cardElement.classList.add('completed');
         cardElement.classList.remove('failed');
         
-        // Update user data
         switch(reqNumber) {
             case 1:
                 userData.requirements.terms = true;
@@ -502,7 +462,6 @@ function confirmRequirement(reqNumber, confirmed) {
         
         showNotification('Requirement confirmed successfully!', 'success');
         
-        // Auto-advance to next requirement if not the last one
         if (reqNumber < totalRequirements) {
             setTimeout(() => {
                 nextRequirement();
@@ -517,7 +476,6 @@ function confirmRequirement(reqNumber, confirmed) {
         
         showNotification('Requirement not confirmed', 'error');
         
-        // If requirement 1 or 2 is not confirmed, show warning
         if (reqNumber === 1 || reqNumber === 2) {
             setTimeout(() => {
                 showNotification('You must complete all requirements to proceed', 'warning');
@@ -525,10 +483,8 @@ function confirmRequirement(reqNumber, confirmed) {
         }
     }
     
-    // Update progress
     updateRequirementsProgress();
     
-    // Update dots to show completed status
     const dot = document.querySelectorAll('.req-dot')[reqNumber - 1];
     if (dot && confirmed) {
         dot.classList.add('completed');
@@ -536,10 +492,7 @@ function confirmRequirement(reqNumber, confirmed) {
         dot.classList.remove('completed');
     }
     
-    // Save to localStorage
     saveToLocalStorage();
-    
-    // Check if all requirements are completed
     checkRequirementsCompletion();
 }
 
@@ -548,7 +501,6 @@ function getSelectedPaymentMethod() {
     return selectedMethod ? selectedMethod.value : null;
 }
 
-// Modified selectPaymentMethod function
 function selectPaymentMethod(method) {
     const methodNames = {
         'momo': 'Bank Transfer',
@@ -560,7 +512,6 @@ function selectPaymentMethod(method) {
     
     userData.requirements.paymentMethod = method;
     showNotification(`${methodNames[method]} payment method selected`, 'success');
-    // Clear any previously generated payment confirmation code when method changes
     if (userData.payment && userData.payment.generatedCode) {
         delete userData.payment.generatedCode;
         const paymentCodeContainer = document.getElementById('paymentCodeContainer');
@@ -575,8 +526,6 @@ function selectPaymentMethod(method) {
         if (paidBtn) paidBtn.disabled = false;
     }
     saveToLocalStorage();
-    
-    // Update progress
     updateRequirementsProgress();
 }
 
@@ -616,7 +565,7 @@ function validateRequirements() {
     return true;
 }
 
-// Step 4: Consultation Payment
+// Step 5: Consultation Payment (old step 4)
 function togglePaymentDetails() {
     const directPayment = document.getElementById('directPayment');
     const paymentDetails = document.getElementById('paymentDetails');
@@ -626,18 +575,16 @@ function togglePaymentDetails() {
         renderPaymentDetails();
     } else {
         paymentDetails.style.display = 'none';
-        const confirmBtn = document.getElementById('step4Next');
+        const confirmBtn = document.getElementById('step5Next'); // was step4Next
         if (confirmBtn) {
             confirmBtn.disabled = true;
         }
     }
 }
 
-// Render payment details based on previously selected method
 function renderPaymentDetails() {
     const method = userData.requirements.paymentMethod || getSelectedPaymentMethod();
     const container = document.getElementById('selectedPaymentDetails');
-    const paymentDetails = document.getElementById('paymentDetails');
 
     if (!container) return;
 
@@ -645,9 +592,8 @@ function renderPaymentDetails() {
         container.innerHTML = `
             <div class="payment-code-info">
                 <h4><i class="fas fa-exclamation-circle"></i> No payment method selected</h4>
-                <p class="code-info-text">Please choose a payment method in Step 3 before proceeding. <button class="btn btn-secondary" onclick="prevStep(3)">Choose Method</button></p>
+                <p class="code-info-text">Please choose a payment method in Step 3 before proceeding. <button class="btn btn-secondary" onclick="prevStep(4)">Choose Method</button></p>
             </div>`;
-        // disable actions
         document.getElementById('paidBtn').disabled = true;
         document.getElementById('changeMethodBtn').disabled = false;
         return;
@@ -655,7 +601,6 @@ function renderPaymentDetails() {
 
     document.getElementById('paidBtn').disabled = false;
 
-    // Build method-specific content
     let html = '';
     switch (method) {
         case 'momo':
@@ -700,7 +645,6 @@ function renderPaymentDetails() {
 
     container.innerHTML = html;
 
-    // Hide previous generated code or reset confirmation UI
     const codeContainer = document.getElementById('paymentCodeContainer');
     if (codeContainer) {
         if (userData.payment.generatedCode) {
@@ -719,7 +663,6 @@ function renderPaymentDetails() {
     if (confirmationGroup) confirmationGroup.style.display = 'block';
 }
 
-// Called when the user clicks "I've Paid"
 function handlePaidClick() {
     const method = userData.requirements.paymentMethod || getSelectedPaymentMethod();
     if (!method) {
@@ -727,13 +670,10 @@ function handlePaidClick() {
         return;
     }
 
-    // Simulate generation of a payment confirmation code by external provider
     const generated = generateRandomConfirmationCode();
     userData.payment.generatedCode = generated;
-    // Show the generated code so user can copy/paste into confirmation input
     const paymentCodeContainer = document.getElementById('paymentCodeContainer');
     const paymentCode = document.getElementById('paymentCode');
-    const confirmInput = document.getElementById('confirmationInput');
     const confirmBtn = document.getElementById('confirmPaymentBtn');
 
     if (paymentCode && paymentCodeContainer) {
@@ -743,7 +683,6 @@ function handlePaidClick() {
         paymentCodeContainer.classList.add('show');
     }
 
-    // Copy to clipboard for convenience
     try {
         navigator.clipboard.writeText(generated);
         showNotification('Confirmation code generated and copied to clipboard. Paste it into the confirmation field to verify.', 'info');
@@ -751,12 +690,10 @@ function handlePaidClick() {
         showNotification('Confirmation code generated. Copy it and paste into the confirmation field to verify.', 'info');
     }
 
-    // Show confirmation field and enable confirm button
     const confirmationGroup = document.getElementById('confirmationGroup');
     if (confirmationGroup) confirmationGroup.style.display = 'block';
     if (confirmBtn) confirmBtn.disabled = false;
 
-    // Persist generated code temporarily
     saveToLocalStorage();
 }
 
@@ -785,19 +722,17 @@ function confirmPayment() {
 
     showLoading(true);
 
-    // Simulate server verification
     setTimeout(() => {
         userData.payment.consultation = true;
         userData.payment.code = entered;
         userData.payment.date = new Date().toLocaleString();
         userData.timeline.payment = userData.payment.date;
 
-        const nextButton = document.getElementById('step4Next');
+        const nextButton = document.getElementById('step5Next'); // was step4Next
         if (nextButton) {
             nextButton.disabled = false;
         }
 
-        // Stop pulsing animation and mark confirmed
         const paymentCodeEl = document.getElementById('paymentCode');
         const paymentCodeContainer = document.getElementById('paymentCodeContainer');
         if (paymentCodeEl) paymentCodeEl.classList.remove('animate');
@@ -807,24 +742,20 @@ function confirmPayment() {
         showLoading(false);
         showNotification('Payment confirmed successfully!', 'success');
 
-        // Update payment status
         const btn = document.getElementById('confirmPaymentBtn');
         if (btn) {
             btn.innerHTML = '<i class="fas fa-check-circle"></i> Payment Confirmed';
             btn.disabled = true;
         }
 
-        // Disable paid button and change method to prevent accidental changes
         const paidBtn = document.getElementById('paidBtn');
         if (paidBtn) paidBtn.disabled = true;
         const changeBtn = document.getElementById('changeMethodBtn');
         if (changeBtn) changeBtn.disabled = true;
 
-        // Mark directPayment checkbox as disabled
         const direct = document.getElementById('directPayment');
         if (direct) direct.disabled = true;
 
-        // Clear generated code from memory (leave stored confirmation code)
         delete userData.payment.generatedCode;
         saveToLocalStorage();
     }, 1200);
@@ -833,7 +764,7 @@ function confirmPayment() {
 function noPayment() {
     showNotification('Payment is required to proceed. Returning to previous step...', 'error');
     setTimeout(() => {
-        goToStep(3);
+        goToStep(4); // was step 3
     }, 2000);
 }
 
@@ -845,7 +776,7 @@ function validatePayment() {
     return true;
 }
 
-// Step 5: User Roles
+// Step 6: User Roles (old step 5)
 function selectRole(roleType) {
     const roleCards = document.querySelectorAll('.role-card');
     roleCards.forEach(card => {
@@ -857,8 +788,7 @@ function selectRole(roleType) {
         selectedCard.classList.add('selected');
     }
     
-    // Enable next button
-    const nextButton = document.getElementById('step5Next');
+    const nextButton = document.getElementById('step6Next'); // was step5Next
     if (nextButton) {
         nextButton.disabled = false;
     }
@@ -866,7 +796,7 @@ function selectRole(roleType) {
     showNotification(`${roleType.charAt(0).toUpperCase() + roleType.slice(1)} role selected`, 'success');
 }
 
-// Step 6: Choose Role
+// Step 7: Choose Role (old step 6)
 function finalizeRoleSelection(roleType) {
     const roleOptions = document.querySelectorAll('.role-option');
     roleOptions.forEach(option => {
@@ -878,7 +808,6 @@ function finalizeRoleSelection(roleType) {
         selectedOption.classList.add('selected');
     }
     
-    // Update display
     const display = document.getElementById('selectedRoleDisplay');
     const icon = display.querySelector('.role-icon i');
     const title = display.querySelector('.role-info h3');
@@ -908,35 +837,28 @@ function finalizeRoleSelection(roleType) {
     title.textContent = roleData.title;
     desc.textContent = roleData.desc;
 
-    // Update selected price display
     const selectedPriceEl = document.getElementById('selectedRolePrice');
     if (selectedPriceEl) selectedPriceEl.textContent = roleData.price;
     
-    // Add selected class to display container and update border color
     if (display) {
         display.classList.add('selected');
         display.style.borderColor = roleColor;
     }
     
-    // Update role icon background color
     const roleIconDiv = display.querySelector('.role-icon');
     if (roleIconDiv) {
-        roleIconDiv.style.backgroundColor = roleColor + '15'; // Add transparency
+        roleIconDiv.style.backgroundColor = roleColor + '15';
         roleIconDiv.style.color = roleColor;
     }
     
-    // Finalize selection: set role, save, enable Next
     userData.role.selected = roleType;
     userData.role.price = roleData.price;
     userData.role.date = new Date().toLocaleString();
     userData.timeline.roleSelection = userData.role.date;
     saveToLocalStorage();
 
-    // Enable step 6 Next button
-    const nextBtn = document.getElementById('step6Next');
+    const nextBtn = document.getElementById('step7Next'); // was step6Next
     if (nextBtn) nextBtn.disabled = false;
-
-    // Allow users to change selection - users can now change between basic, standard, and premium as needed
 }
 
 function validateRoleSelection() {
@@ -947,9 +869,8 @@ function validateRoleSelection() {
     return true;
 }
 
-// Step 7: Summary & Export
+// Step 8: Summary & Export (old step 7)
 function updateSummary() {
-    // Personal Information
     document.getElementById('summaryName').textContent = 
         `${userData.personal.firstName || '-'} ${userData.personal.lastName || '-'}`;
     document.getElementById('summaryEmail').textContent = userData.personal.email || '-';
@@ -958,7 +879,6 @@ function updateSummary() {
     document.getElementById('summaryTypeOfProduct').textContent = userData.personal.typeOfProduct || '-';
     document.getElementById('summaryAcceptableDocument').textContent = userData.personal.acceptableDocument || '-';
     
-    // Requirements
     document.getElementById('summaryTerms').textContent = userData.requirements.terms ? 'Yes' : 'No';
     document.getElementById('summaryTerms').style.color = userData.requirements.terms ? 'var(--success-color)' : 'var(--danger-color)';
     document.getElementById('summaryMoney').textContent = userData.requirements.money ? 'Yes' : 'No';
@@ -967,19 +887,16 @@ function updateSummary() {
     document.getElementById('summaryVideo').textContent = userData.requirements.video ? 'Yes' : 'No';
     document.getElementById('summaryVideo').style.color = userData.requirements.video ? 'var(--success-color)' : 'var(--danger-color)';
     
-    // Payment
     document.getElementById('summaryPayment').textContent = userData.payment.consultation ? 'Yes' : 'No';
     document.getElementById('summaryPayment').style.color = userData.payment.consultation ? 'var(--success-color)' : 'var(--danger-color)';
     document.getElementById('summaryPaymentCode').textContent = userData.payment.code || '-';
     document.getElementById('summaryPaymentDate').textContent = userData.payment.date || '-';
     
-    // Role
     document.getElementById('summaryRole').textContent = userData.role.selected ? 
         userData.role.selected.charAt(0).toUpperCase() + userData.role.selected.slice(1) : '-';
     document.getElementById('summaryRolePrice').textContent = userData.role.price || '-';
     document.getElementById('summaryRoleDate').textContent = userData.role.date || '-';
     
-    // Timeline
     document.getElementById('timelineReg').textContent = userData.timeline.registration || '-';
     document.getElementById('timelinePay').textContent = userData.timeline.payment || '-';
     document.getElementById('timelineRole').textContent = userData.timeline.roleSelection || '-';
@@ -995,14 +912,12 @@ function exportAsPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
     
-    // Add content to PDF
     doc.setFontSize(20);
     doc.text('Registration Summary', 20, 20);
     
     doc.setFontSize(12);
     let y = 40;
     
-    // Personal Information
     doc.setFont(undefined, 'bold');
     doc.text('Personal Information:', 20, y);
     doc.setFont(undefined, 'normal');
@@ -1020,7 +935,6 @@ function exportAsPDF() {
     doc.text(`Acceptable Document: ${userData.personal.acceptableDocument}`, 20, y);
     y += 10;
     
-    // Requirements
     doc.setFont(undefined, 'bold');
     doc.text('Requirements:', 20, y);
     doc.setFont(undefined, 'normal');
@@ -1032,7 +946,6 @@ function exportAsPDF() {
     doc.text(`Payment Method: ${userData.requirements.paymentMethod}`, 20, y);
     y += 10;
     
-    // Payment
     doc.setFont(undefined, 'bold');
     doc.text('Payment Details:', 20, y);
     doc.setFont(undefined, 'normal');
@@ -1044,7 +957,6 @@ function exportAsPDF() {
     doc.text(`Payment Date: ${userData.payment.date}`, 20, y);
     y += 10;
     
-    // Role
     doc.setFont(undefined, 'bold');
     doc.text('Selected Role:', 20, y);
     doc.setFont(undefined, 'normal');
@@ -1055,7 +967,6 @@ function exportAsPDF() {
     y += 7;
     doc.text(`Selection Date: ${userData.role.date}`, 20, y);
     
-    // Save the PDF
     doc.save('registration-summary.pdf');
     
     showLoading(false);
@@ -1065,12 +976,9 @@ function exportAsPDF() {
 function exportAsCSV() {
     showLoading(true);
     
-    // Create CSV content
     let csvContent = "data:text/csv;charset=utf-8,";
-    
     csvContent += "Category,Field,Value\n";
     
-    // Personal Information
     csvContent += `Personal Information,Name,${userData.personal.firstName} ${userData.personal.lastName}\n`;
     csvContent += `Personal Information,Email,${userData.personal.email}\n`;
     csvContent += `Personal Information,Phone,${userData.personal.phone}\n`;
@@ -1078,35 +986,28 @@ function exportAsCSV() {
     csvContent += `Personal Information,Type of Product,${userData.personal.typeOfProduct}\n`;
     csvContent += `Personal Information,Acceptable Document,${userData.personal.acceptableDocument}\n`;
     
-    // Requirements
     csvContent += `Requirements,Terms Accepted,${userData.requirements.terms ? 'Yes' : 'No'}\n`;
     csvContent += `Requirements,Money Available,${userData.requirements.money ? 'Yes' : 'No'}\n`;
     csvContent += `Requirements,Payment Method,${userData.requirements.paymentMethod}\n`;
     csvContent += `Requirements,Video Watched,${userData.requirements.video ? 'Yes' : 'No'}\n`;
     
-    // Payment
     csvContent += `Payment,Consultation Paid,${userData.payment.consultation ? 'Yes' : 'No'}\n`;
     csvContent += `Payment,Payment Code,${userData.payment.code}\n`;
     csvContent += `Payment,Payment Date,${userData.payment.date}\n`;
     
-    // Role
     csvContent += `Role,Selected Role,${userData.role.selected}\n`;
     csvContent += `Role,Price,${userData.role.price}\n`;
     csvContent += `Role,Selection Date,${userData.role.date}\n`;
     
-    // Timeline
     csvContent += `Timeline,Registration Date,${userData.timeline.registration}\n`;
     csvContent += `Timeline,Payment Date,${userData.timeline.payment}\n`;
     csvContent += `Timeline,Role Selection Date,${userData.timeline.roleSelection}\n`;
     
-    // Create download link
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
     link.setAttribute("download", "registration-summary.csv");
     document.body.appendChild(link);
-    
-    // Trigger download
     link.click();
     document.body.removeChild(link);
     
@@ -1117,15 +1018,10 @@ function exportAsCSV() {
 function completeProcess() {
     showLoading(true);
     
-    // Simulate API call
     setTimeout(() => {
         showLoading(false);
         showSuccessModal();
-        
-        // Clear localStorage after completion
         localStorage.removeItem('userRegistrationData');
-        
-        // Reset form after delay
         setTimeout(() => {
             resetForm();
         }, 5000);
@@ -1141,7 +1037,6 @@ function showLoading(show) {
 }
 
 function showNotification(message, type) {
-    // Create notification element
     const notification = document.createElement('div');
     notification.className = `notification ${type}`;
     notification.innerHTML = `
@@ -1149,15 +1044,12 @@ function showNotification(message, type) {
         <span>${message}</span>
     `;
     
-    // Add to body
     document.body.appendChild(notification);
     
-    // Animate in
     setTimeout(() => {
         notification.classList.add('show');
     }, 10);
     
-    // Remove after delay
     setTimeout(() => {
         notification.classList.remove('show');
         setTimeout(() => {
@@ -1170,9 +1062,7 @@ function showSuccessModal() {
     const modal = document.getElementById('successModal');
     if (modal) {
         modal.style.display = 'flex';
-        // add class for entrance animation
         modal.classList.add('show');
-        // focus the OK button for accessibility
         const okBtn = modal.querySelector('button');
         if (okBtn) {
             okBtn.focus();
@@ -1183,7 +1073,6 @@ function showSuccessModal() {
 function closeModal() {
     const modal = document.getElementById('successModal');
     if (modal) {
-        // remove animation class then hide
         modal.classList.remove('show');
         modal.style.display = 'none';
     }
@@ -1201,7 +1090,6 @@ function loadUserData() {
 }
 
 function updateUIFromData() {
-    // Update step 1 form if data exists
     if (userData.personal.firstName) {
         document.getElementById('firstName').value = userData.personal.firstName;
         document.getElementById('lastName').value = userData.personal.lastName;
@@ -1214,7 +1102,6 @@ function updateUIFromData() {
         if (docEl) docEl.value = userData.personal.acceptableDocument || '';
     }
 
-    // Restore payment UI state if needed
     if (userData.payment.generatedCode) {
         const paymentCodeContainer = document.getElementById('paymentCodeContainer');
         const paymentCode = document.getElementById('paymentCode');
@@ -1236,19 +1123,16 @@ function updateUIFromData() {
 }
 
 function resetForm() {
-    // Clear all form fields
     document.querySelectorAll('input, textarea').forEach(field => {
         field.value = '';
         field.disabled = false;
     });
     
-    // Reset checkboxes and radio buttons
     document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(input => {
         input.checked = false;
         input.disabled = false;
     });
     
-    // Reset user data
     for (let key in userData) {
         if (typeof userData[key] === 'object') {
             for (let subKey in userData[key]) {
@@ -1267,21 +1151,17 @@ function resetForm() {
         }
     }
     
-    // Reset UI
     currentStep = 1;
     currentTourCard = 1;
     paymentConfirmed = false;
     
-    // Go to step 1
     goToStep(1);
     updateTourDisplay();
     
-    // Reset buttons
     document.querySelectorAll('.btn-next').forEach(btn => {
         btn.disabled = true;
     });
     
-    // Reset requirements status
     for (let i = 1; i <= 4; i++) {
         const statusElement = document.getElementById(`status${i}`);
         if (statusElement) {
@@ -1298,43 +1178,37 @@ function resetForm() {
     showNotification('Form has been reset', 'info');
 }
 
-// Add this to the existing initialize function
 document.addEventListener('DOMContentLoaded', function() {
     initializeProgressBar();
     initializeVideoPreviews();
     loadUserData();
     updateTourCounter();
     
-    // Set current date for registration
     userData.timeline.registration = new Date().toLocaleString();
     
-    // Load saved data from localStorage
     const savedData = localStorage.getItem('userRegistrationData');
     if (savedData) {
         Object.assign(userData, JSON.parse(savedData));
         updateUIFromData();
     }
     
-    // Initialize requirements if already on step 3
-    if (currentStep === 3) {
+    if (currentStep === 4) { // was step 3
         initializeRequirements();
     }
 
-    // Render payment details in case user refreshes or lands on step 4
     renderPaymentDetails();
 
-    // Observe step 4 activation to render details when it becomes active
-    const step4 = document.getElementById('step4');
-    if (step4) {
+    const step5 = document.getElementById('step5'); // was step4
+    if (step5) {
         const observer = new MutationObserver((mutationsList) => {
             for (let mutation of mutationsList) {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                    if (step4.classList.contains('active')) {
+                    if (step5.classList.contains('active')) {
                         renderPaymentDetails();
                     }
                 }
             }
         });
-        observer.observe(step4, { attributes: true });
+        observer.observe(step5, { attributes: true });
     }
 });
