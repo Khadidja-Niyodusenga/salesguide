@@ -1,0 +1,123 @@
+/* Table image styling - separate from main CSS */
+
+.table-container table td img{
+    width: 120px;
+    height: auto;
+    display: block;
+    margin: auto;
+    object-fit: contain;
+}
+
+/* Optional: make images responsive */
+@media (max-width:768px){
+    .table-container table td img{
+        width: 80px;
+    }
+}
+
+/* Optional: center content inside table cells */
+.table-container td{
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* If you want logos slightly bigger */
+.table-container td img.logo-large{
+    width: 150px;
+}
+
+/* General table image styling */
+.table-container table td img{
+    width: 120px;
+    height: auto;
+    display: block;
+    margin: auto;
+    object-fit: contain;
+}
+
+/* Stop sign styling */
+.table-container table td img.stop-icon{
+    width: 90px;
+}
+
+/* Gauge sign styling */
+.table-container table td img.gauge-icon{
+    width: 110px;
+}
+
+/* Make images responsive on small screens */
+@media (max-width:768px){
+    .table-container table td img{
+        width: 80px;
+    }
+
+    .table-container table td img.stop-icon{
+        width: 60px;
+    }
+
+    .table-container table td img.gauge-icon{
+        width: 70px;
+    }
+}
+
+/* Align content inside cells */
+.table-container td{
+    text-align: center;
+    vertical-align: middle;
+}
+
+
+
+
+.gauge-container{
+width:220px;
+text-align:center;
+}
+
+.gauge{
+width:200px;
+height:120px;
+}
+
+.needle{
+stroke:black;
+stroke-width:4;
+transform-origin:100px 100px;
+transform:rotate(-70deg);
+}
+
+/* positions */
+
+.needle.red{
+transform:rotate(-90deg);
+}
+
+.needle.orange{
+transform:rotate(-45deg);
+}
+
+.needle.yellow{
+transform:rotate(0deg);
+}
+
+.needle.lightgreen{
+transform:rotate(45deg);
+}
+
+.needle.green{
+transform:rotate(90deg);
+}
+
+/* smile row */
+
+.faces{
+display:flex;
+justify-content:space-between;
+margin-top:5px;
+font-size:18px;
+}
+
+
+
+
+
