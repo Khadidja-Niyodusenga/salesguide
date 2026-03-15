@@ -764,6 +764,42 @@ img {
 }
 .payment-code.show { transform: translateY(-6px); box-shadow: var(--soft-shadow); }
 
+.code-display-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 12px 0;
+}
+.code-display-wrap .code-display {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    padding: 12px 16px;
+    word-break: break-all;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.btn-copy-code {
+    min-height: 44px;
+    padding: 12px 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.btn-copy-code:hover { filter: brightness(1.1); }
+.btn-copy-code:active { transform: scale(0.98); }
+
 /* Animated attention for generated code */
 @keyframes codePulse {
     0% { transform: scale(1); opacity: 1; }

@@ -311,7 +311,7 @@ function updateTourCounter() {
 
 // Requirements Navigation Variables
 let currentRequirement = 1;
-const totalRequirements = 4;
+const totalRequirements = 5;
 
 function initializeRequirements() {
     currentRequirement = 1;
@@ -359,7 +359,7 @@ function updateRequirementDisplay() {
     
     document.querySelectorAll('.req-dot').forEach((dot, index) => {
         const reqNumber = index + 1;
-        dot.classList.remove('active');
+        dot.classList.remove('active', 'completed');
         
         if (reqNumber === 1 && userData.requirements.terms) {
             dot.classList.add('completed');
@@ -368,6 +368,8 @@ function updateRequirementDisplay() {
         } else if (reqNumber === 3 && userData.requirements.paymentMethod) {
             dot.classList.add('completed');
         } else if (reqNumber === 4 && userData.requirements.video) {
+            dot.classList.add('completed');
+        } else if (reqNumber === 5 && userData.payment.consultation) {
             dot.classList.add('completed');
         }
         
@@ -403,7 +405,8 @@ function updateRequirementCounter() {
             'Terms & Conditions',
             'Money Availability',
             'Payment Methods',
-            'Video Explanation'
+            'Video Explanation',
+            'Consultation Payment'
         ];
         counter.textContent = `Requirement ${currentRequirement} of ${totalRequirements}: ${requirementNames[currentRequirement - 1]}`;
     }
@@ -416,12 +419,15 @@ function updateRequirementsProgress() {
     if (userData.requirements.money) completedCount++;
     if (userData.requirements.paymentMethod) completedCount++;
     if (userData.requirements.video) completedCount++;
+    if (userData.payment.consultation) completedCount++;
     
     const progressText = document.getElementById('progressText');
     const progressFill = document.getElementById('requirementsProgress');
     
     if (progressText) {
         progressText.textContent = `${completedCount} of ${totalRequirements} requirements completed`;
+        progressText.style.color = (completedCount === totalRequirements) ? 'var(--success-color)' : '';
+        progressText.style.fontWeight = (completedCount === totalRequirements) ? '600' : '';
     }
     
     if (progressFill) {
@@ -575,9 +581,9 @@ function togglePaymentDetails() {
         renderPaymentDetails();
     } else {
         paymentDetails.style.display = 'none';
-        const confirmBtn = document.getElementById('step5Next'); // was step4Next
-        if (confirmBtn) {
-            confirmBtn.disabled = true;
+        const nextBtn = document.getElementById('step4Next');
+        if (nextBtn) {
+            nextBtn.disabled = true;
         }
     }
 }
@@ -701,6 +707,43 @@ function generateRandomConfirmationCode() {
     return 'PAY-' + Math.random().toString(36).substr(2, 8).toUpperCase();
 }
 
+function copyPaymentCode() {
+    const el = document.getElementById('paymentCode');
+    if (!el) return;
+    const code = (el.textContent || '').trim();
+    if (!code || code.indexOf('XXXX') !== -1) {
+        showNotification('No code generated yet. Click "I\'ve Paid" first.', 'error');
+        return;
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(function() {
+            showNotification('Code copied! Paste it in the confirmation field below.', 'success');
+        }).catch(function() {
+            fallbackCopyCode(code);
+        });
+    } else {
+        fallbackCopyCode(code);
+    }
+}
+
+function fallbackCopyCode(code) {
+    var input = document.createElement('input');
+    input.value = code;
+    input.setAttribute('readonly', '');
+    input.style.position = 'absolute';
+    input.style.left = '-9999px';
+    document.body.appendChild(input);
+    input.select();
+    input.setSelectionRange(0, 9999);
+    try {
+        document.execCommand('copy');
+        showNotification('Code copied! Paste it in the confirmation field below.', 'success');
+    } catch (e) {
+        showNotification('Copy failed. Please select the code and copy manually.', 'error');
+    }
+    document.body.removeChild(input);
+}
+
 function confirmPayment() {
     const entered = document.getElementById('confirmationInput') ? document.getElementById('confirmationInput').value.trim() : '';
     const expected = userData.payment.generatedCode || userData.payment.code;
@@ -728,7 +771,7 @@ function confirmPayment() {
         userData.payment.date = new Date().toLocaleString();
         userData.timeline.payment = userData.payment.date;
 
-        const nextButton = document.getElementById('step5Next'); // was step4Next
+        const nextButton = document.getElementById('step4Next');
         if (nextButton) {
             nextButton.disabled = false;
         }
@@ -758,6 +801,7 @@ function confirmPayment() {
 
         delete userData.payment.generatedCode;
         saveToLocalStorage();
+        updateRequirementsProgress();
     }, 1200);
 }
 
@@ -1022,9 +1066,6 @@ function completeProcess() {
         showLoading(false);
         showSuccessModal();
         localStorage.removeItem('userRegistrationData');
-        setTimeout(() => {
-            resetForm();
-        }, 5000);
     }, 3000);
 }
 
@@ -1076,6 +1117,11 @@ function closeModal() {
         modal.classList.remove('show');
         modal.style.display = 'none';
     }
+}
+
+function closeModalAndReset() {
+    closeModal();
+    resetForm();
 }
 
 function saveToLocalStorage() {
@@ -1153,6 +1199,7 @@ function resetForm() {
     
     currentStep = 2;
     currentTourCard = 1;
+    currentRequirement = 1;
     paymentConfirmed = false;
     
     goToStep(2);
@@ -1162,7 +1209,7 @@ function resetForm() {
         btn.disabled = true;
     });
     
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= 5; i++) {
         const statusElement = document.getElementById(`status${i}`);
         if (statusElement) {
             statusElement.textContent = 'Pending';
