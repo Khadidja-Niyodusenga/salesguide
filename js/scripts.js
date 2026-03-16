@@ -25,9 +25,69 @@ const userData = {
 };
 
 // Current step management
-let currentStep = 2;
+let currentStep = 1;
 let currentTourCard = 1;
 let paymentConfirmed = false;
+
+function initStep1A1() {
+    // Single checkbox -> show/hide all document previews
+    const toggleAll = document.getElementById('doc_show_all');
+    const docPreviews = [
+        document.getElementById('docPreview_id'),
+        document.getElementById('docPreview_passport'),
+        document.getElementById('docPreview_permit')
+    ].filter(Boolean);
+
+    function setAllDocPreviews(visible) {
+        docPreviews.forEach(el => {
+            el.style.display = visible ? 'block' : 'none';
+        });
+    }
+
+    if (toggleAll) {
+        toggleAll.addEventListener('change', () => {
+            setAllDocPreviews(toggleAll.checked);
+        });
+        // Initial state
+        setAllDocPreviews(toggleAll.checked);
+    }
+
+    // A.1.3 (yego/oya) + follow-up
+    const yego = document.getElementById('a13_yego');
+    const oya = document.getElementById('a13_oya');
+    const followup = document.getElementById('a13_followup');
+
+    function setFollowupVisible(show) {
+        if (!followup) return;
+        followup.style.display = show ? 'block' : 'none';
+        if (!show) {
+            followup.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+            });
+        }
+    }
+
+    function updateA13() {
+        if (yego && yego.checked) {
+            if (oya) oya.checked = false;
+            setFollowupVisible(false);
+            return;
+        }
+        if (oya && oya.checked) {
+            if (yego) yego.checked = false;
+            setFollowupVisible(true);
+            return;
+        }
+        setFollowupVisible(false);
+    }
+
+    if (yego) yego.addEventListener('change', updateA13);
+    if (oya) oya.addEventListener('change', updateA13);
+
+    // Initialize state
+    updateDocPreviews();
+    updateA13();
+}
 
 // Video play functionality
 function playVideo(element, videoUrl) {
@@ -108,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeVideoPreviews();
     loadUserData();
     updateTourCounter();
-    
+
     userData.timeline.registration = new Date().toLocaleString();
     
     const savedData = localStorage.getItem('userRegistrationData');
@@ -122,6 +182,10 @@ document.addEventListener('DOMContentLoaded', function() {
         regForm.addEventListener('submit', function(e) { e.preventDefault(); });
         regForm.addEventListener('keydown', function(e) { if (e.key === 'Enter') e.preventDefault(); });
     }
+
+    // Always start on step 1 when the page (re)loads
+    currentStep = 1;
+    goToStep(1);
 });
 
 // Progress bar functions
@@ -178,6 +242,10 @@ function goToStep(stepNumber) {
         stepElement.classList.add('active');
         currentStep = stepNumber;
         updateProgressBar();
+
+        if (stepNumber === 1) {
+            initStep1A1();
+        }
         
         // Initialize requirements if step 4 (was step 3)
         if (stepNumber === 4) {
@@ -212,6 +280,7 @@ function validateCurrentStep() {
 // Step 1: Registration Form (unchanged)
 function validateRegistrationForm() {
     const form = document.getElementById('registrationForm');
+    if (!form) return true;
     const requiredFields = form.querySelectorAll('[required]');
     let isValid = true;
     let firstInvalid = null;
@@ -1197,12 +1266,12 @@ function resetForm() {
         }
     }
     
-    currentStep = 2;
+    currentStep = 1;
     currentTourCard = 1;
     currentRequirement = 1;
     paymentConfirmed = false;
     
-    goToStep(2);
+    goToStep(1);
     updateTourDisplay();
     
     document.querySelectorAll('.btn-next').forEach(btn => {

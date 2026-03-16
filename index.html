@@ -32,12 +32,12 @@
 <div class="progress-container">
     <div class="progress-bar" id="progressBar"></div>
     <div class="steps">
-        <div class="step" data-step="1" style="display:none;">0</div>
-        <div class="step active" data-step="2">1</div>
-        <div class="step" data-step="3">2</div>
-        <div class="step" data-step="4">3</div>
-        <div class="step" data-step="5" style="display:none;">4</div>
-        <div class="step" data-step="6">4</div>
+        <div class="step active" data-step="1">1</div>
+        <div class="step" data-step="2">2</div>
+        <div class="step" data-step="3">3</div>
+        <div class="step" data-step="4">4</div>
+        <div class="step" data-step="5" style="display:none;">5</div>
+        <div class="step" data-step="6">5</div>
         <div class="step" data-step="7" style="display:none;">6</div>
         <div class="step" data-step="8" style="display:none;">7</div>
     </div>
@@ -45,64 +45,147 @@
 
 <!-- Main Container -->
 <div class="main-container">
-    <!-- Step 1: Client Registration (unchanged) -->
-    <div class="step-content" id="step1" style="display:none;">
+    <!-- Step 1: A.1 GAHUNDA -->
+    <div class="step-content active" id="step1">
         <div class="step-header">
-            <h2><i class="fas fa-user-plus"></i> Step 1: Kwiyandikisha / Client Registration</h2>
-            <p>Please fill in your details to register/ Uzuza umwirondoro</p>
+            <h1>Step1: A.1 GAHUNDA</h1>
         </div>
+
         
-        <form id="registrationForm" class="registration-form">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="firstName"><i class="fas fa-user"></i> First Name/Izina ryambere</label>
-                    <input type="text" id="firstName" name="firstName" required>
+        <div class="marketing_purpose" style="color: #ea120b;">
+            <h2><ins>For marketing & call center:</ins></h2>
+            <h3>impamvu ya 1 bisaba kuza office</h3>
+            <br>
+            <h3>Kuza ufite icyangombwa cyubutaka (inzu/ikibanza)</h3>
+            <br>
+
+            <h3>Carte jaune (imodoka)</h3>
+            <br>
+
+            <h3>Nirangamuntu</h3>
+            <br>
+            <h3>Company ikabona ko uri nyirubwite (ntago byashoboka kubigenzura kuri telephone).</h3>
+            <br>
+        </div>
+
+
+        <div class="registration-form">
+            <h2>A.1.1 Urifuza umukiriya ryari?</h2>
+            <p>
+                <input type="checkbox" id="ukwezi" name="ukwezi" value="ukwezi"><label for="ukwezi">Ukwezi</label>
+                <input type="checkbox" id="Icyumweru" name="Icyumweru" value="Icyumweru"><label for="Icyumweru">Ucyumweru</label>
+                <input type="checkbox" id="Umunsi" name="Umunsi" value="Umunsi"><label for="Umunsi">Umunsi</label>
+
+            </p>
+
+            <br>
+            <p>
+                <span style="display:inline-block; margin-right: 16px;">
+                    <strong>UPI:</strong>
+                    <input type="text" id="a11_upi" name="a11_upi" placeholder="UPI..." style="margin-left:8px; min-width: 220px;">
+                </span>
+                <span style="display:inline-block;">
+                    <strong>Plaque:</strong>
+                    <input type="text" id="a11_plaque" name="a11_plaque" placeholder="Plaque..." style="margin-left:8px; min-width: 220px;">
+                </span>
+            </p>
+
+            <p style="margin-top: 10px;">
+                <strong>Ibyemezo by'icyitegererezo (ID, Passport, Permit):</strong>
+            </p>
+
+            <div id="docPreviews" class="doc-previews">
+                <div id="docPreview_id" class="doc-preview-card">
+                    <img alt="ID preview" style="max-width: 100%; height: auto; display:block;" src="image/id.png">
                 </div>
-                <div class="form-group">
-                    <label for="lastName"><i class="fas fa-user"></i> Last Name/ayandi mazina</label>
-                    <input type="text" id="lastName" name="lastName" required>
+                <div id="docPreview_passport" class="doc-preview-card">
+                    <img alt="Passport preview" style="max-width: 100%; height: auto; display:block;" src="image/passport.png">
                 </div>
-                <div class="form-group">
-                    <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone"><i class="fas fa-phone"></i> Phone Number</label>
-                    <input type="tel" id="phone" name="phone" required>
-                </div>
-                <div class="form-group full-width">
-                    <label for="address"><i class="fas fa-map-marker-alt"></i> Address/Aho biherereye</label>
-                    <input type="text" id="address" name="address" required>
-                </div>
-                <div class="form-group">
-                    <label for="typeOfProduct"><i class="fas fa-box"></i> Type of Product/Ubwoko bwibicuruzwa</label>
-                    <input type="text" id="typeOfProduct" name="typeOfProduct" placeholder="Enter product type" inputmode="text" pattern=".*" required>
-                </div>
-                <div class="form-group">
-                    <label for="acceptableDocument"><i class="fas fa-file-alt"></i> icyangombwa yerekanye</label>
-                     <select name="select" id="select"><option value="option1">UPI</option><option value="option2">Plate Number</option></select>
-                </div>
-                <div class="form-group">
-                    <label for="acceptableDocument"><i class="fas fa-file-alt"></i> Nimero y'icyangombwa/Document number</label>
-                    <input type="text" id="acceptableDocument" name="acceptableDocument" placeholder="Ex: UPI,plate number,ID,Driving Lisence" inputmode="text" pattern=".*" required>
+                <div id="docPreview_permit" class="doc-preview-card">
+                    <img alt="Permit preview" style="max-width: 100%; height: auto; display:block;" src="image/sample-permit.png">
                 </div>
             </div>
-            
-            <div class="terms-checkbox">
-                <input type="checkbox" id="privacyPolicy" required>
-                <label for="privacyPolicy">Kwemera amategeko n'amabwiriza/I agree to the <a href="#" class="terms-link">Privacy Policy</a></label>
+
+            <h2 style="margin-top: 18px;">A.1.2 Handitseho abantu bangahe?</h2>
+            <p style="margin-bottom: 8px;"><strong>Hitamo:</strong></p>
+            <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+                <div class="form-group">
+                    <input type="checkbox" id="a12_wenyine" name="a12_people" value="wenyine">
+                    <label for="a12_wenyine">Wenyine</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="a12_umugabo" name="a12_people" value="umugabo">
+                    <label for="a12_umugabo">Umugabo</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="a12_umugore" name="a12_people" value="umugore">
+                    <label for="a12_umugore">Umugore</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="a12_abavandimwe" name="a12_people" value="abavandimwe">
+                    <label for="a12_abavandimwe">Abavandimwe</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="a12_umubyeyi" name="a12_people" value="umubyeyi">
+                    <label for="a12_umubyeyi">Umubyeyi</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="a12_abandi" name="a12_people" value="abandi">
+                    <label for="a12_abandi">Abandi</label>
+                </div>
             </div>
-            
-            <div class="button-group">
+
+            <h2 style="margin-top: 18px;">A.1.3 Wafata umwanzuro ntago ari ngombwa kubaza?</h2>
+            <p style="margin-bottom: 8px;"><strong>Hitamo kimwe:</strong></p>
+            <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+                <div class="form-group">
+                    <input type="checkbox" id="a13_yego" name="a13_decision" value="yego">
+                    <label for="a13_yego">Yego</label>
+                </div>
+                <div class="form-group">
+                    <input type="checkbox" id="a13_oya" name="a13_decision" value="oya">
+                    <label for="a13_oya">Oya</label>
+                </div>
+            </div>
+
+            <div id="a13_followup" style="display:none; margin-top: 10px;">
+                <p style="margin-bottom: 8px;"><strong>Niba ari “Oya”, ubaza nde?</strong></p>
+                <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+                    <div class="form-group">
+                        <input type="checkbox" id="a13_f_umugabo" name="a13_followup" value="umugabo">
+                        <label for="a13_f_umugabo">Umugabo?</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="a13_f_umugore" name="a13_followup" value="umugore">
+                        <label for="a13_f_umugore">Umugore?</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="a13_f_umuvandimwe" name="a13_followup" value="umuvandimwe">
+                        <label for="a13_f_umuvandimwe">Umuvandimwe?</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="a13_f_umubyeyi" name="a13_followup" value="umubyeyi">
+                        <label for="a13_f_umubyeyi">Umubyeyi?</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="a13_f_abandi" name="a13_followup" value="abandi">
+                        <label for="a13_f_abandi">Abandi?</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-group" style="margin-top: 18px;">
                 <button type="button" class="btn btn-next" onclick="nextStep(2)">Next <i class="fas fa-arrow-right"></i></button>
             </div>
-        </form>
+        </div>
     </div>
 
     <!-- Step 2: New Table (from source code) -->
-    <div class="step-content active" id="step2">
+    <div class="step-content" id="step2">
+
+        
         <div class="step-header">
-            <h2><i class="fas fa-table"></i> Step 1: Kuva muri Gakondo/Traditional Tujya muri Technology</h2>
+            <h2><i class="fas fa-table"></i> Step 2: Kuva muri Gakondo/Traditional Tujya muri Technology</h2>
             <p>Reba uko technology yagiye ihindura ibintu</p>
         </div>
         
@@ -183,7 +266,7 @@
                             
 
 
-                            - Kwihuta <br> - Kwishyura mbere <br>- Icyizere cyiri hejuru cyane cyo kubona umusaruro <br><img src="image/attention.png" alt="warning"><br>- Nta marangamutima <br>- Utishyuye ntabwo ubona service <br>- NTA negotiations - NTA kwambura uwaguhaye service
+                            - Kwihuta <br> - Kwishyura mbere <br>- Icyizere cyiri hejuru cyane cyo kubona umusaruro <br><img src="image/attention.png" alt="warning"><br>- Nta marangamutima <br>- Utishyuye ntabwo ubona service <br>- NTA negotiations 
 
                         
                         
@@ -262,7 +345,7 @@
 
 
                             
-                            - Ikizere kiri hejuru cyane cyo kugera aho ugiye <br> - Ntabwo bagutwara niyo waba ugiye kwa muganga <br><img src="image/attention.png" alt="warning"><br> - NTA kugabanyisha ibiciro<br>- Nta kwambura company
+                            - Ikizere kiri hejuru cyane cyo kugera aho ugiye <br> - Ntabwo bagutwara niyo waba ugiye kwa muganga <br><img src="image/attention.png" alt="warning"><br> - NTA kugabanyisha ibiciro<br>
                         
                         
                             
@@ -473,7 +556,7 @@
 
 
 
-                            - Ikizere cyo gusabira icyangombwa ahariho hose mugihugu<br><img src="image/attention.png" alt="warning"><br> - NTA kugabanyisha ibiciro <br> - Ntabwo wabona icyangombwa utishyuye<br>- NTA kwambura irembo(leta)
+                            - Ikizere cyo gusabira icyangombwa ahariho hose mugihugu<br><img src="image/attention.png" alt="warning"><br> - NTA kugabanyisha ibiciro <br> - Ntabwo wabona icyangombwa utishyuye<br>
                         
                         
                         
@@ -566,8 +649,24 @@
 
     <!-- Step 3: Company Tour (moved from old Step 2) -->
     <div class="step-content" id="step3">
+        <div class="marketing_purpose" style="color: #ea120b;">
+            <h2><ins>For marketing & call center:</ins></h2>
+            <br>
+            <h3>impamvu ya 2 bisaba kuza office</h3>
+            <br>
+            <h3>Isoko rigera kubantu bari hagati y'ibihumbi 100 na million kumunsi & rikagira abantu bari hafi ibihumbi 7 bari kuri list bashaka ibigurishwa nibikodeshwa </h3>
+            <br>
+            <h3>Biranashoboka cyane kuza kuri office ugataha ubonye umukiriya</h3>
+            <br>
+            <h3>Isoko rifite abakiriya ku isi hose abari murwanda muntara no muri diaspora</h3>
+            
+            <br>
+            <h3>kubikubwira kuri telephone ntago abakiriya babyumva keretse abigereye kuri office</h3>
+            
+        </div>
+
         <div class="step-header">
-            <h2><i class="fas fa-building"></i> Step 2: Company Tour</h2>
+            <h2><i class="fas fa-building"></i> Step 3: Company Tour</h2>
             <h3>Isoko rikora gute mubikorwa?</h3>
         </div>
         
@@ -688,8 +787,22 @@
 
     <!-- Step 4: Requirements (old Step 3) -->
     <div class="step-content" id="step4">
+        <div class="marketing_purpose" style="color: #ea120b;">
+            <h2><ins>For marketing & call center:</ins></h2>
+            <br>
+            <h3>impamvu ya 3 biba byiza kuza office witwaje ibihumbi 50</h3>
+            <br>
+            <h3>Abakiriya baza ntamafaranga bafite bahabwa ibisobanuro byibanze (hagati yiminota 5-10)</h3>
+            <br>
+            <h3>Abakiriya baza bafite amafaranga bahabwa ibisobanuro birambuye bakanerekwa uburyo bahita babona abakiriya uwo munsi</h3>
+            <br>
+            <h3>Muburyo bwo kwirinda kuza ugahabwa ibisobanuro byibanze ugasuriyo udahawe ibisobanuro birambuye byaba byiza witwaje ibihumbi 50</h3>
+            <br>
+            <h3>Ntago ari itegeko kuyishyura wishyura aruko wanyuzwe utanyuzwe ntabwo uyishyura.</h3>
+        </div>
+
         <div class="step-header">
-            <h2><i class="fas fa-clipboard-check"></i> Step 3: Consultation</h2>
+            <h2><i class="fas fa-clipboard-check"></i> Step 4: Consultation</h2>
             <p>Complete each requirement to proceed</p>
         </div>
         
@@ -910,9 +1023,45 @@
 
     <!-- Step 6: User Roles Explanation (old Step 5) -->
     <div class="step-content" id="step6">
+
+        <div class="marketing_purpose" style="color: #ea120b;">
+            <h2><ins>For marketing & call center:</ins></h2>
+            <br>
+            <h3>impamvu ya 4 bisaba kuza office</h3>
+            <br>
+            <h3>Kubona umukiriya vuba biterwa na service wahisemo. </h3>
+            <br>
+            <h3>Nkuko isoko risanzwe rigira hagati nomugikari no kumuryango isoko rya ONLINE naryo rigira hejuru, hagati no hasi</h3>
+            <br>
+            <h3>Hari na service ziguhuza nabakiriya badasura website bandikira company cyangwa bagahamagara bumvise cyangwa babonye puburisite kumaradiyo cyangwa television</h3>
+            
+            <br>
+            <h3>kukwereka service zaguhuza nabakiriya mucyumweru cyangwa uyumunsi ntabwo byashoboka kubigusobanurira kuri telephone bisaba kuhagera team ibishyinzwe ikabigusobanurira.</h3>
+            
+        </div>
+
+
         <div class="step-header">
-            <h2><i class="fas fa-user-tag"></i> Step 4: Sobanukirwa service z'isoko buysellorrent</h2>
-            <p>Hitamo uburyo bukunogeye/Choose the role that best fits your needs</p>
+            <h2><i class="fas fa-user-tag"></i> Step 5: Sobanukirwa service z'isoko buysellorrent</h2>
+            <h3>5.1  Ndamutse nishyuye singurishe/ Guarantee</h3>
+            <br>
+            <div class="justified-text">
+                <p>5.1.1 Kuba abagura, abagurisha n'abakodesha bahuzwa n'isoko bakivuganira ubwabyo bitanga amahirwe menshi yo kubona umukiriya vuba kurusha uko haba harimo umuhuza wa gakondo (commissionnaire).</p>
+                <br>
+                <p>5.1.2 Isoko ubwaryo buriwese ku isi yaryisangamo (ibintu byose, ahant hose, igihe cyose).</p>
+                <br>
+                <p>5.1.3 Isoko ryamamazwa hose ku isi hashoboka ngo abari kwisoko babone abakiriya.</p>
+                <br>
+                <p>5.1.4 Uwashyize ku isoko ibigurishwa n'ibikodeshwa yihitiramo nimero abakiliya bamuhamagaraho, iramutse ihindutse abimenyesha isoko.</p>
+                <br>
+                <p>5.1.5 Ibigurishwa n'ibikodeshwa ku isoko byongererwa amahirwe menshi cyane ariko ntabwo bitanga guarantee 100%. Nuwishyuye amafaranga y'isoko nawe abigiramo uruhare kugirango umukiliya aboneke: (kunoneka kuri telephone, whatsApp,uburyo yakira abakiliya, ubwiza/imiterere y'ikiri ku isoko,....).</p>
+                <br>
+                <p>5.1.6 Abagura, abagurisha n'abakodesha nibo bafite inshingano zo kugenzura ubuziranenge,ibyangombwa byemewe n'amategeko no kubisura imbona nkubone (bitari kumafoto gusa) bakifatira umwanzuro.</p>
+                <br>
+                <p>5.1.7 Amahirwe yo kugurisha yiyongera bitewe na service / iseta umukiliya yahisemo.</p>
+            </div>
+            <br>
+            <h3>5.2  Hitamo uburyo bukunogeye/Choose the role that best fits your needs</h3>
         </div>
         
         <div class="roles-container">
