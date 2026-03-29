@@ -247,8 +247,8 @@ function goToStep(stepNumber) {
             initStep1A1();
         }
         
-        // Initialize requirements if step 4 (was step 3)
-        if (stepNumber === 4) {
+        // Initialize requirements on Step 2
+        if (stepNumber === 2) {
             initializeRequirements();
         }
         
@@ -264,7 +264,7 @@ function validateCurrentStep() {
     switch (currentStep) {
         case 1:
             return validateRegistrationForm();
-        case 4: // old step 3
+        case 2:
             return validateRequirements();
         case 5: // old step 4
             return validatePayment();
@@ -877,7 +877,7 @@ function confirmPayment() {
 function noPayment() {
     showNotification('Payment is required to proceed. Returning to previous step...', 'error');
     setTimeout(() => {
-        goToStep(4); // was step 3
+        goToStep(2);
     }, 2000);
 }
 
@@ -1308,23 +1308,23 @@ document.addEventListener('DOMContentLoaded', function() {
         updateUIFromData();
     }
     
-    if (currentStep === 4) { // was step 3
+    if (currentStep === 2) {
         initializeRequirements();
     }
 
     renderPaymentDetails();
 
-    const step5 = document.getElementById('step5'); // was step4
-    if (step5) {
+    const step2 = document.getElementById('step2');
+    if (step2) {
         const observer = new MutationObserver((mutationsList) => {
             for (let mutation of mutationsList) {
                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                    if (step5.classList.contains('active')) {
+                    if (step2.classList.contains('active')) {
                         renderPaymentDetails();
                     }
                 }
             }
         });
-        observer.observe(step5, { attributes: true });
+        observer.observe(step2, { attributes: true });
     }
 });
