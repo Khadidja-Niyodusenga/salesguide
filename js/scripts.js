@@ -251,12 +251,62 @@ function goToStep(stepNumber) {
         if (stepNumber === 2) {
             initializeRequirements();
         }
+
+        // Step 4 has two internal sub-sections (4.1 table -> 4.2 video)
+        if (stepNumber === 4) {
+            showStep41Table();
+        }
         
         window.scrollTo({ top: 0, behavior: 'smooth' });
         
         if (stepNumber === 8) {
             updateSummary();
         }
+    }
+}
+
+function showStep41Table() {
+    const step41 = document.getElementById('step41Section');
+    const step42 = document.getElementById('step42Section');
+    if (step41) step41.style.display = 'block';
+    if (step42) step42.style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showStep42Video() {
+    const step41 = document.getElementById('step41Section');
+    const step42 = document.getElementById('step42Section');
+    if (step41) step41.style.display = 'none';
+    if (step42) step42.style.display = 'block';
+    resetStep42Video();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetStep42Video() {
+    const step42 = document.getElementById('step42Section');
+    if (!step42) return;
+
+    const container = step42.querySelector('.video-container');
+    if (!container) return;
+
+    const placeholder = container.querySelector('.video-placeholder');
+    const preview = container.querySelector('.video-preview');
+    const activeVideo = container.querySelector('video:not(.video-preview)');
+
+    if (activeVideo) {
+        try {
+            activeVideo.pause();
+        } catch (e) {}
+        activeVideo.remove();
+    }
+
+    if (preview) {
+        preview.currentTime = 0;
+        preview.style.display = 'block';
+    }
+
+    if (placeholder) {
+        placeholder.style.display = 'block';
     }
 }
 

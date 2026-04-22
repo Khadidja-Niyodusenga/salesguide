@@ -135,9 +135,9 @@
                 </div>
             </div>
 
-            <h2 style="margin-top: 18px;">A.1.3 WAFATA UMWANZURO WO KWISHYURA MINIMUM 50,000 frw, NTAGO ARI NGOMBWA KUBAZA ?</h2><br>
-            <h3>Niba hari uwo ugomba kubaza, byasaba kuza muzanye, ugasubirayo mukagarukana!<br> <br>(Akenshi iyo company isobanuriye umuntu akagenda atishyuye ngo agiye kubisobanurira uwundi utageze kuri office, <br>
-                kandi utageze kuri office atari bubyumve nkuwahageze, akenshi birangira utageze kuri office abyanze umwanya company yakoresheje isobanurira uwageze kuri office uba wapfuye ubusa.<br> company igahomba nabo bagahomba amahirwe yo kubona umukiliya.)<br> <br>UMWANZURO WAWUFATA ??? </h3><br>
+            <h2 style="margin-top: 18px;">A.1.3 GUFATA UMWANZURO WO KWISHYURA MINIMUM 50,000 frw, BITABAYE NGOMBWA KUBANZA KUBAZA ?</h2><br>
+            <h3>Niba hari uwo ugomba kubaza, byasaba kuza muzanye, ugasubirayo mukagarukana!<br> <br>(Akenshi iyo company isobanuriye Mr./Ms. .................. akagenda atishyuye ngo agiye kubisobanurira umuntu runaka Mr./Ms. .................  utageze kuri office, kandi Mr./Ms. ................. utageze kuri office ataribubyumve neza nka Mr./Ms. ............. wageze kuri office.<br>
+               akenshi birangira Mr./Ms. ................  utageze kuri office abyanze umwanya company yakoresheje isobanurira Mr./Ms. .................. wageze kuri office uba wapfuye ubusa.<br> company igahomba. Mr./Mr. .................. nabo bagahomba amahirwe yo kubona umukiliya.)<br> <br>UMWANZURO WAWUFATA ??? </h3><br>
             <p style="margin-bottom: 8px;"><strong>Hitamo kimwe:</strong></p>
             <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
                 <div class="form-group">
@@ -182,13 +182,52 @@
         </div>
     </div>
 
-    <!-- Step 3: New Table (from source code) -->
-    <div class="step-content" id="step3">
+    <!-- Step 4: New Table (from source code) -->
+    <div class="step-content" id="step4">
 
-        
+
+        <div id="step42Section" style="display:none;">
+
         <div class="step-header">
-            <h2><i class="fas fa-table"></i> Step 3: Kuva muri Gakondo/Traditional Tujya muri Technology</h2>
+            <h2><i class="fas fa-play-circle"></i> Step 4.2: Ibisobanuro byibanze: video Igisubizo</h2>
+            <p>Umukozi ntabwo yemerewe gutanga ibindi bisobanuro birenze video. Ibindi bisobanuro, ibibazo n'ibisubizo bitangwa kumukiriya wamaze kwishyura consultation.</p>
+        </div>
+
+        <div class="button-group">
+            <button type="button" class="btn btn-prev" onclick="showStep41Table()"><i class="fas fa-arrow-left"></i> Previous</button>
+        </div>
+
+        <div class="video-review-card" id="videoReviewStep42">
+            <div class="req-header">
+                <h3><i class="fas fa-play-circle"></i> 4.2 Video Answer</h3>
+            </div>
+            <div class="video-container">
+                <video class="video-preview" preload="metadata" muted>
+                    <source src="video/igisubizo.mp4" type="video/mp4">
+                </video>
+                <div class="video-placeholder" onclick="playVideo(this, 'video/igisubizo.mp4')">
+                    <div class="play-button-overlay">
+                        <i class="fas fa-play-circle"></i>
+                        <span>Click to Play Video</span>
+                    </div>
+                </div>
+            </div>
+            <p class="req-description">Umukozi ntabwo yemerewe gutanga ibindi bisobanuro birenze video. Ibindi bisobanuro, ibibazo n'ibisubizo bitangwa kumukiriya wamaze kwishyura consultation.</p>
+            <div class="button-group">
+                <button type="button" class="btn btn-next" onclick="nextStep(6)">Next <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        </div>
+
+        <div id="step41Section">
+        <div class="step-header">
+            <h2><i class="fas fa-table"></i> Step 4.1: Kuva muri Gakondo/Traditional Tujya muri Technology</h2>
             <p>Reba uko technology yagiye ihindura ibintu</p>
+        </div>
+
+        <div class="button-group">
+            <button type="button" class="btn btn-next" onclick="showStep42Video()">Next <i class="fas fa-arrow-right"></i></button>
         </div>
         
         <div class="table-container">
@@ -276,9 +315,7 @@
                             
                             <br>
 
-                            <!-- warning sign attention -->
-
-                            <!-- <img src="image/attention.png" alt="warning">  -->
+                    
                         
                         </td>
                          
@@ -338,20 +375,12 @@
                             <circle cx="100" cy="100" r="6" fill="black"/>
 
                             </svg>
-
-
                             </div>
 
-
                             <br>
-
-
                             
                             - Ikizere kiri hejuru cyane cyo kugera aho ugiye <br> - Ntabwo bagutwara niyo waba ugiye kwa muganga <br><img src="image/attention.png" alt="warning"><br> - NTA kugabanyisha ibiciro<br>
-                        
-                        
-                            
-
+                
                         </td>
                         
                     </tr>
@@ -379,7 +408,6 @@
 
                             </svg>
 
-
                             </div>
                                                             
                         <br>-Umuvuzi Gakondo <br>- Wishyura aruko warwaye <br> - Amarangamutima: wakwinginga ngo nzishyura ninkira <br> 
@@ -388,9 +416,7 @@
 
                         <td><img src="image/mutuel.png" alt="mutuel"><br><small>Umurwayi <h1>Isoko</h1> Muganga </small> <br> <img src="image/ahead.png" alt="forward"></td>
                         <td>
-                            
-
-
+           
                             <div class="gauge">
 
                             <svg viewBox="0 0 200 120">
@@ -413,15 +439,9 @@
 
                             </div>
 
-
                             <br>
 
-
                             -Ikizere Kubona umuganga byihuse mugihugu hose<br><img src="image/attention.png" alt="warning"><br>- Nta kugabanyisha ibiciro <br> - Ntabwo wakwivuriza kuri mutuel utishyuye 
-                        
-
-                            
-
 
                         </td>
                         
@@ -458,9 +478,6 @@
 
                         <td><img src="image/mtn.png" alt="MoMo"><br><small>Uwohereza FRW <h1>Isoko</h1> Uwakira FRW </small> <br> <img src="image/ahead.png" alt="forward"></td>
                         <td>
-                            
-                            
-
 
                             <div class="gauge">
 
@@ -481,17 +498,12 @@
 
                             </svg>
 
-
                             </div>
-
 
                             <br>
 
-
                             - Ikizere cyo kohereza no kwakira amafaranga mugihugu hose <br><img src="image/attention.png" alt="warning"><br>-  Ntabwo wakohereza FRW utishyuye ayo gukata nubwo yaba agiye kwa muganga 
-                        
-
-                            
+  
                         </td>
                         
                     </tr>
@@ -518,7 +530,6 @@
 
                             </svg>
 
-
                             </div>
                                                             
                            <br>-Amarangamutima: Washoboraga kwinginga umukozi akihutisha dosiye <br>
@@ -527,9 +538,6 @@
 
                         <td><img src="image/irembo.png" alt="irembo"> <br><small>Umuturage <h1>Isoko</h1> Leta </small> <br> <img src="image/ahead.png" alt="forward"></td>
                         <td>
-                            
-                            
-
 
                             <div class="gauge">
 
@@ -559,12 +567,7 @@
 
 
                             - Ikizere cyo gusabira icyangombwa ahariho hose mugihugu<br><img src="image/attention.png" alt="warning"><br> - NTA kugabanyisha ibiciro <br> - Ntabwo wabona icyangombwa utishyuye<br>
-                        
-                        
-                        
-                        
-                            
-
+             
                         </td>
                         
                     </tr>
@@ -600,9 +603,6 @@
                         <td><img src="image/buysellorrent-logo.png" alt="buysellorrent-logo"> <br><small>Kugura <br> Gukodesha <h1>Isoko</h1> Kugurisha <br> Gukodeshwa</small> <br> <img src="image/ahead.png" alt="forward"></td>
                         <td>
                             
-
-
-
                             <div class="gauge">
 
                             <svg viewBox="0 0 200 120">
@@ -622,21 +622,12 @@
 
                             </svg>
 
-
                             </div>
-
 
                             <br>
 
-
-
                             - Ikizere cyo kubona umukiriya uturutse kwisi yose igihe cyose <br> - Ureba icyo ugurisha amasaha 24/7<br><img src="image/attention.png" alt="warning"><br>-Ntago inzu-ikibanza-imodoka-nibindi byajya kwisoko utishyuye mbere<br>- NTA kugabanyisha ibiciro <br>- Amategeko nambabwirizwa birakurikizwa
-                        
-                        
-                        
-                            
 
-                        
                         </td>
                     </tr>
                 </tbody>
@@ -647,13 +638,14 @@
         </div>
         
         <div class="button-group">
-            <button type="button" class="btn btn-prev" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Previous</button>
-            <button type="button" class="btn btn-next" onclick="nextStep(4)">Next <i class="fas fa-arrow-right"></i></button>
+            <button type="button" class="btn btn-prev" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> Previous</button>
+            <button type="button" class="btn btn-next" onclick="showStep42Video()">Next <i class="fas fa-arrow-right"></i></button>
+        </div>
         </div>
     </div>
 
-    <!-- Step 4: Company Tour (moved from old Step 3) -->
-    <div class="step-content" id="step4">
+    <!-- Step 3: Company Tour  -->
+    <div class="step-content" id="step3">
         <div class="marketing_purpose" style="color: #ea120b;">
             <h2><ins>For marketing & call center:</ins></h2>
             <br>
@@ -671,7 +663,7 @@
         </div>
 
         <div class="step-header">
-            <h2><i class="fas fa-building"></i> Step 4: Company Tour</h2>
+            <h2><i class="fas fa-building"></i> Step 3: Company Tour</h2>
             <h3><b>Isoko rikora gute mubikorwa?</b></h3>
             <h3>KU BAKILIYA BATISHYURA CONSULTATION HAGENDEWE KURI THEORY GUSA ( BEMERA BABONYE - IBIKORWA)</h3>
         </div>
@@ -689,15 +681,15 @@
                         <img src="image/isuzuma.jpg" alt="Company Entrance">
                     </div>
                     <div class="tour-card-content">
-                        <h3><i class="fas fa-user-check"></i> 4.1 Isuzuma / consultation</h3>
+                        <h3><i class="fas fa-user-check"></i> 3.1 Isuzuma / consultation</h3>
                         <p>VIDEO</p>
                         <p>Video ntacyo igabanya nkumukozi unaniwe ntanubwo yakubeshya ntanicyo yakongeraho ikubeshya kugirango wishyure abantu bose bahabwa amakuru angana</p>
-                        <h3>4.1.1 kuberiki consultation</h3>
+                        <h3>3.1.1 kuberiki consultation</h3>
                         <ul>
                             <li>Transiporo kujya gusura no gufotora</li>
                             <li> Umwanya wibibazo</li>
                         </ul>
-                        <h3>4.1.2 Consultation: amategeko n'amabwiriza</h3>
+                        <h3>3.1.2 Consultation: amategeko n'amabwiriza</h3>
                         <ul>
                             <li>Consultation isanzwe (kugenda ukagaruka 100000rwf) uyumunsi 50000rwf</li>
                             <li> Guhabwa ibisubizo rusange</li>
@@ -710,7 +702,7 @@
                         <img src="image/guichet.jpg" alt="Reception Area">
                     </div>
                     <div class="tour-card-content">
-                        <h3><i class="fas fa-comments-dollar"></i>4.2 Aho bishyurira/Guichet/Counter</h3>
+                        <h3><i class="fas fa-comments-dollar"></i>3.2 Aho bishyurira/Guichet/Counter</h3>
                         <p>Uburyo bwokwishyura bwose buremewe</p>
                         <p>facture/EBM</p>
                         <p>Service zizewe</p>
@@ -722,7 +714,7 @@
                         <img src="image/graphic design.jpg" alt="Meeting Rooms">
                     </div>
                     <div class="tour-card-content">
-                        <h3><i class="fas fa-video"></i>4.3 Gutegura ibigurishwa n'ibikodeshwa/Content creation & Graphic design</h3>
+                        <h3><i class="fas fa-video"></i>3.3 Gutegura ibigurishwa n'ibikodeshwa/Content creation & Graphic design</h3>
                         <p>amafoto / pictures</p>
                         <p>gusemura / Translation</p>
                         <p>urwego mpuzamahanga / International standard</p>
@@ -734,7 +726,7 @@
                         <img src="image/sales consultant.jpg" alt="Office Space">
                     </div>
                     <div class="tour-card-content">
-                        <h3><i class="fas fa-desktop"></i> 4.4 umujyanama w'ubucuruzi/ sales consultatant</h3>
+                        <h3><i class="fas fa-desktop"></i> 3.4 umujyanama w'ubucuruzi/ sales consultatant</h3>
                         <p>Agaciro kw'isoko / market value</p>
                         <p>amahitamo / service choice</p>
                         <h3 style="color:red"> <i class="fa "></i> Company yakugira inama utarishyura consultation ?</h3>
@@ -745,7 +737,7 @@
                         <img src="image/umujyanama mukuru.jpg" alt="Technology Hub">
                     </div>
                     <div class="tour-card-content">
-                        <h3><i class="fas fa-user-tie"></i>4.5 umujyanama mukuru wubucuruzi / senior sales consultant </h3>
+                        <h3><i class="fas fa-user-tie"></i>3.5 umujyanama mukuru wubucuruzi / senior sales consultant </h3>
                         <p>company ntoya/small medium enterprise (SME)</p>
                         <p>company nini/large companies & factories</p>
                         <p>corporate clients (bank insurance)</p>
@@ -757,7 +749,7 @@
                         <img src="image/boardroom.jpg" alt="Support Center">
                     </div>
                     <div class="tour-card-content">
-                        <h3><i class="fas fa-users"></i> 4.6 Ahabera inama (gukurikirana) / Boardroom-follow up</h3>
+                        <h3><i class="fas fa-users"></i> 3.6 Ahabera inama (gukurikirana) / Boardroom-follow up</h3>
                         <p>gukurikirana inama igihe abakiliya batabonetse </p>
                         <p>imyanzuro (Rwanda day,expo,RTV,TV1,radios)</p>
                     </div>
@@ -767,7 +759,7 @@
                         <img src="image/call center.jpg" alt="Future Vision">
                     </div>
                     <div class="tour-card-content">
-                        <h3><i class="fas fa-headset"></i> 4.7 Guhamagara no kwitaba / call center</h3>
+                        <h3><i class="fas fa-headset"></i> 3.7 Guhamagara no kwitaba / call center</h3>
                         <p>Uwo mwavuganaga akorera aha ashinzwe gufata gahunda <br> gahunda no kuzikurikirana gusa ntabwo yakira abakiliya imbonankubone</p>
                         <h3 style="color:red"> <i class="fa "></i> Company yitaba kandi igahamagara abakiliya barenga million kumwaka mubakiliya ibihumbi 7 cyangwa 10 haburamo abakiliya hagati ya 7 na 10 yaguhuza nabo ?</h3>
                     </div>
@@ -790,12 +782,12 @@
              No kuri services za buysellorrent.com niko bigenda: habanza kwishyura consultation, ibisobanuro kuri services ( packages), uburyo zikoreshwa, n'amafaranga zishyurwa bikaza nyuma ( MU YINDI OFFICE) winjirayo wamaze kwishyura consultation. UTARISHYURA NTAGO WAHINJIRA.</div>
         
         <div class="button-group">
-            <button type="button" class="btn btn-prev" onclick="prevStep(3)"><i class="fas fa-arrow-left"></i> Previous</button>
-            <button type="button" class="btn btn-next" onclick="nextStep(6)">Next <i class="fas fa-arrow-right"></i></button>
+            <button type="button" class="btn btn-prev" onclick="prevStep(2)"><i class="fas fa-arrow-left"></i> Previous</button>
+            <button type="button" class="btn btn-next" onclick="nextStep(4)">Next <i class="fas fa-arrow-right"></i></button>
         </div>
     </div>
 
-    <!-- Step 2: Consultation Requirements (moved from old Step 4) -->
+    <!-- Step 2: Consultation Requirements -->
     <div class="step-content" id="step2">
         <div class="marketing_purpose" style="color: #ea120b;">
             <h2><ins>For marketing & call center:</ins></h2>
@@ -835,7 +827,7 @@
                 <!-- 3.1 Terms and Conditions -->
                 <div class="requirement-card active" id="reqCard1">
                     <div class="req-header">
-                        <h3><i class="fas fa-file-contract"></i> 2.1 kuberiki/ consultation</h3>
+                        <h3><i class="fas fa-file-contract"></i> 2.1 kuberiki consultation</h3>
                         <div class="req-status" id="status1">Pending</div>
                     </div>
                     <div class="video-container">
@@ -931,7 +923,7 @@
                     </div>
                 </div>
                 
-                <!-- 3.4 Video Answer -->
+                <!-- 2.4 Video Answer -->
                 <div class="requirement-card" id="reqCard4">
                     <div class="req-header">
                         <h3><i class="fas fa-play-circle"></i> 2.4 Ibisobanuro byibanze: video Igisubizo </h3>
@@ -955,7 +947,7 @@
                     </div>
                 </div>
 
-                <!-- 3.5 Consultation Payment (moved from old Step 4) -->
+                <!-- 2.5 Consultation Payment (moved from old Step 4) -->
                 <div class="requirement-card" id="reqCard5">
                     <div class="req-header">
                         <h3><i class="fas fa-comments-dollar"></i> 2.5 Kwishura Consultation</h3>
@@ -1031,7 +1023,7 @@
         </div>
     </div>
 
-    <!-- Step 6: User Roles Explanation (old Step 5) -->
+    <!-- Step 5: User Roles Explanation  -->
     <div class="step-content" id="step6">
 
         <div class="marketing_purpose" style="color: #ea120b;">
