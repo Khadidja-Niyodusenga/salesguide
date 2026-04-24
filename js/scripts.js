@@ -4,8 +4,7 @@ const userData = {
     requirements: {
         terms: false,
         money: false,
-        paymentMethod: null,
-        video: false
+        paymentMethod: null
     },
     payment: {
         consultation: false,
@@ -430,7 +429,7 @@ function updateTourCounter() {
 
 // Requirements Navigation Variables
 let currentRequirement = 1;
-const totalRequirements = 5;
+const totalRequirements = 4;
 
 function initializeRequirements() {
     currentRequirement = 1;
@@ -486,9 +485,7 @@ function updateRequirementDisplay() {
             dot.classList.add('completed');
         } else if (reqNumber === 3 && userData.requirements.paymentMethod) {
             dot.classList.add('completed');
-        } else if (reqNumber === 4 && userData.requirements.video) {
-            dot.classList.add('completed');
-        } else if (reqNumber === 5 && userData.payment.consultation) {
+        } else if (reqNumber === 4 && userData.payment.consultation) {
             dot.classList.add('completed');
         }
         
@@ -524,7 +521,6 @@ function updateRequirementCounter() {
             'Terms & Conditions',
             'Money Availability',
             'Payment Methods',
-            'Video Explanation',
             'Consultation Payment'
         ];
         counter.textContent = `Requirement ${currentRequirement} of ${totalRequirements}: ${requirementNames[currentRequirement - 1]}`;
@@ -537,7 +533,6 @@ function updateRequirementsProgress() {
     if (userData.requirements.terms) completedCount++;
     if (userData.requirements.money) completedCount++;
     if (userData.requirements.paymentMethod) completedCount++;
-    if (userData.requirements.video) completedCount++;
     if (userData.payment.consultation) completedCount++;
     
     const progressText = document.getElementById('progressText');
@@ -579,9 +574,6 @@ function confirmRequirement(reqNumber, confirmed) {
                 break;
             case 3:
                 userData.requirements.paymentMethod = getSelectedPaymentMethod();
-                break;
-            case 4:
-                userData.requirements.video = true;
                 break;
         }
         
@@ -659,7 +651,7 @@ function checkRequirementsCompletion() {
         userData.requirements.terms &&
         userData.requirements.money &&
         userData.requirements.paymentMethod &&
-        userData.requirements.video;
+        userData.payment.consultation;
     
     if (allCompleted) {
         showNotification('All requirements completed! You can proceed to next step.', 'success');
@@ -680,11 +672,6 @@ function validateRequirements() {
     if (!userData.requirements.paymentMethod) {
         showNotification('Please select a payment method', 'error');
         goToRequirement(3);
-        return false;
-    }
-    if (!userData.requirements.video) {
-        showNotification('Please watch the explanation video', 'error');
-        goToRequirement(4);
         return false;
     }
     return true;
@@ -1047,8 +1034,8 @@ function updateSummary() {
     document.getElementById('summaryMoney').textContent = userData.requirements.money ? 'Yes' : 'No';
     document.getElementById('summaryMoney').style.color = userData.requirements.money ? 'var(--success-color)' : 'var(--danger-color)';
     document.getElementById('summaryPaymentMethod').textContent = userData.requirements.paymentMethod ? userData.requirements.paymentMethod.toUpperCase() : '-';
-    document.getElementById('summaryVideo').textContent = userData.requirements.video ? 'Yes' : 'No';
-    document.getElementById('summaryVideo').style.color = userData.requirements.video ? 'var(--success-color)' : 'var(--danger-color)';
+    document.getElementById('summaryVideo').textContent = userData.payment.consultation ? 'Yes' : 'No';
+    document.getElementById('summaryVideo').style.color = userData.payment.consultation ? 'var(--success-color)' : 'var(--danger-color)';
     
     document.getElementById('summaryPayment').textContent = userData.payment.consultation ? 'Yes' : 'No';
     document.getElementById('summaryPayment').style.color = userData.payment.consultation ? 'var(--success-color)' : 'var(--danger-color)';
@@ -1152,7 +1139,7 @@ function exportAsCSV() {
     csvContent += `Requirements,Terms Accepted,${userData.requirements.terms ? 'Yes' : 'No'}\n`;
     csvContent += `Requirements,Money Available,${userData.requirements.money ? 'Yes' : 'No'}\n`;
     csvContent += `Requirements,Payment Method,${userData.requirements.paymentMethod}\n`;
-    csvContent += `Requirements,Video Watched,${userData.requirements.video ? 'Yes' : 'No'}\n`;
+    csvContent += `Requirements,Consultation Paid,${userData.payment.consultation ? 'Yes' : 'No'}\n`;
     
     csvContent += `Payment,Consultation Paid,${userData.payment.consultation ? 'Yes' : 'No'}\n`;
     csvContent += `Payment,Payment Code,${userData.payment.code}\n`;
@@ -1328,7 +1315,7 @@ function resetForm() {
         btn.disabled = true;
     });
     
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 1; i <= totalRequirements; i++) {
         const statusElement = document.getElementById(`status${i}`);
         if (statusElement) {
             statusElement.textContent = 'Pending';

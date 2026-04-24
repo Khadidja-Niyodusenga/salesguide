@@ -137,7 +137,7 @@
 
             <h2 style="margin-top: 18px;">A.1.3 GUFATA UMWANZURO WO KWISHYURA MINIMUM 50,000 frw, BITABAYE NGOMBWA KUBANZA KUBAZA ?</h2><br>
             <h3>Niba hari uwo ugomba kubaza, byasaba kuza muzanye, ugasubirayo mukagarukana!<br> <br>(Akenshi iyo company isobanuriye Mr./Ms. .................. akagenda atishyuye ngo agiye kubisobanurira umuntu runaka Mr./Ms. .................  utageze kuri office, kandi Mr./Ms. ................. utageze kuri office ataribubyumve neza nka Mr./Ms. ............. wageze kuri office.<br>
-               akenshi birangira Mr./Ms. ................  utageze kuri office abyanze umwanya company yakoresheje isobanurira Mr./Ms. .................. wageze kuri office uba wapfuye ubusa.<br> company igahomba. Mr./Mr. .................. nabo bagahomba amahirwe yo kubona umukiliya.)<br> <br>UMWANZURO WAWUFATA ??? </h3><br>
+               akenshi birangira Mr./Ms. ................  utageze kuri office abyanze. <p>Si uko Mr./Ms. ................ abyanze kuko adashaka amafaranga ahubwo abyanze kuko atabifiteho amakuru nkayo Mr./Ms. .................. ibifiteho.</p> Umwanya company yakoresheje isobanurira Mr./Ms. .................. wageze kuri office uba wapfuye ubusa.<br> company igahomba. Mr./Mr. .................. nabo bagahomba amahirwe yo kubona umukiliya.)<br> <br>UMWANZURO WAWUFATA ??? </h3><br>
             <p style="margin-bottom: 8px;"><strong>Hitamo kimwe:</strong></p>
             <div class="form-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
                 <div class="form-group">
@@ -777,7 +777,7 @@
             </div>
         </div>
         
-        <div class="marketing_purpose" style="color: #ea120b;">NB: Nyuma ya company tour gana step 2.5 ubaze umukiliya uburyo bwo kwishyura. <br>umukozi ntabwo yemerewe gufata umwanya w'ibindi bisobanuro (services/ubujyanama) umukiliya atarishyura consultation. <br><br> 
+        <div class="marketing_purpose" style="color: #ea120b;">NB: Nyuma ya company tour gana step 2.4 ubaze umukiliya uburyo bwo kwishyura. <br>umukozi ntabwo yemerewe gufata umwanya w'ibindi bisobanuro (services/ubujyanama) umukiliya atarishyura consultation. <br><br> 
              ibisobanuro kuri services ni nk'ibisobanuro by'imiti kwa muganga, ingaruka nibyiza bya buri muti, uburyo ukoreshwa n'amafaranga buri muti ugura ubibaza kandi ukabimenya wamaze kwishyura consultation.<br> <br>
              No kuri services za buysellorrent.com niko bigenda: habanza kwishyura consultation, ibisobanuro kuri services ( packages), uburyo zikoreshwa, n'amafaranga zishyurwa bikaza nyuma ( MU YINDI OFFICE) winjirayo wamaze kwishyura consultation. UTARISHYURA NTAGO WAHINJIRA.</div>
         
@@ -811,7 +811,7 @@
         <div class="requirements-container">
             <div class="requirements-navigation">
                 <button class="req-nav-btn" onclick="prevRequirement()"><i class="fas fa-chevron-left"></i> Previous</button>
-                <div class="req-counter" id="reqCounter">Requirement 1 of 5</div>
+                <div class="req-counter" id="reqCounter">Requirement 1 of 4</div>
                 <button class="req-nav-btn" onclick="nextRequirement()">Next <i class="fas fa-chevron-right"></i></button>
             </div>
             
@@ -820,7 +820,6 @@
                 <span class="req-dot" onclick="goToRequirement(2)"></span>
                 <span class="req-dot" onclick="goToRequirement(3)"></span>
                 <span class="req-dot" onclick="goToRequirement(4)"></span>
-                <span class="req-dot" onclick="goToRequirement(5)"></span>
             </div>
             
             <div class="requirements-cards-container">
@@ -924,10 +923,10 @@
                 </div>
                 
                 <!-- 2.4 Video Answer -->
-                <div class="requirement-card" id="reqCard4">
+                <div class="requirement-card" id="reqCardVideo" style="display: none;">
                     <div class="req-header">
                         <h3><i class="fas fa-play-circle"></i> 2.4 Ibisobanuro byibanze: video Igisubizo </h3>
-                        <div class="req-status" id="status4">Pending</div>
+                        <div class="req-status" id="statusVideo">Pending</div>
                     </div>
                     <div class="video-container">
                         <video class="video-preview" preload="metadata" muted>
@@ -942,20 +941,20 @@
                     </div>
                     <p class="req-description">Umukozi ntabwo yemerewe gutanga ibindi bisobanuro birenze video. Ibindi bisobanuro, ibibazo n'ibisubizo bitangwa kumukiriya wamaze kwishyura consultation.</p>
                     <div class="req-confirmation">
-                        <button class="btn-confirm no" onclick="confirmRequirement(4, false)"><i class="fas fa-times"></i> ntago nyuzwe, nzagaruka</button>
-                        <button class="btn-confirm yes" onclick="confirmRequirement(4, true)"><i class="fas fa-check"></i> ndanyuzwe</button>
+                        <button class="btn-confirm no" onclick="confirmRequirement('video', false)"><i class="fas fa-times"></i> ntago nyuzwe, nzagaruka</button>
+                        <button class="btn-confirm yes" onclick="confirmRequirement('video', true)"><i class="fas fa-check"></i> ndanyuzwe</button>
                     </div>
                 </div>
 
-                <!-- 2.5 Consultation Payment (moved from old Step 4) -->
-                <div class="requirement-card" id="reqCard5">
+                <!-- 2.4 Consultation Payment (moved from old Step 4) -->
+                <div class="requirement-card" id="reqCard4">
                     <div class="req-header">
-                        <h3><i class="fas fa-comments-dollar"></i> 2.5 Kwishura Consultation</h3>
-                        <div class="req-status" id="status5">Pending</div>
+                        <h3><i class="fas fa-comments-dollar"></i> 2.4 Kwishura Consultation</h3>
+                        <div class="req-status" id="status4">Pending</div>
                     </div>
                     <div class="consultation-container">
                         <div class="payment-section" id="paymentSection">
-                            <h3><i class="fas fa-money-check-alt"></i> 2.5.1 Uburyo bwo kwishyura / Payment Details</h3>
+                            <h3><i class="fas fa-money-check-alt"></i> 2.4.1 Uburyo bwo kwishyura / Payment Details</h3>
                             
                             <div class="payment-option">
                                 <label class="checkbox-option">
@@ -993,7 +992,7 @@
                         </div>
                         
                         <div class="no-payment-section">
-                            <h3><i class="fas fa-ban"></i> 2.5.2 Ntaburyo bwo kwishyura /No Payment Option</h3>
+                            <h3><i class="fas fa-ban"></i> 2.4.2 Ntaburyo bwo kwishyura /No Payment Option</h3>
                             <div class="warning-box">
                                 <i class="fas fa-exclamation-circle"></i>
                                 <p>Umukiriya utishyuye consultation ntabindi bisobanuro ahabwa / If no payment is made for consultation, you cannot proceed further.</p>
@@ -1009,7 +1008,7 @@
             <div class="requirements-progress">
                 <div class="progress-info">
                     <span>Progress: </span>
-                    <span id="progressText">0 of 5 requirements completed</span>
+                    <span id="progressText">0 of 4 requirements completed</span>
                 </div>
                 <div class="progress-bar-small">
                     <div class="progress-fill" id="requirementsProgress"></div>
