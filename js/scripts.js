@@ -267,17 +267,31 @@ function goToStep(stepNumber) {
 function showStep41Table() {
     const step41 = document.getElementById('step41Section');
     const step42 = document.getElementById('step42Section');
+    const step43 = document.getElementById('step43Section');
     if (step41) step41.style.display = 'block';
     if (step42) step42.style.display = 'none';
+    if (step43) step43.style.display = 'none';
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function showStep42Video() {
     const step41 = document.getElementById('step41Section');
     const step42 = document.getElementById('step42Section');
+    const step43 = document.getElementById('step43Section');
     if (step41) step41.style.display = 'none';
     if (step42) step42.style.display = 'block';
+    if (step43) step43.style.display = 'none';
     resetStep42Video();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function showStep43Consultation() {
+    const step41 = document.getElementById('step41Section');
+    const step42 = document.getElementById('step42Section');
+    const step43 = document.getElementById('step43Section');
+    if (step41) step41.style.display = 'none';
+    if (step42) step42.style.display = 'none';
+    if (step43) step43.style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -429,7 +443,7 @@ function updateTourCounter() {
 
 // Requirements Navigation Variables
 let currentRequirement = 1;
-const totalRequirements = 4;
+const totalRequirements = 3;
 
 function initializeRequirements() {
     currentRequirement = 1;
@@ -452,6 +466,12 @@ function prevRequirement() {
 }
 
 function goToRequirement(reqNumber) {
+    currentRequirement = reqNumber;
+    updateRequirementDisplay();
+}
+
+function goToRequirementStep(reqNumber) {
+    goToStep(2);
     currentRequirement = reqNumber;
     updateRequirementDisplay();
 }
@@ -484,8 +504,6 @@ function updateRequirementDisplay() {
         } else if (reqNumber === 2 && userData.requirements.money) {
             dot.classList.add('completed');
         } else if (reqNumber === 3 && userData.requirements.paymentMethod) {
-            dot.classList.add('completed');
-        } else if (reqNumber === 4 && userData.payment.consultation) {
             dot.classList.add('completed');
         }
         
@@ -520,8 +538,7 @@ function updateRequirementCounter() {
         const requirementNames = [
             'Terms & Conditions',
             'Money Availability',
-            'Payment Methods',
-            'Consultation Payment'
+            'Payment Methods'
         ];
         counter.textContent = `Requirement ${currentRequirement} of ${totalRequirements}: ${requirementNames[currentRequirement - 1]}`;
     }
@@ -533,7 +550,6 @@ function updateRequirementsProgress() {
     if (userData.requirements.terms) completedCount++;
     if (userData.requirements.money) completedCount++;
     if (userData.requirements.paymentMethod) completedCount++;
-    if (userData.payment.consultation) completedCount++;
     
     const progressText = document.getElementById('progressText');
     const progressFill = document.getElementById('requirementsProgress');
@@ -877,9 +893,20 @@ function confirmPayment() {
         userData.payment.date = new Date().toLocaleString();
         userData.timeline.payment = userData.payment.date;
 
-        const nextButton = document.getElementById('step4Next');
+        const nextButton = document.getElementById('step43Next');
         if (nextButton) {
             nextButton.disabled = false;
+        }
+
+        const statusElement = document.getElementById('status4');
+        const cardElement = document.getElementById('reqCard4');
+        if (statusElement) {
+            statusElement.textContent = 'Completed';
+            statusElement.className = 'req-status completed';
+        }
+        if (cardElement) {
+            cardElement.classList.add('completed');
+            cardElement.classList.remove('failed');
         }
 
         const paymentCodeEl = document.getElementById('paymentCode');
@@ -908,6 +935,7 @@ function confirmPayment() {
         delete userData.payment.generatedCode;
         saveToLocalStorage();
         updateRequirementsProgress();
+        checkRequirementsCompletion();
     }, 1200);
 }
 
