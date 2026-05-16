@@ -28,6 +28,30 @@ let currentStep = 1;
 let currentTourCard = 1;
 let paymentConfirmed = false;
 
+// Section index within each top-level page (only one .step-content visible at a time)
+const pageSectionIndex = { 1: 0, 2: 0, 3: 0 };
+
+// 3-page grouping requested by user:
+// Page 1 => old step 1 + step 2 merged into one page
+// Page 2 => old step 3 + step 4
+// Page 3 => old step 6
+const groupedSteps = {
+    1: [1],
+    2: [3, 4],
+    3: [6]
+};
+
+function getPageSectionIndex(page) {
+    return pageSectionIndex[page] ?? 0;
+}
+
+function normalizeStepNumber(stepNumber) {
+    if (groupedSteps[stepNumber]) return stepNumber;
+    if (stepNumber === 4 || stepNumber === 5) return 2;
+    if (stepNumber >= 6) return 3;
+    return 1;
+}
+
 function initStep1A1() {
     // Single checkbox -> show/hide all document previews
     const toggleAll = document.getElementById('doc_show_all');
@@ -83,8 +107,6 @@ function initStep1A1() {
     if (yego) yego.addEventListener('change', updateA13);
     if (oya) oya.addEventListener('change', updateA13);
 
-    // Initialize state
-    updateDocPreviews();
     updateA13();
 }
 
@@ -182,9 +204,18 @@ document.addEventListener('DOMContentLoaded', function() {
         regForm.addEventListener('keydown', function(e) { if (e.key === 'Enter') e.preventDefault(); });
     }
 
-    // Always start on step 1 when the page (re)loads
+    renderPaymentDetails();
+
+    const landingContinuation = document.getElementById('landingContinuation');
+    const step2El = document.getElementById('step2');
+    if (landingContinuation && step2El) {
+        step2El.classList.remove('step-content');
+        step2El.style.display = 'block';
+        landingContinuation.appendChild(step2El);
+    }
+
     currentStep = 1;
-    goToStep(1);
+    goToStep(1, 0);
 });
 
 // Progress bar functions
@@ -194,8 +225,8 @@ function initializeProgressBar() {
     
     steps.forEach(step => {
         step.addEventListener('click', function() {
-            const stepNumber = parseInt(this.getAttribute('data-step'));
-            goToStep(stepNumber);
+            const stepNumber = parseInt(this.getAttribute('data-step'), 10);
+            goToStep(stepNumber, 0);
         });
     });
     
@@ -222,46 +253,95 @@ function updateProgressBar() {
 
 // Step navigation functions
 function nextStep(step) {
+    const target = normalizeStepNumber(step);
+    if (target === currentStep) {
+        nextPageSection();
+        return;
+    }
     if (validateCurrentStep()) {
-        goToStep(step);
+        goToStep(target, 0);
     }
 }
 
 function prevStep(step) {
-    goToStep(step);
+    const target = normalizeStepNumber(step);
+    if (target === currentStep) {
+        prevPageSection();
+        return;
+    }
+    goToStep(target, 0);
 }
 
-function goToStep(stepNumber) {
+function validatePageSection(page, sectionIdx) {
+    if (page === 1 && sectionIdx >= 1) {
+        return validateRequirements();
+    }
+    return true;
+}
+
+function nextPageSection() {
+    const pageSteps = groupedSteps[currentStep] || [];
+    const idx = getPageSectionIndex(currentStep);
+
+    if (idx < pageSteps.length - 1) {
+        if (!validatePageSection(currentStep, idx)) return;
+        goToStep(currentStep, idx + 1);
+        return;
+    }
+
+    if (!validatePageSection(currentStep, idx)) return;
+    const nextPage = currentStep + 1;
+    if (groupedSteps[nextPage]) {
+        goToStep(nextPage, 0);
+    }
+}
+
+function prevPageSection() {
+    const idx = getPageSectionIndex(currentStep);
+    if (idx > 0) {
+        goToStep(currentStep, idx - 1);
+        return;
+    }
+    if (currentStep > 1) {
+        const prevPage = currentStep - 1;
+        const prevSections = groupedSteps[prevPage] || [];
+        goToStep(prevPage, Math.max(0, prevSections.length - 1));
+    }
+}
+
+function goToStep(stepNumber, sectionIndex) {
+    const normalizedStep = normalizeStepNumber(stepNumber);
+    const pageSteps = groupedSteps[normalizedStep] || [];
+    if (!pageSteps.length) return;
+
+    let sec = sectionIndex;
+    if (sec === undefined || sec === null) {
+        sec = getPageSectionIndex(normalizedStep);
+    }
+    sec = Math.max(0, Math.min(sec, pageSteps.length - 1));
+
     document.querySelectorAll('.step-content').forEach(step => {
         step.classList.remove('active');
     });
-    
-    const stepElement = document.getElementById(`step${stepNumber}`);
-    if (stepElement) {
-        stepElement.classList.add('active');
-        currentStep = stepNumber;
-        updateProgressBar();
 
-        if (stepNumber === 1) {
-            initStep1A1();
-        }
-        
-        // Initialize requirements on Step 2
-        if (stepNumber === 2) {
-            initializeRequirements();
-        }
+    const stepElement = document.getElementById(`step${pageSteps[sec]}`);
+    if (!stepElement) return;
 
-        // Step 4 has two internal sub-sections (4.1 table -> 4.2 video)
-        if (stepNumber === 4) {
-            showStep41Table();
-        }
-        
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        
-        if (stepNumber === 8) {
-            updateSummary();
-        }
+    stepElement.classList.add('active');
+    pageSectionIndex[normalizedStep] = sec;
+    currentStep = normalizedStep;
+    updateProgressBar();
+
+    if (normalizedStep === 1) {
+        initStep1A1();
+        initializeRequirements();
     }
+
+    if (normalizedStep === 2 && sec === 1) {
+        showStep41Table();
+    }
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function showStep41Table() {
@@ -324,17 +404,15 @@ function resetStep42Video() {
 }
 
 function validateCurrentStep() {
+    const idx = getPageSectionIndex(currentStep);
     switch (currentStep) {
         case 1:
+            if (idx >= 1) return validateRequirements();
             return validateRegistrationForm();
         case 2:
-            return validateRequirements();
-        case 5: // old step 4
-            return validatePayment();
-        case 6: // old step 5
-            return true; // Always valid
-        case 7: // old step 6
-            return validateRoleSelection();
+            return true;
+        case 3:
+            return true;
         default:
             return true;
     }
@@ -471,7 +549,7 @@ function goToRequirement(reqNumber) {
 }
 
 function goToRequirementStep(reqNumber) {
-    goToStep(2);
+    goToStep(1, 0);
     currentRequirement = reqNumber;
     updateRequirementDisplay();
 }
@@ -720,7 +798,7 @@ function renderPaymentDetails() {
         container.innerHTML = `
             <div class="payment-code-info">
                 <h4><i class="fas fa-exclamation-circle"></i> No payment method selected</h4>
-                <p class="code-info-text">Please choose a payment method in Step 3 before proceeding. <button class="btn btn-secondary" onclick="prevStep(4)">Choose Method</button></p>
+                <p class="code-info-text">Please choose a payment method in Step 1 before proceeding. <button class="btn btn-secondary" onclick="goToStep(1, 0)">Choose Method</button></p>
             </div>`;
         document.getElementById('paidBtn').disabled = true;
         document.getElementById('changeMethodBtn').disabled = false;
@@ -1332,16 +1410,20 @@ function resetForm() {
     }
     
     currentStep = 1;
+    pageSectionIndex[1] = 0;
+    pageSectionIndex[2] = 0;
+    pageSectionIndex[3] = 0;
     currentTourCard = 1;
     currentRequirement = 1;
     paymentConfirmed = false;
     
-    goToStep(1);
+    goToStep(1, 0);
     updateTourDisplay();
     
-    document.querySelectorAll('.btn-next').forEach(btn => {
-        btn.disabled = true;
-    });
+    const step4NextBtn = document.getElementById('step4Next');
+    if (step4NextBtn) step4NextBtn.disabled = true;
+    const step43NextBtn = document.getElementById('step43Next');
+    if (step43NextBtn) step43NextBtn.disabled = true;
     
     for (let i = 1; i <= totalRequirements; i++) {
         const statusElement = document.getElementById(`status${i}`);
@@ -1358,38 +1440,3 @@ function resetForm() {
     
     showNotification('Form has been reset', 'info');
 }
-
-document.addEventListener('DOMContentLoaded', function() {
-    initializeProgressBar();
-    initializeVideoPreviews();
-    loadUserData();
-    updateTourCounter();
-    
-    userData.timeline.registration = new Date().toLocaleString();
-    
-    const savedData = localStorage.getItem('userRegistrationData');
-    if (savedData) {
-        Object.assign(userData, JSON.parse(savedData));
-        updateUIFromData();
-    }
-    
-    if (currentStep === 2) {
-        initializeRequirements();
-    }
-
-    renderPaymentDetails();
-
-    const step2 = document.getElementById('step2');
-    if (step2) {
-        const observer = new MutationObserver((mutationsList) => {
-            for (let mutation of mutationsList) {
-                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                    if (step2.classList.contains('active')) {
-                        renderPaymentDetails();
-                    }
-                }
-            }
-        });
-        observer.observe(step2, { attributes: true });
-    }
-});

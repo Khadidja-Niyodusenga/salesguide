@@ -20,6 +20,8 @@
     --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.15);
     --transition: all 0.3s ease;
+    --next-btn-green: rgb(4, 156, 62);
+    --next-btn-green-hover: #047f33;
 }
 
 body {
@@ -57,57 +59,66 @@ body {
     top: 0;
     left: 0;
     height: 100%;
-    width: 14.28%;
+    width: 33.33%;
     background: var(--primary-color);
     transition: var(--transition);
 }
 
-.progress-bar.step2::after { width: 28.56%; }
-.progress-bar.step3::after { width: 42.84%; }
-.progress-bar.step4::after { width: 57.12%; }
-.progress-bar.step5::after { width: 71.4%; }
-.progress-bar.step6::after { width: 85.68%; }
-.progress-bar.step7::after { width: 100%; }
+.progress-bar.step2::after { width: 66.66%; }
+.progress-bar.step3::after { width: 100%; }
 
 .steps {
     display: flex;
-    justify-content: space-between;
-    max-width: 800px;
+    justify-content: center;
+    gap: 28px;
+    max-width: 1100px;
     margin: 0 auto;
+    padding: 10px 0;
+}
+
+:root {
+    --pill-color: #16c784;
+    --pill-shadow: 0 8px 24px rgba(4, 120, 87, 0.12);
 }
 
 .step {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #e2e8f0;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
-    color: var(--text-color);
+    padding: 18px 64px;
+    min-width: 260px;
+    border-radius: 999px;
+    background: var(--pill-color);
+    color: #fff;
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.2px;
+    box-shadow: var(--pill-shadow);
     cursor: pointer;
-    transition: var(--transition);
-    position: relative;
+    transition: transform 200ms ease, box-shadow 200ms ease, opacity 200ms ease;
+    white-space: nowrap;
 }
 
 .step.active {
-    background: var(--primary-color);
-    color: white;
-    transform: scale(1.1);
+    transform: translateY(-4px);
+    box-shadow: 0 14px 34px rgba(4,120,87,0.18);
 }
 
 .step.completed {
-    background: var(--success-color);
-    color: white;
+    opacity: 0.95;
 }
 
-.step::after {
-    content: attr(data-step);
-    position: absolute;
-    top: -25px;
-    font-size: 0.8rem;
-    font-weight: 500;
+/* Hide old numeric pseudo element if present */
+.step::after { display: none; }
+
+@media (max-width: 900px) {
+    .steps { gap: 16px; max-width: 900px; padding: 8px; }
+    .step { padding: 14px 36px; min-width: 200px; font-size: 18px; }
+}
+
+@media (max-width: 520px) {
+    .steps { flex-direction: column; align-items: stretch; gap: 12px; }
+    .step { width: 100%; min-width: 0; padding: 12px 18px; font-size: 16px; }
 }
 
 /* Main Container */
@@ -176,6 +187,15 @@ body {
     border: 1px solid #e2e8f0;
     border-radius: 12px;
     background-color: #ffffff;
+    margin: 0;
+}
+
+.doc-preview-name {
+    margin: 10px 0 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+    color: #334155;
 }
 
 @media (min-width: 768px) {
@@ -285,12 +305,12 @@ body {
 }
 
 .btn-next {
-    background: var(--primary-color);
+    background: var(--next-btn-green);
     color: white;
 }
 
 .btn-next:hover {
-    background: #1d4ed8;
+    background: var(--next-btn-green-hover);
     transform: translateY(-2px);
 }
 
@@ -1889,6 +1909,83 @@ img {
     .requirement-card .req-status {
         align-self: flex-start;
     }
+
+/* Strong overrides to ensure step pills keep intended appearance on small screens
+   This addresses legacy/duplicate .step rules that force small circular badges. */
+.progress-container .steps {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 8px 0;
+}
+
+.progress-container .steps .step {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 40px !important;
+    min-width: 220px !important;
+    border-radius: 999px !important;
+    background: #bcc1c9 !important;
+    color: #0f172a !important;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12) !important;
+    border: 2px solid transparent;
+    opacity: 1;
+    filter: none;
+    transform: scale(0.98);
+    transition: transform 200ms ease, box-shadow 200ms ease, opacity 200ms ease, filter 200ms ease;
+    white-space: nowrap;
+}
+
+.progress-container .steps .step.completed {
+    background: var(--pill-color, #16c784) !important;
+    color: #ffffff !important;
+    box-shadow: var(--pill-shadow, 0 8px 24px rgba(4,120,87,0.12)) !important;
+}
+
+.progress-container .steps .step.active {
+    opacity: 1 !important;
+    filter: none;
+    transform: translateY(-2px) scale(1);
+    background: var(--pill-color, #16c784) !important;
+    color: #ffffff !important;
+    border-color: #0f172a;
+    box-shadow: 0 0 0 2px #0f172a, 0 14px 34px rgba(4, 120, 87, 0.22) !important;
+}
+
+.progress-container .steps .step.completed:not(.active) {
+    opacity: 1;
+    filter: none;
+}
+
+.progress-container .steps .step:not(.active):hover {
+    opacity: 1;
+    transform: translateY(-1px) scale(0.99);
+}
+
+@media (max-width: 520px) {
+    .progress-container .steps {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 6px;
+    }
+    .progress-container .steps .step {
+        width: 100% !important;
+        min-width: 0 !important;
+        padding: 18px 22px !important;
+        font-size: 18px !important;
+        text-align: center;
+    }
+    /* hide the thin progress bar above the pills on small screens */
+    .progress-container .progress-bar {
+        display: none !important;
+    }
+}
     
     .video-container {
         padding-bottom: 56.25%;
@@ -2559,6 +2656,20 @@ img {
 .req-nav-btn i.fas.fa-chevron-right,
 .btn-next i.fas.fa-arrow-right { color: #ffffff; }
 
+/* Keep all Next actions visually consistent with the requested pure green style */
+.next-green {
+    background: var(--next-btn-green) !important;
+    color: #ffffff !important;
+}
+
+.next-green:hover {
+    background: var(--next-btn-green-hover) !important;
+}
+
+.next-green i {
+    color: #ffffff !important;
+}
+
 /* Action Icons */
 .btn-confirm.yes i.fas.fa-check { color: #ffffff; }
 .btn-confirm.no i.fas.fa-times { color: #ffffff; }
@@ -2843,6 +2954,13 @@ img {
 .progress-bar.step7::after { width: 87.5%; }
 .progress-bar.step8::after { width: 100%; }
 
+/* Remove progress line globally (desktop + mobile) */
+.progress-container .progress-bar {
+    display: none !important;
+    height: 0 !important;
+    margin: 0 !important;
+}
+
 /* ===== Table for Step 2 ===== */
 .table-container {
     width: 100%;
@@ -3082,4 +3200,27 @@ img {
     .table-container table {
         min-width: 520px;
     }
+}
+
+/* Global step-state styles to keep desktop and mobile behavior identical */
+.progress-container .steps .step {
+    background: #bcc1c9 !important;
+    color: #0f172a !important;
+    border: 2px solid transparent;
+    box-shadow: 0 8px 22px rgba(15, 23, 42, 0.12) !important;
+    opacity: 1;
+    filter: none;
+}
+
+.progress-container .steps .step.completed {
+    background: var(--pill-color, #16c784) !important;
+    color: #ffffff !important;
+    box-shadow: var(--pill-shadow, 0 8px 24px rgba(4, 120, 87, 0.12)) !important;
+}
+
+.progress-container .steps .step.active {
+    background: var(--pill-color, #16c784) !important;
+    color: #ffffff !important;
+    border-color: #0f172a;
+    box-shadow: 0 0 0 2px #0f172a, 0 14px 34px rgba(4, 120, 87, 0.22) !important;
 }
