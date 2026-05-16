@@ -31,13 +31,13 @@ let paymentConfirmed = false;
 // Section index within each top-level page (only one .step-content visible at a time)
 const pageSectionIndex = { 1: 0, 2: 0, 3: 0 };
 
-// 3-page grouping requested by user:
-// Page 1 => old step 1 + step 2 merged into one page
-// Page 2 => old step 3 + step 4
-// Page 3 => old step 6
+// 3-page flow:
+// Page 1 => step 1 (registration + continuation + requirements on sub-pages)
+// Page 2 => single view: 2.1 (tour) + 2.2 (table) + 2.3 video + 2.3.2 consultation (all in #step3)
+// Page 3 => step 6 (services)
 const groupedSteps = {
     1: [1],
-    2: [3, 4],
+    2: [3],
     3: [6]
 };
 
@@ -214,6 +214,8 @@ document.addEventListener('DOMContentLoaded', function() {
         landingContinuation.appendChild(step2El);
     }
 
+    mergeStep4IntoStep3();
+
     currentStep = 1;
     goToStep(1, 0);
 });
@@ -337,70 +339,58 @@ function goToStep(stepNumber, sectionIndex) {
         initializeRequirements();
     }
 
-    if (normalizedStep === 2 && sec === 1) {
-        showStep41Table();
+    if (normalizedStep === 2) {
+        ensureStep2MarketContentVisible();
     }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+/** Step 2 is one scrollable page: 2.1, 2.2, video, consultation — keep all blocks visible. */
+function ensureStep2MarketContentVisible() {
+    ['step41Section', 'step43Section'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'block';
+    });
+    const req4 = document.getElementById('reqCard4');
+    if (req4) req4.classList.add('active');
+}
+
+/** Legacy onclick handlers: no longer hide sibling sections. */
 function showStep41Table() {
-    const step41 = document.getElementById('step41Section');
-    const step42 = document.getElementById('step42Section');
-    const step43 = document.getElementById('step43Section');
-    if (step41) step41.style.display = 'block';
-    if (step42) step42.style.display = 'none';
-    if (step43) step43.style.display = 'none';
+    ensureStep2MarketContentVisible();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function showStep42Video() {
-    const step41 = document.getElementById('step41Section');
-    const step42 = document.getElementById('step42Section');
-    const step43 = document.getElementById('step43Section');
-    if (step41) step41.style.display = 'none';
-    if (step42) step42.style.display = 'block';
-    if (step43) step43.style.display = 'none';
-    resetStep42Video();
+    ensureStep2MarketContentVisible();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function showStep43Consultation() {
-    const step41 = document.getElementById('step41Section');
-    const step42 = document.getElementById('step42Section');
-    const step43 = document.getElementById('step43Section');
-    if (step41) step41.style.display = 'none';
-    if (step42) step42.style.display = 'none';
-    if (step43) step43.style.display = 'block';
+    ensureStep2MarketContentVisible();
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function resetStep42Video() {
-    const step42 = document.getElementById('step42Section');
-    if (!step42) return;
+/** Move #step4 blocks into #step3 (2.1 footer) so progress step 2 is one DOM page. */
+function mergeStep4IntoStep3() {
+    const step3 = document.getElementById('step3');
+    const step4 = document.getElementById('step4');
+    if (!step3 || !step4) return;
 
-    const container = step42.querySelector('.video-container');
-    if (!container) return;
+    const footers = step3.querySelectorAll(':scope > .button-group');
+    const footer = footers.length ? footers[footers.length - 1] : null;
+    if (!footer) return;
 
-    const placeholder = container.querySelector('.video-placeholder');
-    const preview = container.querySelector('.video-preview');
-    const activeVideo = container.querySelector('video:not(.video-preview)');
+    const s41 = document.getElementById('step41Section');
+    const s43 = document.getElementById('step43Section');
+    [s41, s43].forEach(el => {
+        if (!el) return;
+        el.style.display = 'block';
+        step3.insertBefore(el, footer);
+    });
 
-    if (activeVideo) {
-        try {
-            activeVideo.pause();
-        } catch (e) {}
-        activeVideo.remove();
-    }
-
-    if (preview) {
-        preview.currentTime = 0;
-        preview.style.display = 'block';
-    }
-
-    if (placeholder) {
-        placeholder.style.display = 'block';
-    }
+    step4.remove();
 }
 
 function validateCurrentStep() {
