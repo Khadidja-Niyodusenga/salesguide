@@ -198,6 +198,9 @@ document.addEventListener('DOMContentLoaded', function() {
         updateUIFromData();
     }
 
+    // ensure no role card shows the selection frame on initial load
+    document.querySelectorAll('.role-card.selected').forEach(el => el.classList.remove('selected','pulse'));
+
     const regForm = document.getElementById('registrationForm');
     if (regForm) {
         regForm.addEventListener('submit', function(e) { e.preventDefault(); });
@@ -1022,28 +1025,87 @@ function validatePayment() {
     return true;
 }
 
+const ROLE_CONFIG = {
+    basic: {
+        icon: 'fas fa-star',
+        title: 'Basic Role',
+        desc: 'For individuals getting started',
+        color: 'rgb(4, 156, 62)',
+        label: 'Basic',
+        price: '-',
+        cardId: 'basicRole'
+    },
+    standard: {
+        icon: 'fas fa-gem',
+        title: 'Standard Role',
+        desc: 'For growing businesses',
+        color: 'rgb(25, 88, 164)',
+        label: 'Standard',
+        price: '-',
+        cardId: 'standardRole'
+    },
+    premium: {
+        icon: 'fas fa-crown',
+        title: 'Premium Role',
+        desc: 'For enterprise solutions',
+        color: 'rgb(238, 181, 11)',
+        label: 'Premium',
+        price: '-',
+        cardId: 'premiumRole'
+    },
+    premiumExpress: {
+        icon: 'fas fa-bolt',
+        title: 'Premium Express Role',
+        desc: 'For urgent 24-hour visibility',
+        color: 'rgb(75, 238, 11)',
+        label: 'Premium Express',
+        price: '-',
+        cardId: 'premiumExpressRole'
+    }
+};
+
+function getRoleConfig(roleType) {
+    return ROLE_CONFIG[roleType] || ROLE_CONFIG.basic;
+}
+
 // Step 6: User Roles (old step 5)
 function selectRole(roleType) {
+    const roleConfig = getRoleConfig(roleType);
     const roleCards = document.querySelectorAll('.role-card');
     roleCards.forEach(card => {
         card.classList.remove('selected');
     });
     
-    const selectedCard = document.getElementById(`${roleType}Role`);
+    const selectedCard = document.getElementById(roleConfig.cardId);
     if (selectedCard) {
         selectedCard.classList.add('selected');
+        // ensure visible and give a short pulse highlight
+        try {
+            selectedCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } catch (e) {
+            // fallback for older browsers
+            selectedCard.scrollIntoView();
+        }
+        // no extra frames or pulses — single outline only
     }
+
+    userData.role.selected = roleType;
+    userData.role.price = roleConfig.price;
+    userData.role.date = new Date().toLocaleString();
+    userData.timeline.roleSelection = userData.role.date;
+    saveToLocalStorage();
     
     const nextButton = document.getElementById('step6Next'); // was step5Next
     if (nextButton) {
         nextButton.disabled = false;
     }
     
-    showNotification(`${roleType.charAt(0).toUpperCase() + roleType.slice(1)} role selected`, 'success');
+    showNotification(`${roleConfig.label} role selected`, 'success');
 }
 
 // Step 7: Choose Role (old step 6)
 function finalizeRoleSelection(roleType) {
+    const roleConfig = getRoleConfig(roleType);
     const roleOptions = document.querySelectorAll('.role-option');
     roleOptions.forEach(option => {
         option.classList.remove('selected');
@@ -1058,47 +1120,30 @@ function finalizeRoleSelection(roleType) {
     const icon = display.querySelector('.role-icon i');
     const title = display.querySelector('.role-info h3');
     const desc = display.querySelector('.role-info p');
-    
-    let roleData = {};
-    let roleColor = '';
-    switch(roleType) {
-        case 'basic':
-            roleData = { icon: 'fas fa-star', title: 'Basic Role', desc: 'For individuals getting started', price: '-' };
-            roleColor = 'rgb(4, 156, 62)';
-            break;
-        case 'standard':
-            roleData = { icon: 'fas fa-gem', title: 'Standard Role', desc: 'For growing businesses', price: '-' };
-            roleColor = 'rgb(25, 88, 164)';
-            break;
-        case 'premium':
-            roleData = { icon: 'fas fa-crown', title: 'Premium Role', desc: 'For enterprise solutions', price: '-' };
-            roleColor = 'rgb(238, 181, 11)';
-            break;
-    }
-    
-    icon.className = roleData.icon;
+
+    icon.className = roleConfig.icon;
     if (icon) {
-        icon.style.color = roleColor;
+        icon.style.color = roleConfig.color;
     }
-    title.textContent = roleData.title;
-    desc.textContent = roleData.desc;
+    title.textContent = roleConfig.title;
+    desc.textContent = roleConfig.desc;
 
     const selectedPriceEl = document.getElementById('selectedRolePrice');
-    if (selectedPriceEl) selectedPriceEl.textContent = roleData.price;
+    if (selectedPriceEl) selectedPriceEl.textContent = roleConfig.price;
     
     if (display) {
         display.classList.add('selected');
-        display.style.borderColor = roleColor;
+        display.style.borderColor = roleConfig.color;
     }
     
     const roleIconDiv = display.querySelector('.role-icon');
     if (roleIconDiv) {
-        roleIconDiv.style.backgroundColor = roleColor + '15';
-        roleIconDiv.style.color = roleColor;
+        roleIconDiv.style.backgroundColor = roleConfig.color + '15';
+        roleIconDiv.style.color = roleConfig.color;
     }
     
     userData.role.selected = roleType;
-    userData.role.price = roleData.price;
+    userData.role.price = roleConfig.price;
     userData.role.date = new Date().toLocaleString();
     userData.timeline.roleSelection = userData.role.date;
     saveToLocalStorage();
@@ -1138,8 +1183,7 @@ function updateSummary() {
     document.getElementById('summaryPaymentCode').textContent = userData.payment.code || '-';
     document.getElementById('summaryPaymentDate').textContent = userData.payment.date || '-';
     
-    document.getElementById('summaryRole').textContent = userData.role.selected ? 
-        userData.role.selected.charAt(0).toUpperCase() + userData.role.selected.slice(1) : '-';
+    document.getElementById('summaryRole').textContent = userData.role.selected ? getRoleConfig(userData.role.selected).label : '-';
     document.getElementById('summaryRolePrice').textContent = userData.role.price || '-';
     document.getElementById('summaryRoleDate').textContent = userData.role.date || '-';
     
